@@ -8,17 +8,22 @@
 Open the web frontend [here](https://biokiste.herokuapp.com/).
 
 ### Android
-1. You were already invited to use the biokiste App: Go to step 2. If you have no invitation already, ask [Stefan Bollmann](stefan.bollmann@rwth-aachen.de) for an invitation. After receiving and accepting the invitation, go to step 2.
+1. You have been invited to use the biokiste App: Go to step 2. If you have no invitation already, ask [Stefan Bollmann](stefan.bollmann@rwth-aachen.de) for an invitation. After receiving and accepting the invitation, go to step 2.
 2. Search for biokiste in the Google Play Store and install it. 
 3. Create a new account in the app.
 
 ### iOS
 1. Install the [Testflight](https://developer.apple.com/testflight/) app from the [App Store](https://apps.apple.com/us/app/testflight/id899247664).
-2. If you have not already an invitation link for testing, get one from [Stefan Bollmann](stefan.bollmann@rwth-aachen.de).
+2. If you have not yet got an invitation link for testing, ask [Stefan Bollmann](stefan.bollmann@rwth-aachen.de).
 3. Install the biokiste App by using the Testflight App.
 4. Create a new biokisten account in the app.
 
 ## Development
+
+### Drawings
+Most up to date at [Excalidraw](https://excalidraw.com/#json=s9IsmlYfdRogrS1eNLObL,3vjggi8Ya3kXuSB4HHUE4Q).
+![Customer view](resources/biokiste_220501.jpg)
+
 
 ### Repository and Deployment
 - Tickets, Code repository and Pipelines are hosted at [Github biokiste.](https://github.com/Boltzmann/biokiste)
