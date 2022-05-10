@@ -34,10 +34,11 @@ Most up to date at [Excalidraw](https://excalidraw.com/#json=s9IsmlYfdRogrS1eNLO
 ### Setup
 For development [node.js](https://nodejs.org/en/), [Java OpenJDK >= 11](https://openjdk.java.net/projects/jdk/11/), and [Docker](https://www.docker.com/) are needed.
 
-To get started with Intellij Ultimate:
+To get started (with Intellij Ultimate):
 1. Clone the project from Github.
 2. Load the Maven project in Intellij.
-3. In the frontend folder, use ``npm install``.
+3. ``npm install -g @ionic/cli``.
+4. In the frontend folder, use ``npm install``.
 
 Happy Hacking!
 
