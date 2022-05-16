@@ -1,4 +1,6 @@
 # biokiste
+## Teaser
+The Biokiste App will add the functionality that organic box subscribers miss for most organic box deliveries in Germany: Manage an get updates on the subscription.
 
 ## Usage
 
