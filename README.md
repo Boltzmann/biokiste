@@ -14,24 +14,27 @@ The Biokiste App will add the functionality that organic box subscribers miss fo
 Open the web frontend [here](https://biokiste.herokuapp.com/).
 
 ### iOS and Android
-only by hand possible. See Development.
+only by hand possible. See [iOS Deployment and Android deployment](#ios-deployment-and-android-deployment).
 
 
 ## Development
 
 ### Drawings
-Most up to date at [Excalidraw](https://excalidraw.com/#json=s9IsmlYfdRogrS1eNLObL,3vjggi8Ya3kXuSB4HHUE4Q).
+Most up to date Excalidraw drawing in resource/biokiste.excalidraw. There one finds thoughts
+about software architecture, UI drawings, etc.
 ![Customer view](resources/biokiste_220512.png) and/or [clickable at figma](https://www.figma.com/file/Ysrx9lh0R2de59mFTg4TeT/Biokiste?node-id=7%3A21)
 
 
 ### Repository and Deployment
-- Tickets, Code repository and Pipelines are hosted at [Github biokiste.](https://github.com/Boltzmann/biokiste)
+- [Github Code Repository.](https://github.com/Boltzmann/biokiste)
+- [Githup Project with tickets](https://github.com/Boltzmann/biokiste/projects/1)
 - Web deployment of front- and backend at [heroku](https://dashboard.heroku.com/apps/biokiste/deploy/heroku-git).
 - The database is deployed on [Apache Atlas](https://cloud.mongodb.com).
-- For Hybrid native support for Android and iOS [Ionic React](https://ionicframework.com/docs/react) is used. The Apps are deployed in the testing environments of Google Play and Testflight for iOS App Store.
+- For Hybrid native support for Android and iOS [Ionic React](https://ionicframework.com/docs/react) 
+is used.
 
 #### iOS Deployment and Android deployment
-see docs/dev-setup.md
+see [docs/dev-setup.md](/docs/dev-setup.md)
 
 ### Setup
 For development [node.js](https://nodejs.org/en/), 
