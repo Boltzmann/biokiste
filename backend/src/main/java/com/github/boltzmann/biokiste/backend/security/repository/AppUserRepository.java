@@ -3,7 +3,6 @@ package com.github.boltzmann.biokiste.backend.security.repository;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 
 @Repository

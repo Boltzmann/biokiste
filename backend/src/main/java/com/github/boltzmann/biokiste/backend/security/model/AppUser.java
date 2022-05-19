@@ -16,6 +16,5 @@ public class AppUser {
     @Id
     private String id;
     private String username;
-    private String customerId;
     private String password;
 }

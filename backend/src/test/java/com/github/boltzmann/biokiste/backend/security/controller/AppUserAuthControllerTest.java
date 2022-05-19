@@ -72,6 +72,7 @@ class AppUserAuthControllerTest {
                 .expectStatus().isEqualTo(HttpStatus.FORBIDDEN);
     }
 
+
     private AppUser createTestUserInRepoAndGet(){
         String hashedPassword = passwordEncoder.encode("passwort");
         AppUser testUser = AppUser.builder()

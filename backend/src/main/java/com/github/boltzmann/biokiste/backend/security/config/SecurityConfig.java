@@ -42,8 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // Request forgery should be OK, because we work with tokens only. Login?
-        // See Bug https://github.com/Boltzmann/biokiste/issues/21 therefore.
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/api/**").authenticated()

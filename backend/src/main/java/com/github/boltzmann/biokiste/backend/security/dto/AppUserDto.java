@@ -7,6 +7,5 @@ import lombok.Getter;
 @Getter
 public class AppUserDto {
     private String username;
-    private String customerId;
     private String password;
 }
