@@ -1,6 +1,6 @@
 package com.github.boltzmann.biokiste.backend.security.controller;
 
-import com.github.boltzmann.biokiste.backend.security.model.AppUser;
+import com.github.boltzmann.biokiste.backend.security.dto.AppUserDto;
 import com.github.boltzmann.biokiste.backend.security.service.JWTUtilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,11 +24,11 @@ public class AppUserAuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody AppUser appUser){
+    public String login(@RequestBody AppUserDto appUserDto){
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(appUser.getUsername(), appUser.getPassword())
+                new UsernamePasswordAuthenticationToken(appUserDto.getUsername(), appUserDto.getPassword())
         );
-        String name = appUser.getUsername();
+        String name = appUserDto.getUsername();
         return jwtUtilService.createToken(name);
     }
 }
