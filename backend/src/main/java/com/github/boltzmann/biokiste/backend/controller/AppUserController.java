@@ -2,8 +2,8 @@ package com.github.boltzmann.biokiste.backend.controller;
 
 import com.github.boltzmann.biokiste.backend.dto.AppUserDetails;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
-import com.github.boltzmann.biokiste.backend.security.repository.AppUserRepository;
-import com.github.boltzmann.biokiste.backend.security.service.AppUserDetailsService;
+import com.github.boltzmann.biokiste.backend.security.service.AppUserLoginDetailsService;
+import com.github.boltzmann.biokiste.backend.service.AppUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,22 +15,19 @@ import java.security.Principal;
 @RequestMapping("/api/user/")
 public class AppUserController {
 
+    private final AppUserLoginDetailsService appUserLoginDetailsService;
     private final AppUserDetailsService appUserDetailsService;
 
     @Autowired
-    public AppUserController(AppUserDetailsService appUserDetailsService) {
+    public AppUserController(AppUserLoginDetailsService appUserLoginDetailsService, AppUserDetailsService appUserDetailsService) {
+        this.appUserLoginDetailsService = appUserLoginDetailsService;
         this.appUserDetailsService = appUserDetailsService;
     }
 
-
     @GetMapping("/me")
     public AppUserDetails getLoggedInUserDetails(Principal principal){
-        AppUser appUser =this.appUserDetailsService
+        AppUser appUser = this.appUserLoginDetailsService
                 .getUserByName(principal.getName());
-        return AppUserDetails.builder()
-                .id(appUser.getId())
-                .username(appUser.getUsername())
-                .customerId(appUser.getCustomerId())
-                .build();
+        return appUserDetailsService.getUserDetails(appUser);
     }
 }

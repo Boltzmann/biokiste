@@ -1,7 +1,7 @@
 package com.github.boltzmann.biokiste.backend.security.config;
 
 import com.github.boltzmann.biokiste.backend.security.filter.JWTAuthFilter;
-import com.github.boltzmann.biokiste.backend.security.service.AppUserDetailsService;
+import com.github.boltzmann.biokiste.backend.security.service.AppUserLoginDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,11 +16,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AppUserDetailsService appUserDetailsService;
+    private final AppUserLoginDetailsService appUserLoginDetailsService;
     private final JWTAuthFilter jwtAuthFilter;
 
-    public SecurityConfig(AppUserDetailsService appUserDetailsService, JWTAuthFilter jwtAuthFilter) {
-        this.appUserDetailsService = appUserDetailsService;
+    public SecurityConfig(AppUserLoginDetailsService appUserLoginDetailsService, JWTAuthFilter jwtAuthFilter) {
+        this.appUserLoginDetailsService = appUserLoginDetailsService;
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-        auth.userDetailsService(appUserDetailsService);
+        auth.userDetailsService(appUserLoginDetailsService);
     }
 
     @Bean

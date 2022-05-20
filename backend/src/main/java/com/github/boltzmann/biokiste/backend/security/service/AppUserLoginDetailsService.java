@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class AppUserDetailsService implements UserDetailsService {
+public class AppUserLoginDetailsService implements UserDetailsService {
 
     private final AppUserRepository appUserRepository;
 
-    public AppUserDetailsService(AppUserRepository appUserRepository) {
+    public AppUserLoginDetailsService(AppUserRepository appUserRepository) {
         this.appUserRepository = appUserRepository;
     }
 
@@ -32,8 +32,5 @@ public class AppUserDetailsService implements UserDetailsService {
                 .orElseThrow( () -> new NoSuchElementException("User not found with name: " + username) );
     }
 
-    public AppUserDetails updateUserById(AppUser appUser){
-        return null;
-    }
 
 }
