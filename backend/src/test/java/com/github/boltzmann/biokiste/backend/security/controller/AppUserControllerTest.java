@@ -1,9 +1,9 @@
 package com.github.boltzmann.biokiste.backend.security.controller;
 
-import com.github.boltzmann.biokiste.backend.dto.AppUserDetails;
+import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
 import com.github.boltzmann.biokiste.backend.repository.AppUserDetailsRepo;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
-import com.github.boltzmann.biokiste.backend.security.repository.AppUserRepository;
+import com.github.boltzmann.biokiste.backend.security.repository.AppUserLoginRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AppUserControllerTest {
+class AppUserControllerTest {
     @Value("${piphi.biokisteapp.jwt.secret}")
     private String jwtSecret;
 
@@ -22,7 +22,7 @@ public class AppUserControllerTest {
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    AppUserRepository appUserRepository;
+    AppUserLoginRepository appUserLoginRepository;
 
     @Autowired
     AppUserDetailsRepo appUserDetailsRepo;
@@ -31,23 +31,13 @@ public class AppUserControllerTest {
     WebTestClient webTestClient;
 
     @BeforeEach
-    public void cleanUp(){ appUserRepository.deleteAll();}
+    public void cleanUp(){ appUserLoginRepository.deleteAll();}
 
     @Test
     void login_whenValidCredentials_thenReturnValidJWTAndGetUserDetails(){
         // Given
-        AppUser testUser = createTestUserInRepoAndGet();
-        String jwt = webTestClient.post()
-                .uri("/auth/login")
-                .bodyValue(AppUser.builder()
-                        .username("testuser")
-                        .password("passwort")
-                        .build())
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(String.class)
-                .returnResult()
-                .getResponseBody();
+        AppUser testUser = createTestUserInLoginRepoAndGet();
+        String jwt = getTokenForTestuser();
         Assertions.assertNotNull(jwt);
         // When
         webTestClient.get()
@@ -60,7 +50,7 @@ public class AppUserControllerTest {
                 .getResponseBody();
         AppUserDetails userToChange = new AppUserDetails();
         try{
-             AppUser tmpUser = appUserRepository.findByUsername("testuser")
+             AppUser tmpUser = appUserLoginRepository.findByUsername("testuser")
                      .orElseThrow();
              userToChange = appUserDetailsRepo.findById(tmpUser.getId()).orElseThrow();
         } catch (Exception ex){
@@ -82,13 +72,37 @@ public class AppUserControllerTest {
         Assertions.assertEquals("1", actual.getCustomerId());
     }
 
-    private AppUser createTestUserInRepoAndGet(){
+    private String getTokenForTestuser() {
+        return webTestClient.post()
+                .uri("/auth/login")
+                .bodyValue(AppUser.builder()
+                        .username("testuser")
+                        .password("passwort")
+                        .build())
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .returnResult()
+                .getResponseBody();
+    }
+
+    private AppUser createTestUserInLoginRepoAndGet(){
         String hashedPassword = passwordEncoder.encode("passwort");
         AppUser testUser = AppUser.builder()
                 .username("testuser")
                 .password(hashedPassword)
                 .build();
-        appUserRepository.save(testUser);
+        appUserLoginRepository.save(testUser);
         return testUser;
+    }
+
+    private AppUserDetails createUserDetailsInRepoAndGet(AppUser appUser, String customerId){
+        AppUserDetails appUserDetails = AppUserDetails.builder()
+                .id(appUser.getId())
+                .username(appUser.getUsername())
+                .customerId(customerId)
+                .build();
+        appUserDetailsRepo.insert(appUserDetails);
+        return appUserDetails;
     }
 }

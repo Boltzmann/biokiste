@@ -1,6 +1,6 @@
 package com.github.boltzmann.biokiste.backend.controller;
 
-import com.github.boltzmann.biokiste.backend.dto.AppUserDetails;
+import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import com.github.boltzmann.biokiste.backend.security.service.AppUserLoginDetailsService;
 import com.github.boltzmann.biokiste.backend.service.AppUserDetailsService;

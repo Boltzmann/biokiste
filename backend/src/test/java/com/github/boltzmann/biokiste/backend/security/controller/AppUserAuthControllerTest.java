@@ -1,7 +1,7 @@
 package com.github.boltzmann.biokiste.backend.security.controller;
 
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
-import com.github.boltzmann.biokiste.backend.security.repository.AppUserRepository;
+import com.github.boltzmann.biokiste.backend.security.repository.AppUserLoginRepository;
 import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,13 +22,13 @@ class AppUserAuthControllerTest {
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    AppUserRepository appUserRepository;
+    AppUserLoginRepository appUserLoginRepository;
 
     @Autowired
     WebTestClient webTestClient;
 
     @BeforeEach
-    public void cleanUp(){ appUserRepository.deleteAll();}
+    public void cleanUp(){ appUserLoginRepository.deleteAll();}
 
     @Test
     void login_whenValidCredentials_thenReturnValidJWT(){
@@ -79,7 +79,7 @@ class AppUserAuthControllerTest {
                 .username("testuser")
                 .password(hashedPassword)
                 .build();
-        appUserRepository.save(testUser);
+        appUserLoginRepository.save(testUser);
         return testUser;
     }
 }

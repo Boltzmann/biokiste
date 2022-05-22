@@ -1,4 +1,4 @@
-package com.github.boltzmann.biokiste.backend.dto;
+package com.github.boltzmann.biokiste.backend.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-//TODO: no dto, rather a model. Refactor.
 @Data
 @Builder
 @AllArgsConstructor

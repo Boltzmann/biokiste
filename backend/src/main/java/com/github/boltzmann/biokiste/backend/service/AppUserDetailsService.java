@@ -1,6 +1,6 @@
 package com.github.boltzmann.biokiste.backend.service;
 
-import com.github.boltzmann.biokiste.backend.dto.AppUserDetails;
+import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
 import com.github.boltzmann.biokiste.backend.repository.AppUserDetailsRepo;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,6 @@ public class AppUserDetailsService {
                     .id(appUser.getId())
                     .username(appUser.getUsername())
                     .build());
-            System.out.println("New user details added.");
         }
         return appUserDetailsRepo.findById(appUser.getId())
                 .orElseThrow( () -> new NoSuchElementException(
