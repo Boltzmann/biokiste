@@ -26,6 +26,6 @@ public class AppUserController {
     public AppUserDetails getLoggedInUserDetails(Principal principal){
         String id = this.appUserLoginDetailsService
                 .getUserIdByName(principal.getName());
-        return appUserDetailsService.getUserDetailsById(id);
+        return appUserDetailsService.getUserDetails(id, principal.getName());
     }
 }
