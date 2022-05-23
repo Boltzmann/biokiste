@@ -1,7 +1,6 @@
 package com.github.boltzmann.biokiste.backend.controller;
 
 import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
-import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import com.github.boltzmann.biokiste.backend.security.service.AppUserLoginDetailsService;
 import com.github.boltzmann.biokiste.backend.service.AppUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,8 @@ public class AppUserController {
 
     @GetMapping("/me")
     public AppUserDetails getLoggedInUserDetails(Principal principal){
-        AppUser appUser = this.appUserLoginDetailsService
-                .getUserByName(principal.getName());
-        return appUserDetailsService.getUserDetails(appUser);
+        String id = this.appUserLoginDetailsService
+                .getUserIdByName(principal.getName());
+        return appUserDetailsService.getUserDetailsById(id);
     }
 }

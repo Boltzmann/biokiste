@@ -2,7 +2,7 @@ package com.github.boltzmann.biokiste.backend.service;
 
 import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
 import com.github.boltzmann.biokiste.backend.repository.AppUserDetailsRepo;
-import com.github.boltzmann.biokiste.backend.security.model.AppUser;
+import com.github.boltzmann.biokiste.backend.security.service.AppUserLoginDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.NoSuchElementException;
@@ -13,22 +13,23 @@ import java.util.NoSuchElementException;
 public class AppUserDetailsService {
 
     private final AppUserDetailsRepo appUserDetailsRepo;
+    private final AppUserLoginDetailsService appUserLoginDetailsService;
 
     @Autowired
-    public AppUserDetailsService(AppUserDetailsRepo appUserDetailsRepo) {
+    public AppUserDetailsService(AppUserDetailsRepo appUserDetailsRepo, AppUserLoginDetailsService appUserLoginDetailsService) {
         this.appUserDetailsRepo = appUserDetailsRepo;
+        this.appUserLoginDetailsService = appUserLoginDetailsService;
     }
 
-    public AppUserDetails getUserDetails(AppUser appUser) {
-        if(!appUserDetailsRepo.existsById(appUser.getId())){
-            appUserDetailsRepo.insert(AppUserDetails.builder()
-                    .id(appUser.getId())
-                    .username(appUser.getUsername())
-                    .build());
+    public AppUserDetails getUserDetailsById(String id) {
+        if(appUserDetailsRepo.existsById(id)) {
+            return appUserDetailsRepo.findById(id)
+                    .orElseThrow(() -> new NoSuchElementException(
+                            "Details of app user with " + id + " not found."));
         }
-        return appUserDetailsRepo.findById(appUser.getId())
-                .orElseThrow( () -> new NoSuchElementException(
-                        "Details of app user with " + appUser.getId() + " not found."));
+        return appUserDetailsRepo.insert(AppUserDetails.builder()
+                    .id(id)
+                    .username(appUserLoginDetailsService.getUsernameById(id))
+                    .build());
     }
-
 }
