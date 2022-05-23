@@ -30,6 +30,4 @@ public class AppUserLoginDetailsService implements UserDetailsService {
         return appUserLoginRepository.findByUsername(username)
                 .orElseThrow( () -> new NoSuchElementException("User not found with name: " + username) );
     }
-
-
 }
