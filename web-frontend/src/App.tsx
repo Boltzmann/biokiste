@@ -4,16 +4,20 @@ import {ToastContainer} from "react-toastify";
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from "./pages/LoginPage";
 import RequireAuth from './routing/RequireAuth';
-import BoxOverview from './components/BoxOverview';
+import MeOverview from './components/MeOverview';
+import useUserDetails from "./hooks/useUserDetails";
 
 function App() {
+    const {userDetails} = useUserDetails()
+
     return (
         <div className="App">
             <ToastContainer/>
             <Routes>
                 <Route element={<RequireAuth/>}>
                     <Route path='/'
-                           element={<BoxOverview/>}/>
+                           element={<MeOverview userDetails={userDetails}/>}
+                    />
                 </Route>
                 <Route path='/login' element={<LoginPage />}/>
             </Routes>
