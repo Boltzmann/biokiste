@@ -13,15 +13,13 @@ import java.util.NoSuchElementException;
 public class AppUserDetailsService {
 
     private final AppUserDetailsRepo appUserDetailsRepo;
-    private final AppUserLoginDetailsService appUserLoginDetailsService;
 
     @Autowired
     public AppUserDetailsService(AppUserDetailsRepo appUserDetailsRepo, AppUserLoginDetailsService appUserLoginDetailsService) {
         this.appUserDetailsRepo = appUserDetailsRepo;
-        this.appUserLoginDetailsService = appUserLoginDetailsService;
     }
 
-    public AppUserDetails getUserDetailsById(String id) {
+    public AppUserDetails getUserDetails(String id, String username) {
         if(appUserDetailsRepo.existsById(id)) {
             return appUserDetailsRepo.findById(id)
                     .orElseThrow(() -> new NoSuchElementException(
@@ -29,7 +27,7 @@ public class AppUserDetailsService {
         }
         return appUserDetailsRepo.insert(AppUserDetails.builder()
                     .id(id)
-                    .username(appUserLoginDetailsService.getUsernameById(id))
+                    .username(username)
                     .build());
     }
 }
