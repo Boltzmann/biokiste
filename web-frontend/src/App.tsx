@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from "./pages/LoginPage";
 import RequireAuth from './routing/RequireAuth';
