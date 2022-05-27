@@ -7,9 +7,9 @@ import LoginPage from "./pages/LoginPage";
 import RequireAuth from './routing/RequireAuth';
 import useUserDetails from "./hooks/useUserDetails";
 import '@ionic/react/css/core.css';
-import MeAllDetails from "./components/MeAllDetails";
-import MeShortDetailsButton from "./components/MeShortDetailsButton";
 import AppHead from "./components/AppHead";
+import ImportantUserDetails from "./components/ImportantUserDetails";
+import AllUserDetails from "./components/AllUserDetails";
 
 
 
@@ -20,15 +20,17 @@ function App() {
         <div className="App">
             <ToastContainer/>
             <AppHead/>
+            <div className="AllButHeader">
             <Routes>
                 <Route element={<RequireAuth/>}>
                     <Route path='/'
-                           element={<MeShortDetailsButton userDetails={userDetails}/>}
+                           element={<ImportantUserDetails userDetails={userDetails} />}
                     />
                 </Route>
                 <Route path='/login' element={<LoginPage />}/>
-                <Route path='/user-details' element={<MeAllDetails userDetails={userDetails}/>}/>
+                <Route path='/user-details' element={<AllUserDetails userDetails={userDetails}/>}/>
             </Routes>
+            </div>
 
         </div>
     );
