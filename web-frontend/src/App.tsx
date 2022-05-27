@@ -7,6 +7,8 @@ import LoginPage from "./pages/LoginPage";
 import RequireAuth from './routing/RequireAuth';
 import MeOverview from './components/MeOverview';
 import useUserDetails from "./hooks/useUserDetails";
+import '@ionic/react/css/core.css';
+
 
 function App() {
     const {userDetails} = useUserDetails()
