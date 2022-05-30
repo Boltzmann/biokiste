@@ -41,6 +41,11 @@ public class GETDifferentBoxesTest {
     @Autowired
     AppUserDetailsRepo appUserDetailsRepo;
 
+
+    Item äpfel = Item.builder().id("1").name("Äpfel der Woche").build();
+    Item fenchel = Item.builder().id("2").name("Fenchel").build();
+    Item rübstiel = Item.builder().id("3").name("Rübstiel").build();
+
     @BeforeEach
     public void cleanUp(){
         boxRepository.deleteAll();
@@ -48,35 +53,26 @@ public class GETDifferentBoxesTest {
         appUserDetailsRepo.deleteAll();
     }
 
+
     @Test
     void whenGetAllOrganicBoxes_thenListOfOrganicBoxesReturned(){
         // Given
-        AppUser testUser = createTestUserInLoginRepoAndGet();
-        String jwt = getTokenForTestuser();
+        AppUser testuser = createTestUserInLoginRepoAndGet("1", "testuser", "passwort");
+        String jwt = getTokenFor("testuser", "passwort");
         int weekOfYear = LocalDate.of(2022, 05, 30).get(ChronoField.ALIGNED_WEEK_OF_YEAR);
-        Item äpfel = Item.builder().id("1").name("Äpfel der Woche").build();
-        Item fenchel = Item.builder().id("2").name("Fenchel").build();
-        List<Item> exampleList = new ArrayList<Item>();
-        exampleList.add(äpfel);
-        exampleList.add(fenchel);
+        List<Item> exampleList = List.of(äpfel, fenchel);
         OrganicBox organicBox = OrganicBox.builder()
                 .weekOfYear(weekOfYear)
                 .id("1")
-                .name("Mixkiste")
-                .size("small")
                 .content(exampleList).build();
         boxRepository.insert(organicBox);
-        AppUserDetails tmpUser = webTestClient.get()
-                .uri("/api/user/me")
-                .headers(http -> http.setBearerAuth(jwt))
-                .exchange()
-                .expectStatus().is2xxSuccessful()
-                .expectBody(AppUserDetails.class)
-                .returnResult()
-                .getResponseBody();
-        tmpUser.setSubscribedBoxes(List.of(organicBox));
-        appUserDetailsRepo.save(tmpUser);
-        AppUserDetails test = appUserDetailsRepo.findById(tmpUser.getId()).orElseThrow();
+                appUserDetailsRepo.save(
+                        new AppUserDetails().builder()
+                                .id(testuser.getId())
+                                .username(testuser.getUsername())
+                                .subscribedBoxes(List.of(organicBox))
+                                .build()
+        );
         // When
         List<OrganicBox> actual = webTestClient.get()
                 .uri("/api/user/subscribedBoxes")
@@ -90,15 +86,59 @@ public class GETDifferentBoxesTest {
         Assertions.assertEquals(List.of(organicBox), actual);
     }
 
-    //ToDo: get boxes of specific user. Therefore write test in AppUserControllerTest to check additional parameter Subscriptions.
-    // ToDo: other user should get other boxes.
+    @Test
+    void whenGetAllOrganicBoxesOfOtherUser_thenListOfHisOrganicBoxesReturned(){
+        // Given
+        AppUser testuser = createTestUserInLoginRepoAndGet("1", "Test User", "passwort");
+        AppUser otheruser = createTestUserInLoginRepoAndGet("2", "Other User", "passwort");
+        String jwtTestuser = getTokenFor("Test User", "passwort");
+        String jwtOtheruser = getTokenFor("Other User", "passwort");
+        int weekOfYear = LocalDate.of(2022, 05, 30).get(ChronoField.ALIGNED_WEEK_OF_YEAR);
+        List<Item> exampleList = List.of(äpfel, fenchel);
+        List<Item> otherList = List.of(rübstiel);
+        OrganicBox organicBox = OrganicBox.builder()
+                .weekOfYear(weekOfYear)
+                .id("1")
+                .content(exampleList).build();
+        OrganicBox otherBox = OrganicBox.builder()
+                .weekOfYear(weekOfYear)
+                .id("3")
+                .content(otherList).build();
+        boxRepository.insert(organicBox);
+        boxRepository.insert(otherBox);
+        appUserDetailsRepo.save(
+                new AppUserDetails().builder()
+                        .id(testuser.getId())
+                        .username(testuser.getUsername())
+                        .subscribedBoxes(List.of(organicBox))
+                        .build()
+        );
+        appUserDetailsRepo.save(
+                new AppUserDetails().builder()
+                        .id(otheruser.getId())
+                        .username(otheruser.getUsername())
+                        .subscribedBoxes(List.of(organicBox, otherBox))
+                        .build()
+        );
+        // When
+        List<OrganicBox> actual = webTestClient.get()
+                .uri("/api/user/subscribedBoxes")
+                .headers(http -> http.setBearerAuth(jwtOtheruser))
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBodyList(OrganicBox.class)
+                .returnResult()
+                .getResponseBody();
+        // Then
+        Assertions.assertEquals(List.of(organicBox, otherBox), actual);
+    }
 
-    private String getTokenForTestuser() {
+    private String getTokenFor(String username, String password) {
         return webTestClient.post()
                 .uri("/auth/login")
                 .bodyValue(AppUser.builder()
-                        .username("testuser")
-                        .password("passwort")
+                        .username(username)
+                        .password(password)
                         .build())
                 .exchange()
                 .expectStatus().isOk()
@@ -107,11 +147,11 @@ public class GETDifferentBoxesTest {
                 .getResponseBody();
     }
 
-    private AppUser createTestUserInLoginRepoAndGet(){
-        String hashedPassword = passwordEncoder.encode("passwort");
+    private AppUser createTestUserInLoginRepoAndGet(String id, String name, String password){
+        String hashedPassword = passwordEncoder.encode(password);
         AppUser testUser = AppUser.builder()
-                .id("1")
-                .username("testuser")
+                .id(id)
+                .username(name)
                 .password(hashedPassword)
                 .build();
         appUserLoginRepository.save(testUser);
