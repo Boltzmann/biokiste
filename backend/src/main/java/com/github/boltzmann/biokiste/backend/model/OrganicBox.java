@@ -10,14 +10,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Document
-public class AppUserDetails {
+@Builder
+public class OrganicBox {
     @Id
-    private String id;
-    private String username;
-    private String customerId;
-    private List<OrganicBox> subscribedBoxes;
+    String id;
+    String name;
+    int weekOfYear;
+    String size;
+    List<Item> content;
 }
