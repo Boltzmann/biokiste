@@ -8,6 +8,7 @@ import com.github.boltzmann.biokiste.backend.repository.BoxRepository;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import com.github.boltzmann.biokiste.backend.security.repository.AppUserLoginRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +41,13 @@ public class GETDifferentBoxesTest {
     @Autowired
     AppUserDetailsRepo appUserDetailsRepo;
 
+    @BeforeEach
+    public void cleanUp(){
+        boxRepository.deleteAll();
+        appUserLoginRepository.deleteAll();
+        appUserDetailsRepo.deleteAll();
+    }
+
     @Test
     void whenGetAllOrganicBoxes_thenListOfOrganicBoxesReturned(){
         // Given
@@ -58,7 +66,7 @@ public class GETDifferentBoxesTest {
                 .size("small")
                 .content(exampleList).build();
         boxRepository.insert(organicBox);
-        webTestClient.get()
+        AppUserDetails tmpUser = webTestClient.get()
                 .uri("/api/user/me")
                 .headers(http -> http.setBearerAuth(jwt))
                 .exchange()
@@ -66,9 +74,9 @@ public class GETDifferentBoxesTest {
                 .expectBody(AppUserDetails.class)
                 .returnResult()
                 .getResponseBody();
-        AppUserDetails userToChange = new AppUserDetails();
-        userToChange.setSubscribedBoxes(List.of(organicBox));
-        appUserDetailsRepo.save(userToChange);
+        tmpUser.setSubscribedBoxes(List.of(organicBox));
+        appUserDetailsRepo.save(tmpUser);
+        AppUserDetails test = appUserDetailsRepo.findById(tmpUser.getId()).orElseThrow();
         // When
         List<OrganicBox> actual = webTestClient.get()
                 .uri("/api/user/subscribedBoxes")
@@ -83,6 +91,7 @@ public class GETDifferentBoxesTest {
     }
 
     //ToDo: get boxes of specific user. Therefore write test in AppUserControllerTest to check additional parameter Subscriptions.
+    // ToDo: other user should get other boxes.
 
     private String getTokenForTestuser() {
         return webTestClient.post()
