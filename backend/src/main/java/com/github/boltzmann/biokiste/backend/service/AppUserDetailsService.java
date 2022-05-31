@@ -3,7 +3,6 @@ package com.github.boltzmann.biokiste.backend.service;
 import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
 import com.github.boltzmann.biokiste.backend.model.OrganicBox;
 import com.github.boltzmann.biokiste.backend.repository.AppUserDetailsRepo;
-import com.github.boltzmann.biokiste.backend.security.service.AppUserLoginDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

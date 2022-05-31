@@ -12,7 +12,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
-public class AppUserDetailsServiceTest {
+class AppUserDetailsServiceTest {
     private final AppUserDetailsRepo appUserDetailsRepo = mock(AppUserDetailsRepo.class);
     private final AppUserDetailsService appUserDetailsService = new AppUserDetailsService(appUserDetailsRepo);
 

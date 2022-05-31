@@ -5,7 +5,7 @@ import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class AppUserControllerTest extends CrudWithLogInTest {
+class AppUserControllerTest extends CrudTestWithLogIn {
 
 
     @Test

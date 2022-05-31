@@ -31,15 +31,13 @@ public class AppUserController {
         String id = this.appUserLoginDetailsService
                 .getUserIdByName(principal.getName());
         return appUserDetailsService.getUserDetails(id, principal.getName());
-        // TODO subscribed boxes should also be shown here, shouldnt they?
     }
 
     @GetMapping("/subscribedBoxes")
     public List<OrganicBox> getSubscribedBoxes(Principal principal){
         String id = this.appUserLoginDetailsService
                 .getUserIdByName(principal.getName());
-        List<OrganicBox> list = appUserDetailsService.getSubscribedBoxes(id);
-        return list;
+        return appUserDetailsService.getSubscribedBoxes(id);
     }
 
 
