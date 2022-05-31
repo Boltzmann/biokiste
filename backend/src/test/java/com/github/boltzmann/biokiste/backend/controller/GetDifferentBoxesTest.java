@@ -1,9 +1,7 @@
 package com.github.boltzmann.biokiste.backend.controller;
 
-import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
 import com.github.boltzmann.biokiste.backend.model.Item;
 import com.github.boltzmann.biokiste.backend.model.OrganicBox;
-import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +10,7 @@ import java.time.temporal.ChronoField;
 import java.util.List;
 
 
-class GETDifferentBoxesTest extends CrudTestWithLogIn {
+class GetDifferentBoxesTest extends CrudTestWithLogIn {
 
     Item aepfel = Item.builder().id("1").name("Äpfel der Woche").build();
     Item fenchel = Item.builder().id("2").name("Fenchel").build();
