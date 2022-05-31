@@ -1,4 +1,4 @@
-package com.github.boltzmann.biokiste.backend.security.controller;
+package com.github.boltzmann.biokiste.backend.controller;
 
 import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
 import com.github.boltzmann.biokiste.backend.repository.AppUserDetailsRepo;
