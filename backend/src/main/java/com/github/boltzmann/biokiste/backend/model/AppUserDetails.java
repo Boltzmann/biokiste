@@ -19,5 +19,4 @@ public class AppUserDetails {
     private String id;
     private String username;
     private String customerId;
-    private List<OrganicBox> subscribedBoxes;
 }

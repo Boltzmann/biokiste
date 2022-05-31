@@ -18,9 +18,11 @@ public class GetContentOfBoxTest extends CrudTestWithLogIn{
     void whenGetContentOfBoxWithValidID_thenListItemsInBoxReturned(){
         AppUser testuser = createTestUserInLoginRepoAndGet("1", "testuser", "passwort");
         String jwt = getTokenFor("testuser", "passwort");
+        itemRepository.insert(aepfel);
+        itemRepository.insert(fenchel);
         OrganicBox testusersBox = OrganicBox.builder()
                 .id("1")
-                .content(List.of(aepfel, fenchel))
+                .content(List.of("1", "2"))
                 .build();
         boxRepository.insert(testusersBox);
         // When

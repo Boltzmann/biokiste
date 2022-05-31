@@ -33,10 +33,4 @@ public class AppUserDetailsService {
                     .build());
     }
 
-    public List<OrganicBox> getSubscribedBoxes(String id) throws NoSuchElementException {
-        return appUserDetailsRepo
-                .findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found in UserDetailsRepo with id: " + id))
-                .getSubscribedBoxes();
-    }
 }

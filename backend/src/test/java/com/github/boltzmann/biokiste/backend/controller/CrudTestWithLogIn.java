@@ -2,6 +2,7 @@ package com.github.boltzmann.biokiste.backend.controller;
 
 import com.github.boltzmann.biokiste.backend.repository.AppUserDetailsRepo;
 import com.github.boltzmann.biokiste.backend.repository.BoxRepository;
+import com.github.boltzmann.biokiste.backend.repository.ItemRepository;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import com.github.boltzmann.biokiste.backend.security.repository.AppUserLoginRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +28,9 @@ public class CrudTestWithLogIn {
 
     @Autowired
     BoxRepository boxRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
 
     @Autowired
     AppUserDetailsRepo appUserDetailsRepo;
