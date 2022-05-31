@@ -1,0 +1,34 @@
+[{
+  "_id": {
+    "$oid": "62854ed30baad0a3e4352404"
+  },
+  "username": "testuser",
+  "customerId": "666",
+  "_class": "com.github.boltzmann.biokiste.backend.dto.AppUserDetails",
+  "subscribedBoxes": [
+    {
+      "id": "1",
+      "name": "Gemüse",
+      "weekOfYear": "22",
+      "size": "small",
+      "content": [
+        {
+          "id": "1",
+          "name": "Banana"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Gemüse",
+      "weekOfYear": "22",
+      "size": "small",
+      "content": [
+        {
+          "id": "1",
+          "name": "Banana"
+        }
+      ]
+    }
+  ]
+}]
