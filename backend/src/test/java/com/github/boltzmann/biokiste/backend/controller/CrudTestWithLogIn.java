@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CrudWithLogInTest {
+public class CrudTestWithLogIn {
     @Value("${piphi.biokisteapp.jwt.secret}")
     private String jwtSecret;
 
