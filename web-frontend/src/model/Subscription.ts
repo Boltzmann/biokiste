@@ -1,8 +1,8 @@
 import {Item} from "./Item";
 
 export type Subscription = {
-    id: String
-    name: String
+    id: string
+    name: string
     weekOfYear: number
     size: string
     content: Item[]

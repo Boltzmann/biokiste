@@ -15,7 +15,7 @@ export default function useUserDetails(){
             .then(details => setUserDetails(details))
             .catch(() => toast.error("Connection failed to get user details. Please retry."))
         getSubscriptions(token)
-            .then(subscriptions => setSubscriptions(subscriptions))
+            .then(subs => setSubscriptions(subs))
             .catch(() => toast.error("Connection failed to get abonnements. Please retry."))
     }, [token])
 
