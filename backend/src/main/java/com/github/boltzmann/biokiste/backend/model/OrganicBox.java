@@ -20,5 +20,6 @@ public class OrganicBox {
     String name;
     int weekOfYear;
     String size;
-    List<Item> content;
+    List<String> customers;
+    List<String> content;
 }
