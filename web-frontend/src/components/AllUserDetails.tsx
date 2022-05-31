@@ -8,7 +8,7 @@ export default function AllUserDetails({userDetails}: UserDetailsProps) {
     return (
         <div id="inactive">
             {userDetails && Object.values(userDetails).map(
-                (value) => <UserDetail detail={value}/>
+                (value) => {return typeof value === 'string' ? <UserDetail detail={value}/> : <div/>}
             )}
         </div>
     )

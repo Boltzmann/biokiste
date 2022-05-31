@@ -8,8 +8,8 @@ import RequireAuth from './routing/RequireAuth';
 import useUserDetails from "./hooks/useUserDetails";
 import '@ionic/react/css/core.css';
 import AppHead from "./components/AppHead";
-import ImportantUserDetails from "./components/ImportantUserDetails";
 import AllUserDetails from "./components/AllUserDetails";
+import OverviewPage from "./pages/OverviewPage";
 
 
 
@@ -24,7 +24,7 @@ function App() {
             <Routes>
                 <Route element={<RequireAuth/>}>
                     <Route path='/'
-                           element={<ImportantUserDetails userDetails={userDetails} />}
+                           element={<OverviewPage />}
                     />
                 </Route>
                 <Route path='/login' element={<LoginPage />}/>
