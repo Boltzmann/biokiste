@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.List;
 
-
 class GetDifferentBoxesTest extends CrudTestWithLogIn {
 
     Item aepfel = Item.builder().id("1").name("Äpfel der Woche").build();
