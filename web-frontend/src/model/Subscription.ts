@@ -5,5 +5,6 @@ export type Subscription = {
     name: string
     weekOfYear: number
     size: string
-    content: Item[]
+    content: string[]
+    customers: string[]
 }

@@ -5,11 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import {Routes, Route} from 'react-router-dom';
 import LoginPage from "./pages/LoginPage";
 import RequireAuth from './routing/RequireAuth';
-import useUserDetails from "./hooks/useUserDetails";
 import '@ionic/react/css/core.css';
 import AppHead from "./components/AppHead";
 import AllUserDetails from "./components/AllUserDetails";
 import OverviewPage from "./pages/OverviewPage";
+import BoxDetailsPage from "./pages/BoxDetailsPage";
+import useUserDetails from "./hooks/useUserDetails";
 
 
 
@@ -29,6 +30,8 @@ function App() {
                 </Route>
                 <Route path='/login' element={<LoginPage />}/>
                 <Route path='/user-details' element={<AllUserDetails userDetails={userDetails}/>}/>
+                <Route path={'/box/:id'}
+                       element={<BoxDetailsPage />}/>
             </Routes>
             </div>
 

@@ -2,11 +2,11 @@ package com.github.boltzmann.biokiste.backend.service;
 
 import com.github.boltzmann.biokiste.backend.model.Item;
 import com.github.boltzmann.biokiste.backend.repository.ItemRepository;
+import com.github.boltzmann.biokiste.backend.service.exceptions.NoSuchOrganicBoxItemException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class ItemDetailsService {
@@ -21,7 +21,7 @@ public class ItemDetailsService {
         List<Item> items = new ArrayList<>();
         for (String itemId : content) {
             items.add(itemRepository.findById(itemId)
-                    .orElseThrow(() -> new NoSuchElementException("Item with ID " + itemId + "not found.")));
+                    .orElseThrow(() -> new NoSuchOrganicBoxItemException("Item with ID " + itemId + " not found.")));
         }
         return items;
     }
