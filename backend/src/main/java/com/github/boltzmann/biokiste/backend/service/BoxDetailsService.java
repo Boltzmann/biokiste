@@ -30,4 +30,13 @@ public class BoxDetailsService {
                 .orElseThrow(() -> new NoSuchOrganicBoxException("There is no box with id " + boxId));
         return itemDetailsService.getItemsById(box.getContent());
     }
+
+    public OrganicBox addSubscriptionOfUserToBox(String userId, String boxId) {
+        OrganicBox box = organicBoxRepository.findById(boxId)
+                .orElseThrow(() -> new NoSuchOrganicBoxException("There is no box with id " + boxId));
+        List<String> tmp = box.getCustomers();
+        tmp.add(userId);
+        box.setCustomers(tmp);
+        return box;
+    }
 }
