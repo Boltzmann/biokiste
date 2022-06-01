@@ -45,14 +45,10 @@ public class AppUserController {
         return boxDetailsService.getBoxesByUser(id);
     }
 
-    @PostMapping("/subscribeBox")
-    public OrganicBox subscribeBox(Principal principal, @RequestParam String BoxId){
-        String id = this.appUserLoginDetailsService
+    @PostMapping(path = "/subscribeBox")
+    public OrganicBox subscribeBox(Principal principal, @RequestBody String boxId){
+        String userId = this.appUserLoginDetailsService
                 .getUserIdByName(principal.getName());
-        return OrganicBox.builder()
-                .id("7")
-                .content(List.of("1", "2"))
-                .customers(List.of("4711"))
-                .build();
+        return boxDetailsService.addSubscriptionOfUserToBox(userId, boxId);
     }
 }
