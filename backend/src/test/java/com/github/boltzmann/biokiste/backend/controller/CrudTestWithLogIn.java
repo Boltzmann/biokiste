@@ -1,7 +1,8 @@
 package com.github.boltzmann.biokiste.backend.controller;
 
 import com.github.boltzmann.biokiste.backend.repository.AppUserDetailsRepo;
-import com.github.boltzmann.biokiste.backend.repository.BoxRepository;
+import com.github.boltzmann.biokiste.backend.repository.OrganicBoxRepository;
+import com.github.boltzmann.biokiste.backend.repository.ItemRepository;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import com.github.boltzmann.biokiste.backend.security.repository.AppUserLoginRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,14 +27,18 @@ public class CrudTestWithLogIn {
     WebTestClient webTestClient;
 
     @Autowired
-    BoxRepository boxRepository;
+    OrganicBoxRepository organicBoxRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
 
     @Autowired
     AppUserDetailsRepo appUserDetailsRepo;
 
     @BeforeEach
     public void cleanUp(){
-        boxRepository.deleteAll();
+        itemRepository.deleteAll();
+        organicBoxRepository.deleteAll();
         appUserLoginRepository.deleteAll();
         appUserDetailsRepo.deleteAll();
     }

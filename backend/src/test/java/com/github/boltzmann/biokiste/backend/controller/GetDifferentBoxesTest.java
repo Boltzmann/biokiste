@@ -1,9 +1,7 @@
 package com.github.boltzmann.biokiste.backend.controller;
 
-import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
 import com.github.boltzmann.biokiste.backend.model.Item;
 import com.github.boltzmann.biokiste.backend.model.OrganicBox;
-import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +10,7 @@ import java.time.temporal.ChronoField;
 import java.util.List;
 
 
-class GETDifferentBoxesTest extends CrudTestWithLogIn {
+class GetDifferentBoxesTest extends CrudTestWithLogIn {
 
     Item aepfel = Item.builder().id("1").name("Äpfel der Woche").build();
     Item fenchel = Item.builder().id("2").name("Fenchel").build();
@@ -21,22 +19,17 @@ class GETDifferentBoxesTest extends CrudTestWithLogIn {
     @Test
     void whenGetAllOrganicBoxes_thenListOfOrganicBoxesReturned(){
         // Given
-        AppUser testuser = createTestUserInLoginRepoAndGet("1", "testuser", "passwort");
+        createTestUserInLoginRepoAndGet("666", "testuser", "passwort");
         String jwt = getTokenFor("testuser", "passwort");
         int weekOfYear = LocalDate.of(2022, 5, 30).get(ChronoField.ALIGNED_WEEK_OF_YEAR);
-        List<Item> exampleList = List.of(aepfel, fenchel);
+        List<String> exampleList = List.of("1", "2");
         OrganicBox organicBox = OrganicBox.builder()
                 .weekOfYear(weekOfYear)
                 .id("1")
+                .customers(List.of("666"))
                 .content(exampleList).build();
-        boxRepository.insert(organicBox);
-                appUserDetailsRepo.save(
-                        new AppUserDetails().builder()
-                                .id(testuser.getId())
-                                .username(testuser.getUsername())
-                                .subscribedBoxes(List.of(organicBox))
-                                .build()
-        );
+        organicBoxRepository.insert(organicBox);
+        Assertions.assertEquals(List.of(organicBox), organicBoxRepository.findByCustomersIn(List.of("666")));
         // When
         List<OrganicBox> actual = webTestClient.get()
                 .uri("/api/user/subscribedBoxes")
@@ -53,36 +46,26 @@ class GETDifferentBoxesTest extends CrudTestWithLogIn {
     @Test
     void whenGetAllOrganicBoxesOfOtherUser_thenListOfHisOrganicBoxesReturned(){
         // Given
-        AppUser testuser = createTestUserInLoginRepoAndGet("1", "Test User", "passwort");
-        AppUser otheruser = createTestUserInLoginRepoAndGet("2", "Other User", "passwort");
-        String jwtOtheruser = getTokenFor("Other User", "passwort");
+        createTestUserInLoginRepoAndGet("666", "Test User", "passwort");
+        createTestUserInLoginRepoAndGet("42", "Other User", "GEHEIM");
+        String jwtOtheruser = getTokenFor("Other User", "GEHEIM");
+        String jwtTestuser = getTokenFor("Test User", "passwort");
         int weekOfYear = LocalDate.of(2022, 5, 30).get(ChronoField.ALIGNED_WEEK_OF_YEAR);
-        List<Item> exampleList = List.of(aepfel, fenchel);
-        List<Item> otherList = List.of(ruebstiel);
+        List<String> exampleList = List.of("1", "2");
+        List<String> otherList = List.of("3");
         OrganicBox organicBox = OrganicBox.builder()
                 .weekOfYear(weekOfYear)
                 .id("1")
+                .customers(List.of("42", "666"))
                 .content(exampleList).build();
         OrganicBox otherBox = OrganicBox.builder()
                 .weekOfYear(weekOfYear)
                 .id("3")
+                .customers(List.of("42"))
                 .content(otherList).build();
-        boxRepository.insert(organicBox);
-        boxRepository.insert(otherBox);
-        appUserDetailsRepo.save(
-                new AppUserDetails().builder()
-                        .id(testuser.getId())
-                        .username(testuser.getUsername())
-                        .subscribedBoxes(List.of(organicBox))
-                        .build()
-        );
-        appUserDetailsRepo.save(
-                new AppUserDetails().builder()
-                        .id(otheruser.getId())
-                        .username(otheruser.getUsername())
-                        .subscribedBoxes(List.of(organicBox, otherBox))
-                        .build()
-        );
+        organicBoxRepository.insert(organicBox);
+        organicBoxRepository.insert(otherBox);
+
         // When
         List<OrganicBox> actual = webTestClient.get()
                 .uri("/api/user/subscribedBoxes")
@@ -92,8 +75,17 @@ class GETDifferentBoxesTest extends CrudTestWithLogIn {
                 .expectBodyList(OrganicBox.class)
                 .returnResult()
                 .getResponseBody();
+        List<OrganicBox> checkAlso = webTestClient.get()
+                .uri("/api/user/subscribedBoxes")
+                .headers(http -> http.setBearerAuth(jwtTestuser))
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBodyList(OrganicBox.class)
+                .returnResult()
+                .getResponseBody();
         // Then
         Assertions.assertEquals(List.of(organicBox, otherBox), actual);
+        Assertions.assertEquals(List.of(organicBox), checkAlso);
     }
 
 
