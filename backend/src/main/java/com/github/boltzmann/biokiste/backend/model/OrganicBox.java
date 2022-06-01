@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
+@Document(collection = "organicBox")
 @Builder
 public class OrganicBox {
     @Id
@@ -20,5 +20,6 @@ public class OrganicBox {
     String name;
     int weekOfYear;
     String size;
-    List<Item> content;
+    List<String> customers;
+    List<String> content;
 }

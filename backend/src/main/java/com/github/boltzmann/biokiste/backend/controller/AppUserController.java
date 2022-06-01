@@ -4,6 +4,7 @@ import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
 import com.github.boltzmann.biokiste.backend.model.OrganicBox;
 import com.github.boltzmann.biokiste.backend.security.service.AppUserLoginDetailsService;
 import com.github.boltzmann.biokiste.backend.service.AppUserDetailsService;
+import com.github.boltzmann.biokiste.backend.service.BoxDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +18,17 @@ import java.util.List;
 @RequestMapping("/api/user/")
 public class AppUserController {
 
+    private final BoxDetailsService boxDetailsService;
     private final AppUserLoginDetailsService appUserLoginDetailsService;
     private final AppUserDetailsService appUserDetailsService;
 
     @Autowired
-    public AppUserController(AppUserLoginDetailsService appUserLoginDetailsService, AppUserDetailsService appUserDetailsService) {
+    public AppUserController(
+            BoxDetailsService boxDetailsService,
+            AppUserLoginDetailsService appUserLoginDetailsService,
+            AppUserDetailsService appUserDetailsService
+    ) {
+        this.boxDetailsService = boxDetailsService;
         this.appUserLoginDetailsService = appUserLoginDetailsService;
         this.appUserDetailsService = appUserDetailsService;
     }
@@ -37,7 +44,7 @@ public class AppUserController {
     public List<OrganicBox> getSubscribedBoxes(Principal principal){
         String id = this.appUserLoginDetailsService
                 .getUserIdByName(principal.getName());
-        return appUserDetailsService.getSubscribedBoxes(id);
+        return boxDetailsService.getBoxesByUser(id);
     }
 
 

@@ -1,15 +1,11 @@
 package com.github.boltzmann.biokiste.backend.service;
 
 import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
-import com.github.boltzmann.biokiste.backend.model.OrganicBox;
 import com.github.boltzmann.biokiste.backend.repository.AppUserDetailsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
-
-
 
 @Service
 public class AppUserDetailsService {
@@ -33,10 +29,4 @@ public class AppUserDetailsService {
                     .build());
     }
 
-    public List<OrganicBox> getSubscribedBoxes(String id) throws NoSuchElementException {
-        return appUserDetailsRepo
-                .findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found in UserDetailsRepo with id: " + id))
-                .getSubscribedBoxes();
-    }
 }
