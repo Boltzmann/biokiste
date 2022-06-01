@@ -1,7 +1,6 @@
 package com.github.boltzmann.biokiste.backend.controller;
 
 import com.github.boltzmann.biokiste.backend.model.Item;
-import com.github.boltzmann.biokiste.backend.security.service.AppUserLoginDetailsService;
 import com.github.boltzmann.biokiste.backend.service.BoxDetailsService;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,11 +11,9 @@ import java.util.List;
 @RequestMapping("/api/box/")
 public class BoxController {
 
-    private final AppUserLoginDetailsService appUserLoginDetailsService;
     private final BoxDetailsService boxDetailsService;
 
-    public BoxController(AppUserLoginDetailsService appUserLoginDetailsService, BoxDetailsService boxDetailsService) {
-        this.appUserLoginDetailsService = appUserLoginDetailsService;
+    public BoxController(BoxDetailsService boxDetailsService) {
         this.boxDetailsService = boxDetailsService;
     }
 

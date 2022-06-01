@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
+@Document(collection = "organicBox")
 @Builder
 public class OrganicBox {
     @Id

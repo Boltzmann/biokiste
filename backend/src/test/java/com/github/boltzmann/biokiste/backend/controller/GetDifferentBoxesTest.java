@@ -28,8 +28,8 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
                 .id("1")
                 .customers(List.of("666"))
                 .content(exampleList).build();
-        boxRepository.insert(organicBox);
-        Assertions.assertEquals(List.of(organicBox), boxRepository.findByCustomersIn(List.of("666")));
+        organicBoxRepository.insert(organicBox);
+        Assertions.assertEquals(List.of(organicBox), organicBoxRepository.findByCustomersIn(List.of("666")));
         // When
         List<OrganicBox> actual = webTestClient.get()
                 .uri("/api/user/subscribedBoxes")
@@ -63,8 +63,8 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
                 .id("3")
                 .customers(List.of("42"))
                 .content(otherList).build();
-        boxRepository.insert(organicBox);
-        boxRepository.insert(otherBox);
+        organicBoxRepository.insert(organicBox);
+        organicBoxRepository.insert(otherBox);
 
         // When
         List<OrganicBox> actual = webTestClient.get()
