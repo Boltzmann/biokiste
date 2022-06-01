@@ -1,5 +1,3 @@
-import {Item} from "./Item";
-
 export type Subscription = {
     id: string
     name: string
