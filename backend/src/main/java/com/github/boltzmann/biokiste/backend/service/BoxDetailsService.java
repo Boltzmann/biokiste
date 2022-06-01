@@ -25,9 +25,9 @@ public class BoxDetailsService {
         return organicBoxRepository.findByCustomersIn(List.of(id));
     }
 
-    public List<Item> getContentByBoxID(String s) {
-        OrganicBox box = organicBoxRepository.findById(s)
-                .orElseThrow(() -> new NoSuchOrganicBoxException("There is no box with id " + s));
+    public List<Item> getContentByBoxID(String boxId) {
+        OrganicBox box = organicBoxRepository.findById(boxId)
+                .orElseThrow(() -> new NoSuchOrganicBoxException("There is no box with id " + boxId));
         return itemDetailsService.getItemsById(box.getContent());
     }
 }
