@@ -6,7 +6,7 @@ import {toast} from "react-toastify";
 import {addUserSubscriptionToBox, getBoxItemsByBoxId, getSubscriptions, getUserDetails} from "../service/api-service";
 import {Item} from "../model/Item";
 
-export default function useUserDetails(){
+export default function useUserDetailsBoxesAndBoxItems(){
     const [userDetails, setUserDetails] = useState<UserDetails>()
     const [subscriptions, setSubscriptions] = useState<Subscription[]>()
     const [boxItems, setBoxItems] = useState<Item[]>()

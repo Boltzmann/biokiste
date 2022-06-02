@@ -10,12 +10,12 @@ import AppHead from "./components/AppHead";
 import AllUserDetails from "./components/AllUserDetails";
 import OverviewPage from "./pages/OverviewPage";
 import BoxDetailsPage from "./pages/BoxDetailsPage";
-import useUserDetails from "./hooks/useUserDetails";
+import useUserDetailsBoxesAndBoxItems from "./hooks/useUserDetailsBoxesAndBoxItems";
 
 
 
 function App() {
-    const {subscriptions, userDetails, subscribeToBox, boxItems, getBoxItems} = useUserDetails()
+    const {subscriptions, userDetails, subscribeToBox, boxItems, getBoxItems} = useUserDetailsBoxesAndBoxItems()
 
     return (
         <div className="App">
