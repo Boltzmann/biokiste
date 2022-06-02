@@ -6,14 +6,15 @@ import NewSubscription from "./NewSubscription";
 type AbonnementProps = {
     subscriptions: Subscription[] | undefined
     userDetails: UserDetails | undefined
+    subscribeToBox: (boxId: string) => void
 }
 
-export default function Abonnements({subscriptions, userDetails}: AbonnementProps) {
+export default function Abonnements({subscriptions, userDetails, subscribeToBox}: AbonnementProps) {
 
     const navigate = useNavigate()
 
     return <div>
-        <h2>Abonnierte Biokisten</h2><NewSubscription userDetails={userDetails} />
+        <h2>Abonnierte Biokisten</h2><NewSubscription userDetails={userDetails} subscribeToBox={subscribeToBox}/>
         {subscriptions &&
         subscriptions.map(sub =>
             <div className="AboElement" id="active" onClick={() => navigate('/box/' + sub.id)}>
