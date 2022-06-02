@@ -30,7 +30,6 @@ class PostBoxWithNewUserTest extends CrudTestWithLogIn{
 
     @Test
     void PostBox_whenValidUserIsAddedToBox_then200AndGetUpdatedBox(){
-        // Todo: or better a list of subscribed boxes?
         // Given
         createTestUserInLoginRepoAndGet("42", "Test User" , "Pass the wort!");
         String jwt = getTokenFor("Test User", "Pass the wort!");
@@ -46,11 +45,46 @@ class PostBoxWithNewUserTest extends CrudTestWithLogIn{
     }
 
     @Test
+    void PostBox_whenThereIsNoCustomerInBox_AddNewCustomerWith200(){
+        // Given
+        createTestUserInLoginRepoAndGet("23", "New User" , "Pass the wort!");
+        String jwt = getTokenFor("New User", "Pass the wort!");
+        // "A number  $n$  is called lonely if its distance to closest prime sets a new record."
+        // https://www.numbersaplenty.com/set/lonely_number/
+        OrganicBox lonelyBox = OrganicBox.builder()
+                .id("38501")
+                .build();
+        organicBoxRepository.insert(lonelyBox);
+        // When
+        OrganicBox actual = getPostedOrganicBox(jwt, "38501");
+        // Then
+        OrganicBox happyBox = OrganicBox.builder()
+                .id("38501")
+                .customers(List.of("23"))
+                .build();
+        Assertions.assertEquals(happyBox, actual);
+    }
+
+    @Test
+    void PostBox_whenUserAddsItselfSecondTime_thenThereAreTwoUsersSubscrbedToBox(){
+        // Given
+        createTestUserInLoginRepoAndGet("22", "Hungry User" , "Bibidi!");
+        String jwt = getTokenFor("Hungry User", "Bibidi!");
+        organicBoxRepository.insert(box);
+        // When
+        getPostedOrganicBox(jwt, "7");
+        OrganicBox actual = getPostedOrganicBox(jwt, "7");
+        // Then
+        box.setCustomers(List.of("4711","22","22"));
+        Assertions.assertEquals(box, actual);
+    }
+
+    @Test
     void PostBox_whenValidUserIsAddedToNotExistingBox_then500(){
         // Given
         createTestUserInLoginRepoAndGet("42", "Test User" , "Pass the wort!");
         String jwt = getTokenFor("Test User", "Pass the wort!");
-        // When and then
+        // When and then error
         webTestClient.post()
                 .uri("api/user/subscribeBox")
                 .headers(http -> http.setBearerAuth(jwt))
@@ -63,7 +97,7 @@ class PostBoxWithNewUserTest extends CrudTestWithLogIn{
         OrganicBox actual = webTestClient.post()
                 .uri("api/user/subscribeBox")
                 .headers(http -> http.setBearerAuth(jwt))
-                .bodyValue( boxId)
+                .bodyValue(boxId)
                 .exchange()
                 .expectStatus().is2xxSuccessful()
                 .expectBody(OrganicBox.class)
