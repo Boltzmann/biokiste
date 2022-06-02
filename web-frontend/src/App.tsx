@@ -15,7 +15,7 @@ import useUserDetails from "./hooks/useUserDetails";
 
 
 function App() {
-    const {userDetails} = useUserDetails()
+    const {subscriptions, userDetails, subscribeToBox, boxItems, getBoxItems} = useUserDetails()
 
     return (
         <div className="App">
@@ -25,13 +25,17 @@ function App() {
             <Routes>
                 <Route element={<RequireAuth/>}>
                     <Route path='/'
-                           element={<OverviewPage />}
+                           element={<OverviewPage
+                               subscribeToBox={subscribeToBox}
+                               subscriptions={subscriptions}
+                               userDetails={userDetails}
+                           />}
                     />
                 </Route>
                 <Route path='/login' element={<LoginPage />}/>
                 <Route path='/user-details' element={<AllUserDetails userDetails={userDetails}/>}/>
                 <Route path={'/box/:id'}
-                       element={<BoxDetailsPage />}/>
+                       element={<BoxDetailsPage boxItems={boxItems} getBoxItems={getBoxItems}/>}/>
             </Routes>
             </div>
 
