@@ -43,7 +43,7 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
     }
 
     @Test
-    void whenGetAllOrganicBoxesOfOtherUser_thenListOfHisOrganicBoxesReturned(){
+    void whenGetAllOrganicBoxesOfOtherUser_thenListOfHisOrganicBoxesNamesList(){
         // Given
         createTestUserInLoginRepoAndGet("666", "Test User", "passwort");
         createTestUserInLoginRepoAndGet("42", "Other User", "GEHEIM");
@@ -87,6 +87,29 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
         Assertions.assertEquals(List.of(organicBox), checkAlso);
     }
 
-
-
+    @Test
+    void whenGetALLOrganicBoxes_thenReturnAllNames(){
+        // Given
+        List<String> exampleList = List.of("1", "2");
+        OrganicBox fruitBox = OrganicBox.builder()
+                .id("1")
+                .name("Fruits")
+                .build();
+        OrganicBox regioBox = OrganicBox.builder()
+                .id("2")
+                .name("Regional")
+                .build();
+        organicBoxRepository.insert(fruitBox);
+        organicBoxRepository.insert(regioBox);
+        // When
+        List<String> actual = webTestClient.get()
+                .uri("/allBoxes")
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBodyList(String.class)
+                .returnResult()
+                .getResponseBody();
+        // Then
+        Assertions.assertEquals(List.of("Fruits", "Regional"), actual);
+    }
 }
