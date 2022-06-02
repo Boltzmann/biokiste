@@ -8,8 +8,7 @@ export default function OverviewPage(){
     return (
         <div>
             <ImportantUserDetails userDetails={userDetails} />
-            <h2>Abonnierte Biokisten</h2>
-            <Abonnements subscriptions={subscriptions} />
+            <Abonnements subscriptions={subscriptions} userDetails={userDetails}/>
         </div>
     )
 }
