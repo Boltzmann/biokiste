@@ -22,11 +22,6 @@ public class AppUserDetailsService {
             return appUserDetailsRepo.findById(id)
                     .orElseThrow(() -> new NoSuchElementException(
                             "Details of app user with " + id + " not found."));
-        } else {
-            appUserDetailsRepo.insert(AppUserDetails.builder()
-                    .id(id)
-                    .username(username)
-                    .build());
         }
         return appUserDetailsRepo.insert(AppUserDetails.builder()
                     .id(id)

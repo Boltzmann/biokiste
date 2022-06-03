@@ -1,9 +1,9 @@
 package com.github.boltzmann.biokiste.backend.controller;
 
+import com.github.boltzmann.biokiste.backend.dto.OrganicBoxDto;
 import com.github.boltzmann.biokiste.backend.model.Item;
 import com.github.boltzmann.biokiste.backend.model.OrganicBox;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -11,10 +11,6 @@ import java.time.temporal.ChronoField;
 import java.util.List;
 
 class GetDifferentBoxesTest extends CrudTestWithLogIn {
-
-    Item aepfel = Item.builder().id("1").name("Äpfel der Woche").build();
-    Item fenchel = Item.builder().id("2").name("Fenchel").build();
-    Item ruebstiel = Item.builder().id("3").name("Rübstiel").build();
 
     @Test
     void whenGetAllOrganicBoxes_thenListOfOrganicBoxesReturned(){
@@ -89,29 +85,29 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
     }
 
     @Test
-    @Disabled("Disabled until fixed https://github.com/Boltzmann/biokiste/issues/50")
+    //@Disabled("Disabled until fixed https://github.com/Boltzmann/biokiste/issues/50")
     void whenGetALLOrganicBoxes_thenReturnAllNames(){
+
         // Given
+
         List<String> exampleList = List.of("1", "2");
-        OrganicBox fruitBox = OrganicBox.builder()
+        OrganicBoxDto fruitBox = OrganicBoxDto.builder()
                 .id("1")
                 .name("Fruits")
                 .build();
-        OrganicBox regioBox = OrganicBox.builder()
+        OrganicBoxDto regioBox = OrganicBoxDto.builder()
                 .id("2")
                 .name("Regional")
                 .build();
-        organicBoxRepository.insert(fruitBox);
-        organicBoxRepository.insert(regioBox);
         // When
-        List<String> actual = webTestClient.get()
+        List<OrganicBoxDto> actual = webTestClient.get()
                 .uri("/allBoxes")
                 .exchange()
                 .expectStatus().is2xxSuccessful()
-                .expectBodyList(String.class)
+                .expectBodyList(OrganicBoxDto.class)
                 .returnResult()
                 .getResponseBody();
         // Then
-        Assertions.assertEquals(List.of("Fruits", "Regional"), actual);
+        Assertions.assertEquals(List.of(fruitBox, regioBox), actual);
     }
 }

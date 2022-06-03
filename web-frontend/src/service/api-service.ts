@@ -3,6 +3,7 @@ import {Item} from "../model/Item"
 import axios from "axios";
 import {Subscription} from "../model/Subscription";
 import {toast} from "react-toastify";
+import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
 
 export const getUserDetails: (token?: string) => Promise<UserDetails> = (token) => {
     return axios.get("/api/user/me", token
@@ -25,7 +26,7 @@ export const getBoxItemsByBoxId: (id: string, token?: string) => Promise<Item[]>
         .then(response => response.data)
 }
 
-export const getAllPossibleSubscriptions: () => Promise<string[]> = () => {
+export const getAllPossibleSubscriptions: () => Promise<SubscriptionOverviewDto[]> = () => {
     return axios.get("/allBoxes")
         .then(response => {toast.info(response.data); return response.data})
 }
