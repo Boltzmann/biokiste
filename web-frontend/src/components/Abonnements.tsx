@@ -16,7 +16,10 @@ export default function Abonnements({subscriptions, userDetails, subscribeToBox,
     const navigate = useNavigate()
 
     return <div>
-        <h2>Abonnierte Biokisten</h2><NewSubscription userDetails={userDetails} subscribeToBox={subscribeToBox}/>
+        <h2>Abonnierte Biokisten</h2><NewSubscription
+        userDetails={userDetails}
+        subscribeToBox={subscribeToBox}
+        subscribables={subscribables}/>
         {subscriptions &&
         subscriptions.map(sub =>
             <div className="AboElement" id="active" onClick={() => navigate('/box/' + sub.id)}>
