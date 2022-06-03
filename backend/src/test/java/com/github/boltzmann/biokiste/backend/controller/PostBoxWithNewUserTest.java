@@ -13,7 +13,7 @@ class PostBoxWithNewUserTest extends CrudTestWithLogIn{
             .build();
 
     @Test
-    void PostBox_whenOtherValidUserIsAddedToBox_then200AndGetUpdatedBox(){
+    void postBox_whenOtherValidUserIsAddedToBox_then200AndGetUpdatedBox(){
         // Given
         createTestUserInLoginRepoAndGet("-1", "Other User" , "Pass the wort!");
         String jwt = getTokenFor("Other User", "Pass the wort!");
@@ -45,7 +45,7 @@ class PostBoxWithNewUserTest extends CrudTestWithLogIn{
     }
 
     @Test
-    void PostBox_whenThereIsNoCustomerInBox_AddNewCustomerWith200(){
+    void postBox_whenThereIsNoCustomerInBox_AddNewCustomerWith200(){
         // Given
         createTestUserInLoginRepoAndGet("23", "New User" , "Pass the wort!");
         String jwt = getTokenFor("New User", "Pass the wort!");
@@ -66,7 +66,7 @@ class PostBoxWithNewUserTest extends CrudTestWithLogIn{
     }
 
     @Test
-    void PostBox_whenUserAddsItselfSecondTime_thenThereAreTwoUsersSubscrbedToBox(){
+    void postBox_whenUserAddsItselfSecondTime_thenThereAreTwoUsersSubscrbedToBox(){
         // Given
         createTestUserInLoginRepoAndGet("22", "Hungry User" , "Bibidi!");
         String jwt = getTokenFor("Hungry User", "Bibidi!");
@@ -80,7 +80,7 @@ class PostBoxWithNewUserTest extends CrudTestWithLogIn{
     }
 
     @Test
-    void PostBox_whenValidUserIsAddedToNotExistingBox_then500(){
+    void postBox_whenValidUserIsAddedToNotExistingBox_then500(){
         // Given
         createTestUserInLoginRepoAndGet("42", "Test User" , "Pass the wort!");
         String jwt = getTokenFor("Test User", "Pass the wort!");
@@ -91,6 +91,22 @@ class PostBoxWithNewUserTest extends CrudTestWithLogIn{
                 .bodyValue("7")
                 .exchange()
                 .expectStatus().is5xxServerError();
+    }
+
+    @Test
+    void postBox_whenNoCustomerFieldAtBoxInDB_then200AndAddCustomerFieldAndThereIsOneUserSubscribedToBox(){
+        // Given
+        createTestUserInLoginRepoAndGet("42", "Test User" , "Pass the wort!");
+        String jwt = getTokenFor("Test User", "Pass the wort!");
+        OrganicBox specialBox = OrganicBox.builder()
+                .id("0")
+                .build();
+        organicBoxRepository.insert(specialBox);
+        // When
+        OrganicBox actual = getPostedOrganicBox(jwt, "0");
+        // Then
+        specialBox.setCustomers(List.of("42"));
+        Assertions.assertEquals(specialBox, actual);
     }
 
     private OrganicBox getPostedOrganicBox(String jwt, String boxId) {
@@ -105,4 +121,5 @@ class PostBoxWithNewUserTest extends CrudTestWithLogIn{
                 .getResponseBody();
         return actual;
     }
+
 }
