@@ -12,6 +12,7 @@ import java.util.List;
 
 class GetDifferentBoxesTest extends CrudTestWithLogIn {
 
+
     @Test
     void whenGetAllOrganicBoxes_thenListOfOrganicBoxesReturned(){
         // Given
@@ -85,20 +86,28 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
     }
 
     @Test
-    //@Disabled("Disabled until fixed https://github.com/Boltzmann/biokiste/issues/50")
     void whenGetALLOrganicBoxes_thenReturnAllNames(){
-
         // Given
-
-        List<String> exampleList = List.of("1", "2");
-        OrganicBoxDto fruitBox = OrganicBoxDto.builder()
+        OrganicBoxDto fruitBoxDto = OrganicBoxDto.builder()
                 .id("1")
                 .name("Fruits")
                 .build();
-        OrganicBoxDto regioBox = OrganicBoxDto.builder()
+        OrganicBoxDto regioBoxDto = OrganicBoxDto.builder()
                 .id("2")
                 .name("Regional")
                 .build();
+        OrganicBox fruitBox = OrganicBox.builder()
+                .id(fruitBoxDto.getId())
+                .name(fruitBoxDto.getName())
+                .size("big")
+                .build();
+        OrganicBox regioBox = OrganicBox.builder()
+                .id(regioBoxDto.getId())
+                .name(regioBoxDto.getName())
+                .size("small")
+                .build();
+        organicBoxRepository.insert(fruitBox);
+        organicBoxRepository.insert(regioBox);
         // When
         List<OrganicBoxDto> actual = webTestClient.get()
                 .uri("/allBoxes")
@@ -108,6 +117,41 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
                 .returnResult()
                 .getResponseBody();
         // Then
-        Assertions.assertEquals(List.of(fruitBox, regioBox), actual);
+        Assertions.assertEquals(List.of(fruitBoxDto, regioBoxDto), actual);
+    }
+
+    @Test
+    void whenGetALLOrganicBoxesWithOtherExample_thenReturnAllNames(){
+        // Given
+        OrganicBoxDto fruitBoxDto = OrganicBoxDto.builder()
+                .id("1")
+                .name("Fruits")
+                .build();
+        OrganicBoxDto newBoxDto = OrganicBoxDto.builder()
+                .id("3")
+                .name("New Box")
+                .build();
+        OrganicBox fruitBox = OrganicBox.builder()
+                .id(fruitBoxDto.getId())
+                .name(fruitBoxDto.getName())
+                .size("big")
+                .build();
+        OrganicBox regioBox = OrganicBox.builder()
+                .id(newBoxDto.getId())
+                .name(newBoxDto.getName())
+                .size("small")
+                .build();
+        organicBoxRepository.insert(fruitBox);
+        organicBoxRepository.insert(regioBox);
+        // When
+        List<OrganicBoxDto> actual = webTestClient.get()
+                .uri("/allBoxes")
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBodyList(OrganicBoxDto.class)
+                .returnResult()
+                .getResponseBody();
+        // Then
+        Assertions.assertEquals(List.of(fruitBoxDto, newBoxDto), actual);
     }
 }

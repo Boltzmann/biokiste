@@ -1,5 +1,6 @@
 package com.github.boltzmann.biokiste.backend.service;
 
+import com.github.boltzmann.biokiste.backend.dto.OrganicBoxDto;
 import com.github.boltzmann.biokiste.backend.model.Item;
 import com.github.boltzmann.biokiste.backend.model.OrganicBox;
 import com.github.boltzmann.biokiste.backend.repository.OrganicBoxRepository;
@@ -7,6 +8,7 @@ import com.github.boltzmann.biokiste.backend.service.exceptions.NoSuchOrganicBox
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,5 +46,14 @@ public class BoxDetailsService {
         }
         organicBoxRepository.save(box);
         return box;
+    }
+
+    public List<OrganicBoxDto> getAllBoxNamesAndId(){
+        List<OrganicBoxDto> allBoxNamesAndId = new ArrayList<>();
+        List<OrganicBox> organicBoxes = organicBoxRepository.findAll();
+        organicBoxes.forEach(box ->
+            allBoxNamesAndId.add(OrganicBoxDto.builder().id(box.getId()).name(box.getName()).build())
+        );
+        return allBoxNamesAndId;
     }
 }
