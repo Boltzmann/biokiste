@@ -51,4 +51,10 @@ public class AppUserController {
                 .getUserIdByName(principal.getName());
         return boxDetailsService.addSubscriptionOfUserToBox(userId, boxId);
     }
+    @DeleteMapping("/subscribeBox/{boxId}")
+    public void removeFromBox(@PathVariable String boxId, Principal principal){
+        String userId = this.appUserLoginDetailsService
+                .getUserIdByName(principal.getName());
+        boxDetailsService.removeSubscriptionOfUserOfBox(userId, boxId);
+    }
 }
