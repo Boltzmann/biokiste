@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-public class GetAllPublicBoxNamesAndIds extends CrudTestWithLogIn {
+class GetAllPublicBoxNamesAndIdsTest extends CrudTestWithLogIn {
 
 
     @Test
