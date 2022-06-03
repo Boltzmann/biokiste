@@ -3,13 +3,20 @@ import {UserDetails} from "../model/UserDetails";
 import {Subscription} from "../model/Subscription";
 import {AuthContext} from "../context/AuthProvider";
 import {toast} from "react-toastify";
-import {addUserSubscriptionToBox, getBoxItemsByBoxId, getSubscriptions, getUserDetails} from "../service/api-service";
+import {
+    addUserSubscriptionToBox,
+    getAllPossibleSubscriptions,
+    getBoxItemsByBoxId,
+    getSubscriptions,
+    getUserDetails
+} from "../service/api-service";
 import {Item} from "../model/Item";
 
 export default function useUserDetailsBoxesAndBoxItems(){
     const [userDetails, setUserDetails] = useState<UserDetails>()
     const [subscriptions, setSubscriptions] = useState<Subscription[]>()
     const [boxItems, setBoxItems] = useState<Item[]>()
+    const [subscribables, setSubscribables] = useState<string[]>()
     const {token} = useContext(AuthContext)
 
     useEffect(() =>{
@@ -19,6 +26,9 @@ export default function useUserDetailsBoxesAndBoxItems(){
         getSubscriptions(token)
             .then(subs => setSubscriptions(subs))
             .catch(() => toast.error("Connection failed to get abonnements. Please retry."))
+        getAllPossibleSubscriptions()
+            .then(data => setSubscribables(data))
+            .catch(error => toast.error(error))
     }, [token])
 
     const getBoxItems = (id: string) => {
@@ -33,5 +43,6 @@ export default function useUserDetailsBoxesAndBoxItems(){
             .catch(error => toast.error(error))
     }
 
-    return {userDetails, subscriptions, boxItems, getBoxItems, subscribeToBox}
+
+    return {userDetails, subscriptions, boxItems, getBoxItems, subscribeToBox, subscribables}
 }
