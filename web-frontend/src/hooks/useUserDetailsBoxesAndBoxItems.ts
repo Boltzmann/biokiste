@@ -51,6 +51,7 @@ export default function useUserDetailsBoxesAndBoxItems(){
                     setSubscriptions(subscriptions.filter(subscriptions => subscriptions.id !== boxId))
                 }
             )
+            .catch(error => toast.error(error))
     }
 
     return {userDetails, subscriptions, boxItems, removeFromSubscription, getBoxItems, subscribeToBox, subscribables}
