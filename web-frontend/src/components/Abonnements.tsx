@@ -7,9 +7,10 @@ type AbonnementProps = {
     subscriptions: Subscription[] | undefined
     userDetails: UserDetails | undefined
     subscribeToBox: (boxId: string) => void
+    subscribables: string[] | undefined
 }
 
-export default function Abonnements({subscriptions, userDetails, subscribeToBox}: AbonnementProps) {
+export default function Abonnements({subscriptions, userDetails, subscribeToBox, subscribables}: AbonnementProps) {
 
     const navigate = useNavigate()
 
@@ -21,5 +22,7 @@ export default function Abonnements({subscriptions, userDetails, subscribeToBox}
                 {sub.name}
             </div>
         )}
+        <h2>Alle Biokisten</h2>
+        {subscribables && subscribables.map(subls => <div>{subls}</div>)}
     </div>
 }
