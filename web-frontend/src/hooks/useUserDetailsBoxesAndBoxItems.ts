@@ -8,15 +8,15 @@ import {
     getAllPossibleSubscriptions,
     getBoxItemsByBoxId,
     getSubscriptions,
-    getUserDetails
+    getUserDetails, removeUserSubscriptionFromBox
 } from "../service/api-service";
 import {Item} from "../model/Item";
 import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
 
 export default function useUserDetailsBoxesAndBoxItems(){
     const [userDetails, setUserDetails] = useState<UserDetails>()
-    const [subscriptions, setSubscriptions] = useState<Subscription[]>()
-    const [boxItems, setBoxItems] = useState<Item[]>()
+    const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
+    const [boxItems, setBoxItems] = useState<Item[]>([])
     const [subscribables, setSubscribables] = useState<SubscriptionOverviewDto[]>()
     const {token} = useContext(AuthContext)
 
@@ -44,6 +44,14 @@ export default function useUserDetailsBoxesAndBoxItems(){
             .catch(error => toast.error(error))
     }
 
+    const removeFromSubscription = (boxId: string) => {
+        removeUserSubscriptionFromBox(boxId, token)
+            .then(data => {
+                    {subscriptions ?? toast.info("Removing subscription") }
+                    setSubscriptions(subscriptions.filter(subscriptions => subscriptions.id !== boxId))
+                }
+            )
+    }
 
-    return {userDetails, subscriptions, boxItems, getBoxItems, subscribeToBox, subscribables}
+    return {userDetails, subscriptions, boxItems, removeFromSubscription, getBoxItems, subscribeToBox, subscribables}
 }
