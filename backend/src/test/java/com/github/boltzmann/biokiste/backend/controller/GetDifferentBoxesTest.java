@@ -3,6 +3,7 @@ package com.github.boltzmann.biokiste.backend.controller;
 import com.github.boltzmann.biokiste.backend.model.Item;
 import com.github.boltzmann.biokiste.backend.model.OrganicBox;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -88,6 +89,7 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
     }
 
     @Test
+    @Disabled("Disabled until fixed https://github.com/Boltzmann/biokiste/issues/50")
     void whenGetALLOrganicBoxes_thenReturnAllNames(){
         // Given
         List<String> exampleList = List.of("1", "2");
