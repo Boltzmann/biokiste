@@ -13,10 +13,10 @@ export default function NewSubscription({ userDetails, subscribeToBox , subscrib
         {subscribables &&
             subscribables.map(
                 subsls =>
-                    <button onClick={
+                    <div id="active" onClick={
                         () => subscribeToBox(subsls.id)
-                    }> Add {userDetails && userDetails.id} to Box {subsls.id}
-                    </button>
+                    }> Abonniere {subsls.name}
+                    </div>
             )
         }
     </div>
