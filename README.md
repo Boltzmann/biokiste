@@ -22,7 +22,7 @@ only by hand possible. See [iOS Deployment and Android deployment](#ios-deployme
 ### Drawings
 Most up to date Excalidraw drawing in resource/biokiste.excalidraw. There one finds thoughts
 about software architecture, UI drawings, etc.
-![Customer view](resources/biokiste_220512.png) and/or [clickable at figma](https://www.figma.com/file/Ysrx9lh0R2de59mFTg4TeT/Biokiste?node-id=7%3A21)
+![Planned Customer view](resources/img.png) and/or [clickable at figma (outdated)](https://www.figma.com/file/Ysrx9lh0R2de59mFTg4TeT/Biokiste?node-id=7%3A21)
 
 
 ### Repository and Deployment
@@ -48,6 +48,8 @@ To get started (with Intellij Ultimate):
 4. In the frontend folder, use ``npm install``.
 
 Happy Hacking!
+### Tests
+MongoDB test collections can be found in /docs/test-resources.
 
 ### Hints
 [Color encodings](https://coolors.co/306b34-d3b88c-482728-5ef38c-78a1bb)
