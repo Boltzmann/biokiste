@@ -11,12 +11,13 @@ import {
     getUserDetails
 } from "../service/api-service";
 import {Item} from "../model/Item";
+import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
 
 export default function useUserDetailsBoxesAndBoxItems(){
     const [userDetails, setUserDetails] = useState<UserDetails>()
     const [subscriptions, setSubscriptions] = useState<Subscription[]>()
     const [boxItems, setBoxItems] = useState<Item[]>()
-    const [subscribables, setSubscribables] = useState<string[]>()
+    const [subscribables, setSubscribables] = useState<SubscriptionOverviewDto[]>()
     const {token} = useContext(AuthContext)
 
     useEffect(() =>{

@@ -2,12 +2,13 @@ import {Subscription} from "../model/Subscription";
 import {useNavigate} from "react-router-dom";
 import {UserDetails} from "../model/UserDetails";
 import NewSubscription from "./NewSubscription";
+import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
 
 type AbonnementProps = {
     subscriptions: Subscription[] | undefined
     userDetails: UserDetails | undefined
     subscribeToBox: (boxId: string) => void
-    subscribables: string[] | undefined
+    subscribables: SubscriptionOverviewDto[] | undefined
 }
 
 export default function Abonnements({subscriptions, userDetails, subscribeToBox, subscribables}: AbonnementProps) {
@@ -23,6 +24,6 @@ export default function Abonnements({subscriptions, userDetails, subscribeToBox,
             </div>
         )}
         <h2>Alle Biokisten</h2>
-        {subscribables && subscribables.map(subls => <div>{subls}</div>)}
+        {subscribables && subscribables.map(subls => <div>{subls.name}</div>)}
     </div>
 }
