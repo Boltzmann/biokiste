@@ -8,24 +8,25 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
+import java.util.ArrayList;
 import java.util.List;
 
 class GetDifferentBoxesTest extends CrudTestWithLogIn {
+
+    private OrganicBox organicBox() {
+        return OrganicBox.builder()
+                .id("1")
+                .customers(new ArrayList<>(List.of("666")))
+                .build();
+    }
 
     @Test
     void whenGetAllOrganicBoxes_thenListOfOrganicBoxesReturned(){
         // Given
         createTestUserInLoginRepoAndGet("666", "testuser", "passwort");
         String jwt = getTokenFor("testuser", "passwort");
-        int weekOfYear = LocalDate.of(2022, 5, 30).get(ChronoField.ALIGNED_WEEK_OF_YEAR);
-        List<String> exampleList = List.of("1", "2");
-        OrganicBox organicBox = OrganicBox.builder()
-                .weekOfYear(weekOfYear)
-                .id("1")
-                .customers(List.of("666"))
-                .content(exampleList).build();
-        organicBoxRepository.insert(organicBox);
-        Assertions.assertEquals(List.of(organicBox), organicBoxRepository.findByCustomersIn(List.of("666")));
+        organicBoxRepository.insert(organicBox());
+        Assertions.assertEquals(List.of(organicBox()), organicBoxRepository.findByCustomersIn(List.of("666")));
         // When
         List<OrganicBox> actual = webTestClient.get()
                 .uri("/api/user/subscribedBoxes")
@@ -36,7 +37,7 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
                 .returnResult()
                 .getResponseBody();
         // Then
-        Assertions.assertEquals(List.of(organicBox), actual);
+        Assertions.assertEquals(List.of(organicBox()), actual);
     }
 
     @Test
