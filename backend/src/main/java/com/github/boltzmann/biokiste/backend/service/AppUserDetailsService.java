@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -25,14 +26,14 @@ public class AppUserDetailsService {
     public List<OrganicBox> getSubscriptionsOfUser(String id){
         List<OrganicBox> boxesWithUserAtLeastOnce = boxDetailsService.getBoxesByUser(id);
         List<OrganicBox> allSubscribedBoxes = new ArrayList<>();
-        boxesWithUserAtLeastOnce.forEach(box -> {
-                    for(String userId : box.getCustomers()) {
-                        if(userId == id) {
-                            allSubscribedBoxes.add(box);
-                        }
-                    };
+        for (OrganicBox box : boxesWithUserAtLeastOnce){
+            Iterator<String> iter = box.getCustomers().iterator();
+            while ( iter.hasNext() ) {
+                if (id.equals(iter.next())) {
+                    allSubscribedBoxes.add(box);
                 }
-        );
+            }
+        }
         return allSubscribedBoxes;
     }
 
