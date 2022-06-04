@@ -20,15 +20,20 @@ export default function useUserDetailsBoxesAndBoxItems(){
     const [subscribables, setSubscribables] = useState<SubscriptionOverviewDto[]>()
     const {token} = useContext(AuthContext)
 
+    const uuidv4 = require("uuid")
+
     useEffect(() =>{
         getUserDetails(token)
             .then(details => setUserDetails(details))
             .catch(() => toast.error("Connection failed to get user details. Please retry."))
         getSubscriptions(token)
-            .then(subs => setSubscriptions(subs))
+            .then(subs => {setSubscriptions(subs); subs.map(s => toast.info(s.name))})
             .catch(() => toast.error("Connection failed to get abonnements. Please retry."))
         getAllPossibleSubscriptions()
-            .then(data => setSubscribables(data))
+            .then(data => {
+                data.map(item => item.uuid=uuidv4)
+                setSubscribables(data)
+            })
             .catch(error => toast.error(error))
     }, [token])
 

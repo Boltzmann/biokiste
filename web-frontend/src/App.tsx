@@ -15,7 +15,10 @@ import useUserDetailsBoxesAndBoxItems from "./hooks/useUserDetailsBoxesAndBoxIte
 
 
 function App() {
-    const {subscriptions, userDetails, subscribeToBox, boxItems, getBoxItems, subscribables, removeFromSubscription} = useUserDetailsBoxesAndBoxItems()
+    const {subscriptions, userDetails,
+        subscribeToBox, boxItems,
+        getBoxItems, subscribables,
+        removeFromSubscription} = useUserDetailsBoxesAndBoxItems()
 
     return (
         <div className="App">

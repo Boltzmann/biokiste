@@ -42,7 +42,7 @@ public class AppUserController {
     public List<OrganicBox> getMaria(Principal principal){
         String id = this.appUserLoginDetailsService
                 .getUserIdByName(principal.getName());
-        return boxDetailsService.getBoxesByUser(id);
+        return appUserDetailsService.getSubscriptionsOfUser(id);
     }
 
     @PostMapping(path = "/subscribeBox")

@@ -84,5 +84,33 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
         Assertions.assertEquals(List.of(organicBox), checkAlso);
     }
 
+    @Test
+    void whenGetAllOrganicBoxesOfOtherUser_thenListOfHisOrganicBoxesNamesListEvenIfItSubscribeOneTwice(){
+        // Given
+        createTestUserInLoginRepoAndGet("42", "Other User", "GEHEIM");
+        String jwtOtheruser = getTokenFor("Other User", "GEHEIM");
+        OrganicBox organicBox = OrganicBox.builder()
+                .id("1")
+                .customers(List.of("42", "42", "666", "4711"))
+                .build();
+        OrganicBox otherBox = OrganicBox.builder()
+                .id("3")
+                .customers(List.of("42"))
+                .build();
+        organicBoxRepository.insert(organicBox);
+        organicBoxRepository.insert(otherBox);
+
+        // When
+        List<OrganicBox> actual = webTestClient.get()
+                .uri("/api/user/subscribedBoxes")
+                .headers(http -> http.setBearerAuth(jwtOtheruser))
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBodyList(OrganicBox.class)
+                .returnResult()
+                .getResponseBody();
+        // Then
+        Assertions.assertEquals(List.of(organicBox, organicBox, otherBox), actual);
+    }
 
 }
