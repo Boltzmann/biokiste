@@ -30,7 +30,7 @@ export default function Abonnements(
         <h2>Abonnements</h2>
         {subscriptions &&
         subscriptions.map(sub =>
-            <div><div key={sub.uuidi} className="AboElement" id="active" onClick={() => navigate('/box/' + sub.id)}>
+            <div><div className="AboElement" id="active" onClick={() => navigate('/box/' + sub.id)}>
                 {sub.name}
             </div><div id="active" onClick={() => removeFromSubscription(sub.id)}><AiOutlineMinus/></div></div>
         )}
