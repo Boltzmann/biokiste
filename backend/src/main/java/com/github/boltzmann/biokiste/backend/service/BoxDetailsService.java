@@ -37,11 +37,10 @@ public class BoxDetailsService {
     public OrganicBox addSubscriptionOfUserToBox(String userId, String boxId) {
         OrganicBox box = organicBoxRepository.findById(boxId)
                 .orElseThrow(() -> new NoSuchOrganicBoxException(THERE_IS_NO_BOX_WITH_ID + boxId));
-        List<String> oldBoxList = box.getCustomers();
-        if(oldBoxList != null) {
-            List<String> tmp = box.getCustomers();
-            tmp.add(userId);
-            box.setCustomers(tmp);
+        List<String> boxList = box.getCustomers();
+        if(boxList != null) {
+            boxList.add(userId);
+            box.setCustomers(boxList);
         } else {
             box.setCustomers(List.of(userId));
         }
