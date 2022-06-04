@@ -16,7 +16,7 @@ public class PublicListsController {
         this.boxDetailsService = boxDetailsService;
     }
     @GetMapping
-    public List<OrganicBoxDto> getNamesOfAllBoxes(){
+    public List<OrganicBoxDto> getNamesAndIdsOfAllBoxes(){
         return boxDetailsService.getAllBoxNamesAndId();
     }
 }

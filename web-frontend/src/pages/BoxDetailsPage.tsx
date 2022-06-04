@@ -15,7 +15,7 @@ export default function BoxDetailsPage({boxItems, getBoxItems}: BoxDetailsPagePr
         if (id) {
             getBoxItems(id)
         }
-    }, [id])
+    }, [id, getBoxItems])
 
     return (
         <div className={"box-items"}>
