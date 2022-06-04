@@ -1,0 +1,13 @@
+[{
+  "_id": {
+    "$oid": "62854ed30baad0a3e4352404"
+  },
+  "username": "testuser",
+  "password": "$argon2id$v=19$m=4096,t=3,p=1$wSJWdEGwlJ0EpiE5ahRnuA$bwVQA1xjyd2ppKnZvCRdCit/MMxib6BImhbD/T4JnYE"
+},{
+  "_id": {
+    "$oid": "62986a9432dddc0cfe6f1e40"
+  },
+  "username": "Other User",
+  "password": "$argon2id$v=19$m=4096,t=3,p=1$wSJWdEGwlJ0EpiE5ahRnuA$bwVQA1xjyd2ppKnZvCRdCit/MMxib6BImhbD/T4JnYE"
+}]

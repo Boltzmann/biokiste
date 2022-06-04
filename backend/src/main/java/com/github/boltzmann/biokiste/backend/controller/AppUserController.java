@@ -6,10 +6,8 @@ import com.github.boltzmann.biokiste.backend.security.service.AppUserLoginDetail
 import com.github.boltzmann.biokiste.backend.service.AppUserDetailsService;
 import com.github.boltzmann.biokiste.backend.service.BoxDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.security.Principal;
 import java.util.List;
 
@@ -41,11 +39,16 @@ public class AppUserController {
     }
 
     @GetMapping("/subscribedBoxes")
-    public List<OrganicBox> getSubscribedBoxes(Principal principal){
+    public List<OrganicBox> getBoxesByUser(Principal principal){
         String id = this.appUserLoginDetailsService
                 .getUserIdByName(principal.getName());
         return boxDetailsService.getBoxesByUser(id);
     }
 
-
+    @PostMapping(path = "/subscribeBox")
+    public OrganicBox subscribeBox(Principal principal, @RequestBody String boxId){
+        String userId = this.appUserLoginDetailsService
+                .getUserIdByName(principal.getName());
+        return boxDetailsService.addSubscriptionOfUserToBox(userId, boxId);
+    }
 }

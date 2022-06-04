@@ -1,15 +1,26 @@
 import ImportantUserDetails from "../components/ImportantUserDetails";
-import useUserDetails from "../hooks/useUserDetails";
 import Abonnements from "../components/Abonnements";
+import {Subscription} from "../model/Subscription";
+import {UserDetails} from "../model/UserDetails";
+import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
 
-export default function OverviewPage(){
-    const {userDetails, subscriptions} = useUserDetails()
+type OverviewPageProps= {
+    subscribeToBox: (boxId: string) => void
+    subscriptions: Subscription[] | undefined
+    userDetails: UserDetails | undefined
+    subscribables: SubscriptionOverviewDto[] | undefined
+}
+
+export default function OverviewPage({subscribeToBox, subscriptions, userDetails, subscribables}: OverviewPageProps){
 
     return (
         <div>
             <ImportantUserDetails userDetails={userDetails} />
-            <h2>Abonnierte Biokisten</h2>
-            <Abonnements subscriptions={subscriptions} />
+            <Abonnements
+                subscriptions={subscriptions}
+                userDetails={userDetails}
+                subscribeToBox={subscribeToBox}
+                subscribables={subscribables}/>
         </div>
     )
 }
