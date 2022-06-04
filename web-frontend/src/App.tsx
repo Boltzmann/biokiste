@@ -10,12 +10,12 @@ import AppHead from "./components/AppHead";
 import AllUserDetails from "./components/AllUserDetails";
 import OverviewPage from "./pages/OverviewPage";
 import BoxDetailsPage from "./pages/BoxDetailsPage";
-import useUserDetailsBoxesAndBoxItems from "./hooks/useUserDetailsBoxesAndBoxItems";
+import useUserDetails from "./hooks/useUserDetails";
 
 
 
 function App() {
-    const {subscriptions, userDetails, subscribeToBox, boxItems, getBoxItems, subscribables} = useUserDetailsBoxesAndBoxItems()
+    const {userDetails} = useUserDetails()
 
     return (
         <div className="App">
@@ -25,18 +25,13 @@ function App() {
             <Routes>
                 <Route element={<RequireAuth/>}>
                     <Route path='/'
-                           element={<OverviewPage
-                               subscribeToBox={subscribeToBox}
-                               subscriptions={subscriptions}
-                               userDetails={userDetails}
-                               subscribables={subscribables}
-                           />}
+                           element={<OverviewPage />}
                     />
                 </Route>
                 <Route path='/login' element={<LoginPage />}/>
                 <Route path='/user-details' element={<AllUserDetails userDetails={userDetails}/>}/>
                 <Route path={'/box/:id'}
-                       element={<BoxDetailsPage boxItems={boxItems} getBoxItems={getBoxItems}/>}/>
+                       element={<BoxDetailsPage />}/>
             </Routes>
             </div>
 

@@ -1,6 +1,5 @@
 package com.github.boltzmann.biokiste.backend.controller;
 
-import com.github.boltzmann.biokiste.backend.dto.OrganicBoxDto;
 import com.github.boltzmann.biokiste.backend.model.Item;
 import com.github.boltzmann.biokiste.backend.model.OrganicBox;
 import org.junit.jupiter.api.Assertions;
@@ -10,7 +9,12 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.List;
 
+
 class GetDifferentBoxesTest extends CrudTestWithLogIn {
+
+    Item aepfel = Item.builder().id("1").name("Äpfel der Woche").build();
+    Item fenchel = Item.builder().id("2").name("Fenchel").build();
+    Item ruebstiel = Item.builder().id("3").name("Rübstiel").build();
 
     @Test
     void whenGetAllOrganicBoxes_thenListOfOrganicBoxesReturned(){
@@ -40,7 +44,7 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
     }
 
     @Test
-    void whenGetAllOrganicBoxesOfOtherUser_thenListOfHisOrganicBoxesNamesList(){
+    void whenGetAllOrganicBoxesOfOtherUser_thenListOfHisOrganicBoxesReturned(){
         // Given
         createTestUserInLoginRepoAndGet("666", "Test User", "passwort");
         createTestUserInLoginRepoAndGet("42", "Other User", "GEHEIM");
@@ -83,6 +87,7 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
         Assertions.assertEquals(List.of(organicBox, otherBox), actual);
         Assertions.assertEquals(List.of(organicBox), checkAlso);
     }
+
 
 
 }

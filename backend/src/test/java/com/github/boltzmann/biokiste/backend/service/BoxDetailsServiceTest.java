@@ -1,6 +1,5 @@
 package com.github.boltzmann.biokiste.backend.service;
 
-import com.github.boltzmann.biokiste.backend.dto.OrganicBoxDto;
 import com.github.boltzmann.biokiste.backend.model.Item;
 import com.github.boltzmann.biokiste.backend.model.OrganicBox;
 import com.github.boltzmann.biokiste.backend.repository.OrganicBoxRepository;
@@ -22,7 +21,6 @@ class BoxDetailsServiceTest {
 
     OrganicBox box = OrganicBox.builder()
             .id("1")
-            .name("User Name")
             .content(List.of("1","2"))
             .customers(List.of("666"))
             .build();
@@ -49,41 +47,5 @@ class BoxDetailsServiceTest {
         List<OrganicBox> actual = boxDetailsService.getBoxesByUser("666");
         // Then
         Assertions.assertEquals(List.of(box), actual);
-    }
-
-    @Test
-    void getAllBoxNamesAndID() {
-        // Given
-        when(organicBoxRepository.findAll()).thenReturn(List.of(box));
-        // When
-        List<OrganicBoxDto> actual = boxDetailsService.getAllBoxNamesAndId();
-        // Then
-        verify(organicBoxRepository).findAll();
-        OrganicBoxDto boxDto = OrganicBoxDto.builder()
-                .id(box.getId()).name(box.getName()).build();
-        Assertions.assertEquals(List.of(boxDto), actual);
-    }
-
-    @Test
-    void getAllBoxNamesAndID_whenNoBoxFound_thenReturnEmptyList() {
-        // Given
-        when(organicBoxRepository.findAll()).thenReturn(List.of());
-        // When
-        List<OrganicBoxDto> actual = boxDetailsService.getAllBoxNamesAndId();
-        // Then
-        Assertions.assertEquals(List.of(), actual);
-    }
-
-    @Test
-    void getAllBoxNamesAndID_whenTwoSameBoxes_thenReturnListWithBoth() {
-        // Given
-        when(organicBoxRepository.findAll()).thenReturn(List.of(box, box));
-        // When
-        List<OrganicBoxDto> actual = boxDetailsService.getAllBoxNamesAndId();
-        // Then
-        OrganicBoxDto boxDto = OrganicBoxDto.builder()
-                .id(box.getId()).name(box.getName()).build();
-        System.out.println(List.of(boxDto, boxDto));
-        Assertions.assertEquals(List.of(boxDto, boxDto), actual);
     }
 }

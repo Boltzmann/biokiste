@@ -1,15 +1,12 @@
 import {useParams} from "react-router-dom";
 import {useEffect} from "react";
+import useOrganicBox from "../hooks/useOrganicBox";
 import BoxItem from "../components/BoxItem";
-import {Item} from "../model/Item"
-type BoxDetailsPageProps = {
-    boxItems: Item[] | undefined
-    getBoxItems: (id: string) => void
-}
 
-export default function BoxDetailsPage({boxItems, getBoxItems}: BoxDetailsPageProps){
+export default function BoxDetailsPage(){
 
     const {id} = useParams()
+    const {boxItems, getBoxItems} = useOrganicBox()
 
     useEffect(() => {
         if (id) {
