@@ -62,14 +62,14 @@ export default function useUserDetailsBoxesAndBoxItems(){
     const removeSubscriptionOnce = (boxId: string) => {
         toast.info("Removing " + boxId)
 
-        function removeCustomerOnceFromSubscrion(subscription: Subscription) {
+        function removeCustomerOnceFromSubscription(subscription: Subscription) {
             return userDetails &&
                 userDetails.id &&
                 subscription.customers.splice(subscription.customers.findIndex(() => userDetails.id));
         }
 
         subscriptions.map(subscription => {
-            removeCustomerOnceFromSubscrion(subscription)
+            return removeCustomerOnceFromSubscription(subscription)
         })
         token && readSubscriptions(token)
         return subscriptions
