@@ -25,7 +25,7 @@ export default function useUserDetailsBoxesAndBoxItems(){
             .then(details => setUserDetails(details))
             .catch(() => toast.error("Connection failed to get user details. Please retry."))
         getSubscriptions(token)
-            .then(subs => {setSubscriptions(subs); subs.map(s => toast.info(s.name))})
+            .then(subs => setSubscriptions(subs))
             .catch(() => toast.error("Connection failed to get abonnements. Please retry."))
         getAllPossibleSubscriptions()
             .then(data => {
@@ -48,8 +48,8 @@ export default function useUserDetailsBoxesAndBoxItems(){
 
     const removeFromSubscription = (boxId: string) => {
         removeUserSubscriptionFromBox(boxId, token)
-            .then(data => {
-                    {subscriptions ?? toast.info("Removing subscription") }
+            .then(() => {
+                    subscriptions ?? toast.info("Removing subscription")
                     setSubscriptions(subscriptions.filter(subscriptions => subscriptions.id !== boxId))
                 }
             )

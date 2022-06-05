@@ -38,7 +38,7 @@ export const addUserSubscriptionToBox: ( boxId: string, token?: string) => Promi
         .then(response => {toast.info("Box Id: " + boxId); return response.data})
 }
 
-export const removeUserSubscriptionFromBox: ( boxId: string, token?: string) => Promise<Subscription> = ( boxId, token ) => {
+export const removeUserSubscriptionFromBox: ( boxId: string, token?: string) => Promise<void> = ( boxId, token ) => {
     return axios.delete("/api/user/subscribeBox/" + boxId, token
     ? {headers: {"Authorization": token}}
     : {})

@@ -29,14 +29,12 @@ public class BoxDetailsService {
     }
 
     public List<Item> getContentByBoxID(String boxId) {
-        OrganicBox box = organicBoxRepository.findById(boxId)
-                .orElseThrow(() -> new NoSuchOrganicBoxException(THERE_IS_NO_BOX_WITH_ID + boxId));
+        OrganicBox box = findAndGetOrganicBox(boxId);
         return itemDetailsService.getItemsById(box.getContent());
     }
 
     public OrganicBox addSubscriptionOfUserToBox(String userId, String boxId) {
-        OrganicBox box = organicBoxRepository.findById(boxId)
-                .orElseThrow(() -> new NoSuchOrganicBoxException(THERE_IS_NO_BOX_WITH_ID + boxId));
+        OrganicBox box = findAndGetOrganicBox(boxId);
         List<String> oldBoxList = box.getCustomers();
         if(oldBoxList != null) {
             List<String> tmp = box.getCustomers();
@@ -59,8 +57,7 @@ public class BoxDetailsService {
     }
 
     public void removeSubscriptionOfUserOfBox(String userId, String boxId) {
-        OrganicBox box = organicBoxRepository.findById(boxId)
-                .orElseThrow(() -> new NoSuchOrganicBoxException(THERE_IS_NO_BOX_WITH_ID + boxId));
+        OrganicBox box = findAndGetOrganicBox(boxId);
         List<String> oldBoxList = box.getCustomers();
         if(oldBoxList != null) {
             List<String> tmp = box.getCustomers();
@@ -70,5 +67,10 @@ public class BoxDetailsService {
             box.setCustomers(List.of(userId));
         }
         organicBoxRepository.save(box);
+    }
+
+    private OrganicBox findAndGetOrganicBox(String boxId) {
+        return organicBoxRepository.findById(boxId)
+                .orElseThrow(() -> new NoSuchOrganicBoxException(THERE_IS_NO_BOX_WITH_ID + boxId));
     }
 }
