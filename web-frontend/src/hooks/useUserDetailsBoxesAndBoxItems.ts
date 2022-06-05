@@ -24,15 +24,19 @@ export default function useUserDetailsBoxesAndBoxItems(){
         getUserDetails(token)
             .then(details => setUserDetails(details))
             .catch(() => toast.error("Connection failed to get user details. Please retry."))
-        getSubscriptions(token)
-            .then(subs => setSubscriptions(subs))
-            .catch(() => toast.error("Connection failed to get abonnements. Please retry."))
+        token && readSubscriptions(token)
         getAllPossibleSubscriptions()
             .then(data => {
                 setSubscribables(data)
             })
             .catch(error => toast.error(error))
     }, [token])
+
+    const readSubscriptions = (token: string) => {
+        getSubscriptions(token)
+            .then(subs => setSubscriptions(subs))
+            .catch(() => toast.error("Connection failed to get abonnements. Please retry."))
+    }
 
     const getBoxItems = (id: string) => {
         getBoxItemsByBoxId(id, token)
@@ -49,11 +53,26 @@ export default function useUserDetailsBoxesAndBoxItems(){
     const removeFromSubscription = (boxId: string) => {
         removeUserSubscriptionFromBox(boxId, token)
             .then(() => {
-                    subscriptions ?? toast.info("Removing subscription")
-                    setSubscriptions(subscriptions.filter(subscriptions => subscriptions.id !== boxId))
-                }
-            )
+                    toast.info("Removing subscription " + boxId)
+                })
+            .then(() => {setSubscriptions(removeSubscriptionOnce(boxId))})
             .catch(error => toast.error(error))
+    }
+
+    const removeSubscriptionOnce = (boxId: string) => {
+        toast.info("Removing " + boxId)
+
+        function removeCustomerOnceFromSubscrion(subscription: Subscription) {
+            return userDetails &&
+                userDetails.id &&
+                subscription.customers.splice(subscription.customers.findIndex(() => userDetails.id));
+        }
+
+        subscriptions.map(subscription => {
+            removeCustomerOnceFromSubscrion(subscription)
+        })
+        token && readSubscriptions(token)
+        return subscriptions
     }
 
     return {userDetails, subscriptions, boxItems, removeFromSubscription, getBoxItems, subscribeToBox, subscribables}
