@@ -42,7 +42,7 @@ public class AppUserController {
     public List<OrganicBox> getBoxesByUser(Principal principal){
         String id = this.appUserLoginDetailsService
                 .getUserIdByName(principal.getName());
-        return boxDetailsService.getBoxesByUser(id);
+        return appUserDetailsService.getSubscriptionsOfUser(id);
     }
 
     @PostMapping(path = "/subscribeBox")
@@ -50,5 +50,11 @@ public class AppUserController {
         String userId = this.appUserLoginDetailsService
                 .getUserIdByName(principal.getName());
         return boxDetailsService.addSubscriptionOfUserToBox(userId, boxId);
+    }
+    @DeleteMapping("/subscribeBox/{boxId}")
+    public void removeFromBox(@PathVariable String boxId, Principal principal){
+        String userId = this.appUserLoginDetailsService
+                .getUserIdByName(principal.getName());
+        boxDetailsService.removeSubscriptionOfUserOfBox(userId, boxId);
     }
 }
