@@ -5,10 +5,10 @@ import axios from "axios";
 
 const AUTH_KEY = "AuthToken"
 
-export const AuthContext = createContext<
-    { token: string | undefined, login: (credentials: {username: string, password: string}) => void }
-    >
-(
+
+export const AuthContext = createContext<{
+    token: string | undefined,
+    login: (credentials: {username: string, password: string}) => void }> (
         {token: undefined, login: () => {toast.error("Login not initialized.")}}
 )
 
