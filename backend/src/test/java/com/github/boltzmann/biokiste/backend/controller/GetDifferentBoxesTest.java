@@ -21,7 +21,7 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
     }
 
     @Test
-    void whenGetAllOrganicBoxes_thenListOfOrganicBoxesReturned(){
+    void whenGetAllOrganicBoxesOfOneUser_thenListOfOrganicBoxesReturned(){
         // Given
         createTestUserInLoginRepoAndGet("666", "testuser", "passwort");
         String jwt = getTokenFor("testuser", "passwort");
@@ -41,7 +41,7 @@ class GetDifferentBoxesTest extends CrudTestWithLogIn {
     }
 
     @Test
-    void whenGetAllOrganicBoxesOfOtherUser_thenListOfHisOrganicBoxesNamesList(){
+    void whenGetAllOrganicBoxesOfTwoUsersAfterAnother_thenListOfTheirOrganicBoxesNamesList(){
         // Given
         createTestUserInLoginRepoAndGet("666", "Test User", "passwort");
         createTestUserInLoginRepoAndGet("42", "Other User", "GEHEIM");

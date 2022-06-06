@@ -8,7 +8,8 @@ import {
     getAllPossibleSubscriptions,
     getBoxItemsByBoxId,
     getSubscriptions,
-    getUserDetails, removeUserSubscriptionFromBox
+    getUserDetails,
+    removeUserSubscriptionFromBox
 } from "../service/api-service";
 import {Item} from "../model/Item";
 import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";

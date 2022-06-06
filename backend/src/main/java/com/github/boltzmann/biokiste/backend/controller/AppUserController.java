@@ -39,7 +39,7 @@ public class AppUserController {
     }
 
     @GetMapping("/subscribedBoxes")
-    public List<OrganicBox> getMaria(Principal principal){
+    public List<OrganicBox> getBoxesByUser(Principal principal){
         String id = this.appUserLoginDetailsService
                 .getUserIdByName(principal.getName());
         return appUserDetailsService.getSubscriptionsOfUser(id);
