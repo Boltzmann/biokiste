@@ -24,7 +24,6 @@ export default function useUserDetailsBoxesAndBoxItems(){
         getUserDetails(token)
             .then(details => setUserDetails(details))
             .catch(() => toast.error("Connection failed to get user details. Please retry."))
-        token && readSubscriptions(token)
         getAllPossibleSubscriptions()
             .then(data => {
                 setSubscribables(data)
@@ -32,7 +31,12 @@ export default function useUserDetailsBoxesAndBoxItems(){
             .catch(error => toast.error(error))
     }, [token])
 
-    const readSubscriptions = (token: string) => {
+    useEffect(() => {
+        readSubscriptions()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [subscriptions])
+
+    const readSubscriptions = () => {
         getSubscriptions(token)
             .then(subs => setSubscriptions(subs))
             .catch(() => toast.error("Connection failed to get abonnements. Please retry."))
@@ -50,28 +54,11 @@ export default function useUserDetailsBoxesAndBoxItems(){
             .catch(error => toast.error(error))
     }
 
-    const removeFromSubscription = (boxId: string) => {
-        removeUserSubscriptionFromBox(boxId, token)
-        setSubscriptions(subscriptions.filter(
-            subscription => subscription.id !== boxId)
-        )
-    }
-
-    const removeSubscriptionOnce = (boxId: string) => {
+    const removeFromSubscriptionOnce = (boxId: string) => {
         toast.info("Removing " + boxId)
-
-        function removeCustomerOnceFromSubscription(subscription: Subscription) {
-            return userDetails &&
-                userDetails.id &&
-                subscription.customers.splice(subscription.customers.findIndex(() => userDetails.id));
-        }
-
-        subscriptions.map(subscription => {
-            return removeCustomerOnceFromSubscription(subscription)
-        })
-        token && readSubscriptions(token)
-        return subscriptions
+        removeUserSubscriptionFromBox(boxId, token)
+        readSubscriptions()
     }
 
-    return {userDetails, subscriptions, boxItems, removeFromSubscription, getBoxItems, subscribeToBox, subscribables}
+    return {userDetails, subscriptions, boxItems, removeFromSubscriptionOnce, getBoxItems, subscribeToBox, subscribables}
 }
