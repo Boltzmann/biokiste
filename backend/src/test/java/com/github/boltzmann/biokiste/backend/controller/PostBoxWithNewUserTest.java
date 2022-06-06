@@ -49,8 +49,6 @@ class PostBoxWithNewUserTest extends CrudTestWithLogIn{
         // Given
         createTestUserInLoginRepoAndGet("23", "New User" , "Pass the wort!");
         String jwt = getTokenFor("New User", "Pass the wort!");
-        // "A number  $n$  is called lonely if its distance to closest prime sets a new record."
-        // https://www.numbersaplenty.com/set/lonely_number/
         OrganicBox lonelyBox = OrganicBox.builder()
                 .id("38501")
                 .build();

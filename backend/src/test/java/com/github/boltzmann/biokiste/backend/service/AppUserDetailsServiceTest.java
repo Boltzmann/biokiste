@@ -32,6 +32,11 @@ class AppUserDetailsServiceTest {
 
     @Test
     void getSubscriptionsOfOneUser() {
+        /**
+         * In the customers list of box user with id "1" is mentioned
+         * two times. This means, that she has subscribed one box twice.
+         * This test checks if this is resolved by the service method.
+         */
         // When
         when(boxDetailsService.getBoxesByUser("1"))
                 .thenReturn(List.of(firstBox()));

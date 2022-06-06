@@ -1,6 +1,6 @@
 import {UserDetails} from "../model/UserDetails";
 import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
-import {AiOutlinePlus, AiOutlineMinus} from "react-icons/ai";
+import {AiOutlinePlus} from "react-icons/ai";
 
 type NewSubscriptionProps = {
     userDetails: UserDetails | undefined
@@ -9,7 +9,7 @@ type NewSubscriptionProps = {
     removeFromSubscription: (boxId: string) => void | undefined
 }
 
-export default function NewSubscription({ userDetails, subscribeToBox, removeFromSubscription, subscribables}: NewSubscriptionProps ) {
+export default function NewSubscription({ subscribeToBox, subscribables}: NewSubscriptionProps ) {
 
     return <div>
         {subscribables &&
