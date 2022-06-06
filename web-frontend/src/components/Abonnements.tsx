@@ -4,7 +4,6 @@ import {UserDetails} from "../model/UserDetails";
 import NewSubscription from "./NewSubscription";
 import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
 import {AiOutlineMinus} from "react-icons/ai";
-import {toast} from "react-toastify";
 
 type AbonnementProps = {
     subscriptions: Subscription[] | undefined

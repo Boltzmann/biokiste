@@ -52,11 +52,9 @@ export default function useUserDetailsBoxesAndBoxItems(){
 
     const removeFromSubscription = (boxId: string) => {
         removeUserSubscriptionFromBox(boxId, token)
-            .then(() => {
-                    toast.info("Removing subscription " + boxId)
-                })
-            .then(() => {setSubscriptions(removeSubscriptionOnce(boxId))})
-            .catch(error => toast.error(error))
+        setSubscriptions(subscriptions.filter(
+            subscription => subscription.id !== boxId)
+        )
     }
 
     const removeSubscriptionOnce = (boxId: string) => {

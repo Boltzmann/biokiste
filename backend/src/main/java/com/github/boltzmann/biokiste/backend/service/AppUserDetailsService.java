@@ -24,9 +24,10 @@ public class AppUserDetailsService {
     }
 
     public List<OrganicBox> getSubscriptionsOfUser(String id){
-        List<OrganicBox> boxesWithUserAtLeastOnce = boxDetailsService.getBoxesByUser(id);
+        List<OrganicBox> boxesWithSameUserSubscribedAtLeastOneOrMoreTimes
+                = boxDetailsService.getBoxesByUser(id);
         List<OrganicBox> allSubscribedBoxes = new ArrayList<>();
-        for (OrganicBox box : boxesWithUserAtLeastOnce){
+        for (OrganicBox box : boxesWithSameUserSubscribedAtLeastOneOrMoreTimes){
             Iterator<String> iter = box.getCustomers().iterator();
             while ( iter.hasNext() ) {
                 if (id.equals(iter.next())) {
