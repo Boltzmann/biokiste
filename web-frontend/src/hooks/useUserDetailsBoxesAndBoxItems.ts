@@ -8,7 +8,8 @@ import {
     getAllPossibleSubscriptions,
     getBoxItemsByBoxId,
     getSubscriptions,
-    getUserDetails, removeUserSubscriptionFromBox
+    getUserDetails,
+    removeUserSubscriptionFromBox
 } from "../service/api-service";
 import {Item} from "../model/Item";
 import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
@@ -25,7 +26,7 @@ export default function useUserDetailsBoxesAndBoxItems(){
             .then(details => setUserDetails(details))
             .catch(() => toast.error("Connection failed to get user details. Please retry."))
         getSubscriptions(token)
-            .then(subs => {setSubscriptions(subs); subs.map(s => toast.info(s.name))})
+            .then(subs => setSubscriptions(subs))
             .catch(() => toast.error("Connection failed to get abonnements. Please retry."))
         getAllPossibleSubscriptions()
             .then(data => {
@@ -48,12 +49,9 @@ export default function useUserDetailsBoxesAndBoxItems(){
 
     const removeFromSubscription = (boxId: string) => {
         removeUserSubscriptionFromBox(boxId, token)
-            .then(data => {
-                    {subscriptions ?? toast.info("Removing subscription") }
-                    setSubscriptions(subscriptions.filter(subscriptions => subscriptions.id !== boxId))
-                }
-            )
-            .catch(error => toast.error(error))
+        setSubscriptions(subscriptions.filter(
+            subscription => subscription.id !== boxId)
+        )
     }
 
     return {userDetails, subscriptions, boxItems, removeFromSubscription, getBoxItems, subscribeToBox, subscribables}

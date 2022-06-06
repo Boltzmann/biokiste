@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class BoxDetailsService {
 
-    public static final String THERE_IS_NO_BOX_WITH_ID = "There is no box with id ";
+    public static final String WARNING_NO_BOX = "There is no box with id ";
     private final OrganicBoxRepository organicBoxRepository;
     private final ItemDetailsService itemDetailsService;
 
@@ -29,14 +29,12 @@ public class BoxDetailsService {
     }
 
     public List<Item> getContentByBoxID(String boxId) {
-        OrganicBox box = organicBoxRepository.findById(boxId)
-                .orElseThrow(() -> new NoSuchOrganicBoxException(THERE_IS_NO_BOX_WITH_ID + boxId));
+        OrganicBox box = findAndGetOrganicBox(boxId);
         return itemDetailsService.getItemsById(box.getContent());
     }
 
     public OrganicBox addSubscriptionOfUserToBox(String userId, String boxId) {
-        OrganicBox box = organicBoxRepository.findById(boxId)
-                .orElseThrow(() -> new NoSuchOrganicBoxException(THERE_IS_NO_BOX_WITH_ID + boxId));
+        OrganicBox box = findAndGetOrganicBox(boxId);
         List<String> boxList = box.getCustomers();
         if(boxList != null) {
             boxList.add(userId);
@@ -58,16 +56,17 @@ public class BoxDetailsService {
     }
 
     public void removeSubscriptionOfUserOfBox(String userId, String boxId) {
-        OrganicBox box = organicBoxRepository.findById(boxId)
-                .orElseThrow(() -> new NoSuchOrganicBoxException(THERE_IS_NO_BOX_WITH_ID + boxId));
+        OrganicBox box = findAndGetOrganicBox(boxId);
         List<String> oldBoxList = box.getCustomers();
         if(oldBoxList != null) {
-            List<String> tmp = box.getCustomers();
-            tmp.remove(userId);
-            box.setCustomers(tmp);
-        } else {
-            box.setCustomers(List.of(userId));
+            oldBoxList.remove(userId);
+            box.setCustomers(oldBoxList);
         }
         organicBoxRepository.save(box);
+    }
+
+    private OrganicBox findAndGetOrganicBox(String boxId) {
+        return organicBoxRepository.findById(boxId)
+                .orElseThrow(() -> new NoSuchOrganicBoxException(WARNING_NO_BOX + boxId));
     }
 }
