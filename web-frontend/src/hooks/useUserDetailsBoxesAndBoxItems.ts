@@ -8,8 +8,7 @@ import {
     getAllPossibleSubscriptions,
     getBoxItemsByBoxId,
     getSubscriptions,
-    getUserDetails,
-    removeUserSubscriptionFromBox
+    getUserDetails, removeUserSubscriptionFromBox
 } from "../service/api-service";
 import {Item} from "../model/Item";
 import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
@@ -25,15 +24,23 @@ export default function useUserDetailsBoxesAndBoxItems(){
         getUserDetails(token)
             .then(details => setUserDetails(details))
             .catch(() => toast.error("Connection failed to get user details. Please retry."))
-        getSubscriptions(token)
-            .then(subs => setSubscriptions(subs))
-            .catch(() => toast.error("Connection failed to get abonnements. Please retry."))
         getAllPossibleSubscriptions()
             .then(data => {
                 setSubscribables(data)
             })
             .catch(error => toast.error(error))
     }, [token])
+
+    useEffect(() => {
+        readSubscriptions()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [subscriptions])
+
+    const readSubscriptions = () => {
+        getSubscriptions(token)
+            .then(subs => setSubscriptions(subs))
+            .catch(() => toast.error("Connection failed to get abonnements. Please retry."))
+    }
 
     const getBoxItems = (id: string) => {
         getBoxItemsByBoxId(id, token)
@@ -47,12 +54,11 @@ export default function useUserDetailsBoxesAndBoxItems(){
             .catch(error => toast.error(error))
     }
 
-    const removeFromSubscription = (boxId: string) => {
+    const removeFromSubscriptionOnce = (boxId: string) => {
+        toast.info("Removing " + boxId)
         removeUserSubscriptionFromBox(boxId, token)
-        setSubscriptions(subscriptions.filter(
-            subscription => subscription.id !== boxId)
-        )
+        readSubscriptions()
     }
 
-    return {userDetails, subscriptions, boxItems, removeFromSubscription, getBoxItems, subscribeToBox, subscribables}
+    return {userDetails, subscriptions, boxItems, removeFromSubscriptionOnce, getBoxItems, subscribeToBox, subscribables}
 }
