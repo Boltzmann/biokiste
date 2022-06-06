@@ -21,7 +21,6 @@ export default function OverviewPage(
             <ImportantUserDetails userDetails={userDetails} />
             <Abonnements
                 subscriptions={subscriptions}
-                userDetails={userDetails}
                 subscribeToBox={subscribeToBox}
                 removeFromSubscriptionOnce={removeFromSubscriptionOnce}
                 subscribables={subscribables}/>
