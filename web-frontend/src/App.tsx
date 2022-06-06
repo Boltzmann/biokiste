@@ -18,7 +18,7 @@ function App() {
     const {subscriptions, userDetails,
         subscribeToBox, boxItems,
         getBoxItems, subscribables,
-        removeFromSubscription} = useUserDetailsBoxesAndBoxItems()
+        removeFromSubscriptionOnce} = useUserDetailsBoxesAndBoxItems()
 
     return (
         <div className="App">
@@ -31,7 +31,7 @@ function App() {
                            element={<OverviewPage
                                subscribeToBox={subscribeToBox}
                                subscriptions={subscriptions}
-                               removeFromSubscription={removeFromSubscription}
+                               removeFromSubscriptionOnce={removeFromSubscriptionOnce}
                                userDetails={userDetails}
                                subscribables={subscribables}
                            />}
