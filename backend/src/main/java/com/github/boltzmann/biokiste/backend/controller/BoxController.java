@@ -21,4 +21,6 @@ public class BoxController {
     public List<Item> getContentBy(@PathVariable String id){
         return boxDetailsService.getContentByBoxID(id);
     }
+
+
 }

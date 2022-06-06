@@ -9,9 +9,12 @@ type OverviewPageProps= {
     subscriptions: Subscription[] | undefined
     userDetails: UserDetails | undefined
     subscribables: SubscriptionOverviewDto[] | undefined
+    removeFromSubscription: (boxId: string) => void | undefined
 }
 
-export default function OverviewPage({subscribeToBox, subscriptions, userDetails, subscribables}: OverviewPageProps){
+export default function OverviewPage(
+    {subscribeToBox, removeFromSubscription, subscriptions, userDetails, subscribables}: OverviewPageProps
+) {
 
     return (
         <div>
@@ -20,6 +23,7 @@ export default function OverviewPage({subscribeToBox, subscriptions, userDetails
                 subscriptions={subscriptions}
                 userDetails={userDetails}
                 subscribeToBox={subscribeToBox}
+                removeFromSubscription={removeFromSubscription}
                 subscribables={subscribables}/>
         </div>
     )
