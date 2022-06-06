@@ -49,12 +49,9 @@ export default function useUserDetailsBoxesAndBoxItems(){
 
     const removeFromSubscription = (boxId: string) => {
         removeUserSubscriptionFromBox(boxId, token)
-            .then(() => {
-                    subscriptions ?? toast.info("Removing subscription")
-                    setSubscriptions(subscriptions.filter(subscriptions => subscriptions.id !== boxId))
-                }
-            )
-            .catch(error => toast.error(error))
+        setSubscriptions(subscriptions.filter(
+            subscription => subscription.id !== boxId)
+        )
     }
 
     return {userDetails, subscriptions, boxItems, removeFromSubscription, getBoxItems, subscribeToBox, subscribables}
