@@ -5,5 +5,5 @@ type ItemProps = {
 }
 
 export default function BoxItem({item} : ItemProps){
-    return (<div>{item.name}</div>)
+    return (<div id="inactive">{item.name}</div>)
 }
