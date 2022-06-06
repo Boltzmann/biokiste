@@ -6,10 +6,10 @@ import { decodeJwt } from "jose";
 
 const AUTH_KEY = "AuthToken"
 
-
+// ts-ignore
 export const AuthContext =
     createContext<{ token: string | undefined, login: (credentials: {username: string, password: string}) => void, logout: () => void}> (
-        {token: undefined, login: () => {toast.error("Login not initialized.")}, logout: () => {//intentional}}
+        {token: undefined, login: () => {toast.error("Login not initialized.")}, logout: () =>  {toast.error("Login not initialized.")}}
 )
 
 export type AuthProviderProps = {
