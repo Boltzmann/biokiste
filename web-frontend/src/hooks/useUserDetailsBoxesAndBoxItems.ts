@@ -34,7 +34,7 @@ export default function useUserDetailsBoxesAndBoxItems(){
     useEffect(() => {
         readSubscriptions()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [subscriptions])
+    }, [subscriptions, token])
 
     const readSubscriptions = () => {
         getSubscriptions(token)
