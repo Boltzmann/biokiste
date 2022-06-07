@@ -36,12 +36,12 @@ function App() {
                                subscribables={subscribables}
                            />}
                     />
+                    <Route path='/user-details' element={<AllUserDetails userDetails={userDetails}/>}/>
+                    <Route path={'/box/:id'}
+                           element={<BoxDetailsPage boxItems={boxItems} getBoxItems={getBoxItems}/>}/>
                 </Route>
                 <Route path='/login' element={<LoginPage />}/>
-                <Route path='/user-details' element={<AllUserDetails userDetails={userDetails}/>}/>
-                <Route path={'/box/:id'}
-                       element={<BoxDetailsPage boxItems={boxItems} getBoxItems={getBoxItems}/>}/>
-            </Routes>
+                </Routes>
             </div>
 
         </div>
