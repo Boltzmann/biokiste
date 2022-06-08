@@ -3,6 +3,7 @@ import {FormEvent, useEffect, useState} from "react";
 import BoxItem from "../components/BoxItem";
 import {Item} from "../model/Item"
 import {Subscription} from "../model/Subscription";
+import {toast} from "react-toastify";
 
 type BoxDetailsPageProps = {
     boxItems: Item[] | undefined
@@ -25,8 +26,12 @@ export default function BoxDetailsPage({boxItems, getBoxItems, items, subscripti
 
     const onSubmit = (event:FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        let itemDto: Omit<Item, "id"> = { "name": itemName }
-        addNewItem(itemDto)
+        if(itemName.trim() === ""){
+            toast.error("Please give a meaningful item name.")
+        } else {
+            let itemDto: Omit<Item, "id"> = {"name": itemName}
+            addNewItem(itemDto)
+        }
     }
 
     let element = subscriptions && subscriptions.find(e => e.id === id)
