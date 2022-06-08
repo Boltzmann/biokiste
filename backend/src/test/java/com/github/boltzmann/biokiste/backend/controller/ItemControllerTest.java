@@ -2,6 +2,7 @@ package com.github.boltzmann.biokiste.backend.controller;
 
 import com.github.boltzmann.biokiste.backend.model.Item;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
+import io.jsonwebtoken.lang.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +29,13 @@ class ItemControllerTest extends CrudTestWithLogIn {
         Assertions.assertEquals(List.of(), actual);
     }
 
+    @Test
+    void createNewItemTest_whenNewItemInBlankRepoPosted_getNewItemAndItemIsInRepo(){
+        String jwt = createUserInLoginRepoAndGetTokenForHer();
+        Item actual = createNewItem(jwt, one());
+        Assertions.assertEquals(one(), actual);
+    }
+
     private String createUserInLoginRepoAndGetTokenForHer() {
         createTestUserInLoginRepoAndGet("42", "The User", "GEHEIM");
         String jwt = getTokenFor("The User", "GEHEIM");
@@ -41,6 +49,19 @@ class ItemControllerTest extends CrudTestWithLogIn {
                 .exchange()
                 .expectStatus().is2xxSuccessful()
                 .expectBodyList(Item.class)
+                .returnResult()
+                .getResponseBody();
+        return actual;
+    }
+
+    private Item createNewItem(String jwt, Item item) {
+        Item actual = webTestClient.post()
+                .uri("/api/item")
+                .headers(http -> http.setBearerAuth(jwt))
+                .bodyValue(item)
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBody(Item.class)
                 .returnResult()
                 .getResponseBody();
         return actual;
