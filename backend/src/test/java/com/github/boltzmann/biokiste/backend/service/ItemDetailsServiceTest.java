@@ -53,4 +53,18 @@ class ItemDetailsServiceTest {
         );
         Assertions.assertEquals(apple(), actual);
     }
+
+    @Test
+    void addNewItem_whenItemAlreadyInRepo_thenIllegalArgumentException() {
+        when(itemRepository.findItemByName("apple")).thenReturn(null).thenReturn(apple());
+
+        Item actual = itemDetailsService.addNewItem(
+                ItemDto.builder().name(apple().getName()).build()
+        );
+        ItemDto dto = ItemDto.builder().name(apple().getName()).build();
+        Exception exception = Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> itemDetailsService.addNewItem(dto)
+        );
+    }
 }
