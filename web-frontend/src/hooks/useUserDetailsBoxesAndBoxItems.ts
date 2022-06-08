@@ -4,6 +4,7 @@ import {Subscription} from "../model/Subscription";
 import {AuthContext} from "../context/AuthProvider";
 import {toast} from "react-toastify";
 import {
+    addItem,
     addUserSubscriptionToBox, findAllItems,
     getAllPossibleSubscriptions,
     getBoxItemsByBoxId,
@@ -34,10 +35,6 @@ export default function useUserDetailsBoxesAndBoxItems(){
 
     useEffect(() => {
         readSubscriptions()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [subscriptions, token])
-
-    useEffect( () => {
         getAllItems()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token])
@@ -72,8 +69,14 @@ export default function useUserDetailsBoxesAndBoxItems(){
             .catch(error => toast.error(error))
     }
 
+    const addNewItem = (itemDto: Omit<Item, "id">) => {
+        addItem(itemDto, token)
+            .then(data => setItems([...items, data]))
+            .catch(error => toast.error(error))
+    }
+
     return {userDetails, subscriptions,
         boxItems, removeFromSubscriptionOnce,
         getBoxItems, subscribeToBox,
-        subscribables, items}
+        subscribables, items, addNewItem}
 }
