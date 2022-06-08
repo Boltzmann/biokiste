@@ -13,12 +13,19 @@ class ItemControllerTest extends CrudTestWithLogIn {
     Item two() { return Item.builder().id("2").build(); };
 
     @Test
-    void getAllItemsTest(){
+    void getAllItemsTest_whenOneInRepo_thenGetListOfOneBox(){
         String jwt = createUserInLoginRepoAndGetTokenForHer();
         itemRepository.insert(one());
         List<Item> actual = getAllItems(jwt);
-        List<Item> expected = List.of(one(), two());
+        List<Item> expected = List.of(one());
         Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void getAllItemsTest_whenNoItemsInRepo_getEmptyList(){
+        String jwt = createUserInLoginRepoAndGetTokenForHer();
+        List<Item> actual = getAllItems(jwt);
+        Assertions.assertEquals(List.of(), actual);
     }
 
     private String createUserInLoginRepoAndGetTokenForHer() {
