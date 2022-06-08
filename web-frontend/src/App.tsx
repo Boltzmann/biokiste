@@ -18,7 +18,7 @@ function App() {
     const {subscriptions, userDetails,
         subscribeToBox, boxItems,
         getBoxItems, subscribables,
-        removeFromSubscriptionOnce} = useUserDetailsBoxesAndBoxItems()
+        removeFromSubscriptionOnce, items} = useUserDetailsBoxesAndBoxItems()
 
     return (
         <div className="App">
@@ -38,7 +38,12 @@ function App() {
                     />
                     <Route path='/user-details' element={<AllUserDetails userDetails={userDetails}/>}/>
                     <Route path={'/box/:id'}
-                           element={<BoxDetailsPage boxItems={boxItems} getBoxItems={getBoxItems}/>}/>
+                           element={<BoxDetailsPage
+                               boxItems={boxItems}
+                               getBoxItems={getBoxItems}
+                               items = {items}
+                           />}
+                    />
                 </Route>
                 <Route path='/login' element={<LoginPage />}/>
                 </Routes>
