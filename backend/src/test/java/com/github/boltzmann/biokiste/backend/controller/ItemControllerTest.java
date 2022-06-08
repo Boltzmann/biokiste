@@ -6,7 +6,6 @@ import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import io.jsonwebtoken.lang.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
 
 class ItemControllerTest extends CrudTestWithLogIn {
