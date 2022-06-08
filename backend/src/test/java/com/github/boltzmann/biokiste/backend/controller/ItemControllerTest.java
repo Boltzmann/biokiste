@@ -34,15 +34,7 @@ class ItemControllerTest extends CrudTestWithLogIn {
     void createNewItemTest_whenNewItemInBlankRepoPosted_getNewItemAndItemIsInRepo(){
         String jwt = createUserInLoginRepoAndGetTokenForHer();
         ItemDto dto = ItemDto.builder().name(one().getName()).build();
-        Item actual = webTestClient.post()
-                .uri("/api/item")
-                .headers(http -> http.setBearerAuth(jwt))
-                .bodyValue(dto)
-                .exchange()
-                .expectStatus().is2xxSuccessful()
-                .expectBody(Item.class)
-                .returnResult()
-                .getResponseBody();
+        Item actual = createNewItem(jwt, dto);
         Assertions.assertEquals(one().getName(), actual.getName());
     }
 
