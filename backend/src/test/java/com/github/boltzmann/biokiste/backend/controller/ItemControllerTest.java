@@ -45,6 +45,20 @@ class ItemControllerTest extends CrudTestWithLogIn {
         Assertions.assertEquals(two().getName(), actual.getName());
     }
 
+    @Test
+    void createNewItemTest_whenItemAlreadyInRepoPosted_getErrorItemNotAdded(){
+        String jwt = createUserInLoginRepoAndGetTokenForHer();
+        ItemDto dto = ItemDto.builder().name(two().getName()).build();
+        itemRepository.insert(Item.builder().id("1").name("two").build());
+        // When
+        webTestClient.post()
+                .uri("/api/item")
+                .headers(http -> http.setBearerAuth(jwt))
+                .bodyValue(dto)
+                .exchange()
+                .expectStatus().is4xxClientError();
+    }
+
     private String createUserInLoginRepoAndGetTokenForHer() {
         createTestUserInLoginRepoAndGet("42", "The User", "GEHEIM");
         String jwt = getTokenFor("The User", "GEHEIM");
