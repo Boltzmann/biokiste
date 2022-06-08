@@ -52,4 +52,9 @@ export const findAllItems: (token?: string) => Promise<Item[]> = (token) => {
         .then(response => response.data)
 }
 
-
+export const addItem: ( itemDto: Omit<Item, "id">, token?: string ) => Promise<Item> = ( itemDto, token) => {
+    return axios.post("api/item", itemDto, token
+        ? {headers: {"Authorization": token}}
+        : {})
+        .then(response => response.data)
+}
