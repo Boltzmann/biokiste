@@ -7,8 +7,8 @@ import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
 
 export const getUserDetails: (token?: string) => Promise<UserDetails> = (token) => {
     return axios.get("/api/user/me", token
-    ? {headers: {"Authorization": token}}
-    : {})
+        ? {headers: {"Authorization": token}}
+        : {})
         .then(response => response.data)
 }
 
@@ -40,9 +40,16 @@ export const addUserSubscriptionToBox: ( boxId: string, token?: string) => Promi
 
 export const removeUserSubscriptionFromBox: ( boxId: string, token?: string) => Promise<void> = ( boxId, token ) => {
     return axios.delete("/api/user/subscribeBox/" + boxId, token
-    ? {headers: {"Authorization": token}}
-    : {})
-    .then(response => response.data)
+        ? {headers: {"Authorization": token}}
+        : {})
+        .then(response => response.data)
+}
+
+export const findAllItems: (token?: string) => Promise<Item[]> = (token) => {
+    return axios.get("/api/item/all", token
+        ? {headers: {"Authorization": token}}
+        : {})
+        .then(response => response.data)
 }
 
 
