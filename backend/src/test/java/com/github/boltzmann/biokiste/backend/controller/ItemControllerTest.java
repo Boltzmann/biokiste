@@ -4,7 +4,6 @@ import com.github.boltzmann.biokiste.backend.model.Item;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
 
 class ItemControllerTest extends CrudTestWithLogIn {
