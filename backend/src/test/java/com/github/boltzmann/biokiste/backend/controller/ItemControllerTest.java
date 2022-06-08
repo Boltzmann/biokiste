@@ -1,5 +1,6 @@
 package com.github.boltzmann.biokiste.backend.controller;
 
+import com.github.boltzmann.biokiste.backend.dto.ItemDto;
 import com.github.boltzmann.biokiste.backend.model.Item;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import io.jsonwebtoken.lang.Assert;
@@ -10,8 +11,8 @@ import java.util.List;
 
 class ItemControllerTest extends CrudTestWithLogIn {
 
-    Item one() { return Item.builder().id("1").build(); };
-    Item two() { return Item.builder().id("2").build(); };
+    Item one() { return Item.builder().id("1").name("one").build(); };
+    Item two() { return Item.builder().id("2").name("two").build(); };
 
     @Test
     void getAllItemsTest_whenOneInRepo_thenGetListOfOneBox(){
@@ -32,8 +33,17 @@ class ItemControllerTest extends CrudTestWithLogIn {
     @Test
     void createNewItemTest_whenNewItemInBlankRepoPosted_getNewItemAndItemIsInRepo(){
         String jwt = createUserInLoginRepoAndGetTokenForHer();
-        Item actual = createNewItem(jwt, one());
-        Assertions.assertEquals(one(), actual);
+        ItemDto dto = ItemDto.builder().name(one().getName()).build();
+        Item actual = webTestClient.post()
+                .uri("/api/item")
+                .headers(http -> http.setBearerAuth(jwt))
+                .bodyValue(dto)
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBody(Item.class)
+                .returnResult()
+                .getResponseBody();
+        Assertions.assertEquals(one().getName(), actual.getName());
     }
 
     private String createUserInLoginRepoAndGetTokenForHer() {
@@ -54,11 +64,11 @@ class ItemControllerTest extends CrudTestWithLogIn {
         return actual;
     }
 
-    private Item createNewItem(String jwt, Item item) {
+    private Item createNewItem(String jwt, ItemDto itemDto) {
         Item actual = webTestClient.post()
                 .uri("/api/item")
                 .headers(http -> http.setBearerAuth(jwt))
-                .bodyValue(item)
+                .bodyValue(itemDto)
                 .exchange()
                 .expectStatus().is2xxSuccessful()
                 .expectBody(Item.class)
