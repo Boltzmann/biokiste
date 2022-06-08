@@ -27,6 +27,6 @@ public class ItemController {
 
     @PostMapping()
     public Item createNewItem(@RequestBody ItemDto itemDto){
-        return Item.builder().id("1").name("one").build();
+        return itemDetailsService.addNewItem(itemDto);
     }
 }

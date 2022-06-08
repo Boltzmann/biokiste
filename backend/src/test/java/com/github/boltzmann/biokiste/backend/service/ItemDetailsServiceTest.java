@@ -1,5 +1,6 @@
 package com.github.boltzmann.biokiste.backend.service;
 
+import com.github.boltzmann.biokiste.backend.dto.ItemDto;
 import com.github.boltzmann.biokiste.backend.model.Item;
 import com.github.boltzmann.biokiste.backend.repository.ItemRepository;
 import org.junit.jupiter.api.Assertions;
@@ -15,7 +16,7 @@ class ItemDetailsServiceTest {
     private final ItemRepository itemRepository = mock(ItemRepository.class);
     private final ItemDetailsService itemDetailsService = new ItemDetailsService(itemRepository);
 
-    Item apple(){ return Item.builder().id("1").name("Banana").build();};
+    Item apple(){ return Item.builder().id("1").name("apple").build();};
     Item raspberry() { return Item.builder().id("1").name("Raspberry").build();};
 
     @Test
@@ -42,5 +43,14 @@ class ItemDetailsServiceTest {
         when(itemRepository.findAll()).thenReturn(List.of());
         List<Item> actual = itemDetailsService.getAllItems();
         Assertions.assertEquals(List.of(), actual);
+    }
+
+    @Test
+    void addNewItem() {
+        when(itemRepository.insert(Item.builder().name("apple").build())).thenReturn(apple());
+        Item actual = itemDetailsService.addNewItem(
+                ItemDto.builder().name(apple().getName()).build()
+        );
+        Assertions.assertEquals(apple(), actual);
     }
 }

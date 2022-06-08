@@ -38,6 +38,14 @@ class ItemControllerTest extends CrudTestWithLogIn {
         Assertions.assertEquals(one().getName(), actual.getName());
     }
 
+    @Test
+    void createNewItemTest_whenOtherItemInBlankRepoPosted_getNewItemAndItemIsInRepo(){
+        String jwt = createUserInLoginRepoAndGetTokenForHer();
+        ItemDto dto = ItemDto.builder().name(two().getName()).build();
+        Item actual = createNewItem(jwt, dto);
+        Assertions.assertEquals(two().getName(), actual.getName());
+    }
+
     private String createUserInLoginRepoAndGetTokenForHer() {
         createTestUserInLoginRepoAndGet("42", "The User", "GEHEIM");
         String jwt = getTokenFor("The User", "GEHEIM");
