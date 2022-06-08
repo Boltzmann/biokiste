@@ -4,7 +4,7 @@ import {Subscription} from "../model/Subscription";
 import {AuthContext} from "../context/AuthProvider";
 import {toast} from "react-toastify";
 import {
-    addUserSubscriptionToBox,
+    addUserSubscriptionToBox, findAllItems,
     getAllPossibleSubscriptions,
     getBoxItemsByBoxId,
     getSubscriptions,
@@ -18,6 +18,7 @@ export default function useUserDetailsBoxesAndBoxItems(){
     const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
     const [boxItems, setBoxItems] = useState<Item[]>([])
     const [subscribables, setSubscribables] = useState<SubscriptionOverviewDto[]>()
+    const [items, setItems] = useState<Item[]>([])
     const {token} = useContext(AuthContext)
 
     useEffect(() =>{
@@ -35,6 +36,11 @@ export default function useUserDetailsBoxesAndBoxItems(){
         readSubscriptions()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [subscriptions, token])
+
+    useEffect( () => {
+        getAllItems()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [token])
 
     const readSubscriptions = () => {
         getSubscriptions(token)
@@ -60,5 +66,14 @@ export default function useUserDetailsBoxesAndBoxItems(){
         readSubscriptions()
     }
 
-    return {userDetails, subscriptions, boxItems, removeFromSubscriptionOnce, getBoxItems, subscribeToBox, subscribables}
+    const getAllItems = () => {
+        findAllItems(token)
+            .then(data => setItems(data))
+            .catch(error => toast.error(error))
+    }
+
+    return {userDetails, subscriptions,
+        boxItems, removeFromSubscriptionOnce,
+        getBoxItems, subscribeToBox,
+        subscribables, items}
 }

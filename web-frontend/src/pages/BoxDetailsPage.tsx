@@ -2,12 +2,14 @@ import {useParams} from "react-router-dom";
 import {useEffect} from "react";
 import BoxItem from "../components/BoxItem";
 import {Item} from "../model/Item"
+
 type BoxDetailsPageProps = {
     boxItems: Item[] | undefined
+    items: Item[]
     getBoxItems: (id: string) => void
 }
 
-export default function BoxDetailsPage({boxItems, getBoxItems}: BoxDetailsPageProps){
+export default function BoxDetailsPage({boxItems, getBoxItems, items}: BoxDetailsPageProps){
 
     const {id} = useParams()
 
@@ -21,6 +23,8 @@ export default function BoxDetailsPage({boxItems, getBoxItems}: BoxDetailsPagePr
         <div className={"box-items"}>
             <h1>Contents of Box</h1>
             {boxItems && boxItems.map(item => <BoxItem  item={item}/>)}
+            <h1>All items of Provider</h1>
+            {items.map(item => <BoxItem item={item}/>)}
         </div>
     )
 }
