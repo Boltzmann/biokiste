@@ -17,6 +17,10 @@ public class ItemDetailsService {
         this.itemRepository = itemRepository;
     }
 
+    public List<Item> getAllItems() {
+        return itemRepository.findAll();
+    }
+
     public List<Item> getItemsById(List<String> content) {
         List<Item> items = new ArrayList<>();
         for (String itemId : content) {
