@@ -1,5 +1,6 @@
 package com.github.boltzmann.biokiste.backend.service;
 
+import com.github.boltzmann.biokiste.backend.dto.ItemDto;
 import com.github.boltzmann.biokiste.backend.model.Item;
 import com.github.boltzmann.biokiste.backend.repository.ItemRepository;
 import com.github.boltzmann.biokiste.backend.service.exceptions.NoSuchOrganicBoxItemException;
@@ -28,5 +29,10 @@ public class ItemDetailsService {
                     .orElseThrow(() -> new NoSuchOrganicBoxItemException("Item with ID " + itemId + " not found.")));
         }
         return items;
+    }
+
+    public Item addNewItem(ItemDto itemDto) {
+        Item item = Item.builder().name(itemDto.getName()).build();
+        return itemRepository.insert(item);
     }
 }
