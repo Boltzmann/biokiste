@@ -13,9 +13,18 @@ type BoxDetailsPageProps = {
     getBoxItems: (id: string) => void
     addNewItem: (itemName: Omit<Item, "id">) => void
     addItemToBox: (boxId: string, itemId: string) => void
+    removeItemFromBox: (boxId: string, itemId: string) => void
 }
 
-export default function BoxDetailsPage({boxItems, getBoxItems, items, subscriptions, addNewItem, addItemToBox}: BoxDetailsPageProps){
+export default function BoxDetailsPage({
+                                           boxItems,
+                                           getBoxItems,
+                                           items,
+                                           subscriptions,
+                                           addNewItem,
+                                           addItemToBox,
+                                           removeItemFromBox
+                                       }: BoxDetailsPageProps) {
 
     const {id} = useParams()
     const [itemName, setItemName] = useState<string>("")
@@ -42,7 +51,7 @@ export default function BoxDetailsPage({boxItems, getBoxItems, items, subscripti
     return (
         <div className={"box-items"}>
             <h1>{element && element.name}</h1>
-            {boxItems && boxItems.map(item => <BoxItem  item={item}/>)}
+            {boxItems && boxItems.map(item => <BoxItem item={item} removeItemFromBox={removeItemFromBox} boxId={id}/>)}
             <h1>All items of Provider</h1>
             {id
                 ? items.map(item => <ProviderItem item={item} addItemToBox={addItemToBox} boxId={id}/>)
