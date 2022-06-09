@@ -82,4 +82,14 @@ public class BoxDetailsService {
         return organicBoxRepository.findById(boxId)
                 .orElseThrow(() -> new NoSuchOrganicBoxException(WARNING_NO_BOX + boxId));
     }
+
+    public void deleteItemFromBoxContent(String boxId, String itemId) {
+        OrganicBox box = findAndGetOrganicBox(boxId);
+        List<String> tmpBoxes = box.getContent();
+        if(tmpBoxes != null) {
+            tmpBoxes.remove(itemId);
+            box.setContent(tmpBoxes);
+        }
+        organicBoxRepository.save(box);
+    }
 }

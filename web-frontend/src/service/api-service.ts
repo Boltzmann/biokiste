@@ -59,9 +59,15 @@ export const addItem: ( itemDto: Omit<Item, "id">, token?: string ) => Promise<I
         .then(response => response.data)
 }
 
-export const putItemToBox: ( boxId: string, itemId: string, token?: string ) => Promise<Subscription> = ( boxId, itemId, token) => {
-    return axios.put("api/box/" + boxId + "/item/" + itemId, {},token
+export const putItemToBox: (boxId: string, itemId: string, token?: string) => Promise<Subscription> = (boxId, itemId, token) => {
+    return axios.put("api/box/" + boxId + "/item/" + itemId, {}, token
         ? {headers: {"Authorization": token}}
         : {})
         .then(response => response.data)
+}
+
+export const deleteItemFromBox: (boxId: string, itemId: string, token?: string) => void = (boxId, itemId, token) => {
+    axios.delete("api/box/" + boxId + "/item/" + itemId, token
+        ? {headers: {"Authorization": token}}
+        : {})
 }
