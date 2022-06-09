@@ -20,9 +20,11 @@ export default function BoxDetailsPage({boxItems, getBoxItems, items, subscripti
 
     useEffect(() => {
         if (id) {
+            // google useCallback or useMemo
+            // https://stackoverflow.com/questions/59597371/react-useeffect-dependency-of-usecallback-always-triggers-render
             getBoxItems(id)
         }
-    }, [id, getBoxItems])
+    }, [id])
 
     const onSubmit = (event:FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -39,9 +41,9 @@ export default function BoxDetailsPage({boxItems, getBoxItems, items, subscripti
     return (
         <div className={"box-items"}>
             <h1>{element && element.name}</h1>
-            {boxItems && boxItems.map(item => <BoxItem  item={item}/>)}
+            {boxItems && boxItems.map((item, idx) => <BoxItem key={item.id + "-" + idx} item={item}/>)}
             <h1>All items of Provider</h1>
-            {items.map(item => <BoxItem item={item}/>)}
+            {items.map((item, idx) => <BoxItem key={item.id + "-" + idx} item={item}/>)}
             <form onSubmit={onSubmit}>
                 <input type={"text"}
                        value={itemName}
