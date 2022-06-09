@@ -22,7 +22,7 @@ export default function BoxDetailsPage({boxItems, getBoxItems, items, subscripti
         if (id) {
             getBoxItems(id)
         }
-    }, [id])
+    }, [id, getBoxItems])
 
     const onSubmit = (event:FormEvent<HTMLFormElement>) => {
         event.preventDefault()
