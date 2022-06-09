@@ -9,7 +9,7 @@ import {
     getAllPossibleSubscriptions,
     getBoxItemsByBoxId,
     getSubscriptions,
-    getUserDetails, removeUserSubscriptionFromBox
+    getUserDetails, putItemToBox, removeUserSubscriptionFromBox
 } from "../service/api-service";
 import {Item} from "../model/Item";
 import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
@@ -75,8 +75,14 @@ export default function useUserDetailsBoxesAndBoxItems(){
             .catch(error => toast.error(error))
     }
 
+    const addItemToBox = (boxId: string, itemId: string) => {
+        putItemToBox(boxId, itemId, token)
+            .then(data => getBoxItems(data.id))
+            .catch(error => toast.error(error))
+    }
+
     return {userDetails, subscriptions,
         boxItems, removeFromSubscriptionOnce,
         getBoxItems, subscribeToBox,
-        subscribables, items, addNewItem}
+        subscribables, items, addNewItem, addItemToBox}
 }
