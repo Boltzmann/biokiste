@@ -34,7 +34,7 @@ public class ItemDetailsService {
     public Item addNewItem(ItemDto itemDto) {
         Item fromRepo = itemRepository.findItemByName(itemDto.getName());
         if( fromRepo != null && fromRepo.getName().equals(itemDto.getName()) ){
-            throw new IllegalArgumentException("Item with such name already in Repository.");
+            throw new IllegalArgumentException("Item with such name already in repository.");
         }
         Item item = Item.builder().name(itemDto.getName()).build();
         return itemRepository.insert(item);
