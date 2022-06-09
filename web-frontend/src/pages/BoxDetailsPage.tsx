@@ -4,6 +4,7 @@ import BoxItem from "../components/BoxItem";
 import {Item} from "../model/Item"
 import {Subscription} from "../model/Subscription";
 import {toast} from "react-toastify";
+import ProviderItem from "../components/ProviderItem";
 
 type BoxDetailsPageProps = {
     boxItems: Item[] | undefined
@@ -11,9 +12,10 @@ type BoxDetailsPageProps = {
     subscriptions: Subscription[] | undefined
     getBoxItems: (id: string) => void
     addNewItem: (itemName: Omit<Item, "id">) => void
+    addItemToBox: (boxId: string, itemId: string) => void
 }
 
-export default function BoxDetailsPage({boxItems, getBoxItems, items, subscriptions, addNewItem}: BoxDetailsPageProps){
+export default function BoxDetailsPage({boxItems, getBoxItems, items, subscriptions, addNewItem, addItemToBox}: BoxDetailsPageProps){
 
     const {id} = useParams()
     const [itemName, setItemName] = useState<string>("")
@@ -22,7 +24,8 @@ export default function BoxDetailsPage({boxItems, getBoxItems, items, subscripti
         if (id) {
             getBoxItems(id)
         }
-    }, [id, getBoxItems])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id])
 
     const onSubmit = (event:FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -41,7 +44,9 @@ export default function BoxDetailsPage({boxItems, getBoxItems, items, subscripti
             <h1>{element && element.name}</h1>
             {boxItems && boxItems.map(item => <BoxItem  item={item}/>)}
             <h1>All items of Provider</h1>
-            {items.map(item => <BoxItem item={item}/>)}
+            {id
+                ? items.map(item => <ProviderItem item={item} addItemToBox={addItemToBox} boxId={id}/>)
+                : <div>Something is wrong. Box not existent</div>}
             <form onSubmit={onSubmit}>
                 <input type={"text"}
                        value={itemName}

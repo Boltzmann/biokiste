@@ -74,6 +74,7 @@ public class BoxDetailsService {
         } else {
             box.setContent(List.of(itemId));
         }
+        organicBoxRepository.save(box);
         return box;
     }
 
