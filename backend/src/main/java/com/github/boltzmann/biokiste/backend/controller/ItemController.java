@@ -20,13 +20,22 @@ public class ItemController {
         this.itemDetailsService = itemDetailsService;
     }
 
-    @GetMapping(path="/all")
-    public List<Item> getAllItems(){
+    @GetMapping(path = "/all")
+    public List<Item> getAllItems() {
         return itemDetailsService.getAllItems();
     }
 
     @PostMapping()
-    public Item createNewItem(@RequestBody ItemDto itemDto){
+    public Item createNewItem(@RequestBody ItemDto itemDto) {
         return itemDetailsService.addNewItem(itemDto);
+    }
+
+    @PutMapping("/{id}")
+    public Item changeItemName(@RequestBody ItemDto itemDto, @PathVariable String id) {
+        Item itemToChange = Item.builder()
+                .id(id)
+                .name(itemDto.getName())
+                .build();
+        return Item.builder().id("1").name("New").build();
     }
 }

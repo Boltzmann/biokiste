@@ -2,11 +2,10 @@ package com.github.boltzmann.biokiste.backend.controller;
 
 import com.github.boltzmann.biokiste.backend.dto.ItemDto;
 import com.github.boltzmann.biokiste.backend.model.Item;
-import com.github.boltzmann.biokiste.backend.security.model.AppUser;
-import io.jsonwebtoken.lang.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
 
 class ItemControllerTest extends CrudTestWithLogIn {
@@ -65,7 +64,27 @@ class ItemControllerTest extends CrudTestWithLogIn {
                 .expectStatus().is4xxClientError();
     }
 
-
+    @Test
+    void putItemTest_whenNewNameIsGiven_getChangedItem() {
+        itemRepository.insert(one());
+        ItemDto NewDto = ItemDto.builder()
+                .name("New")
+                .build();
+        Item actual = webTestClient.put()
+                .uri("api/item/" + one().getId())
+                .headers(http -> http.setBearerAuth(jwt))
+                .bodyValue(NewDto)
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBody(Item.class)
+                .returnResult()
+                .getResponseBody();
+        Item expect = Item.builder()
+                .id(one().getId())
+                .name("New")
+                .build();
+        Assertions.assertEquals(expect, actual);
+    }
 
     private List<Item> getAllItems(String jwt) {
         List<Item> actual = webTestClient.get()
