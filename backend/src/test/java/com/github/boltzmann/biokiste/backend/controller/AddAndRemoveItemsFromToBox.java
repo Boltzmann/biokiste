@@ -53,26 +53,19 @@ class AddAndRemoveItemsFromToBoxTest extends CrudTestWithLogIn{
         itemRepository.insert(wheat());
         OrganicBox box = emptyBox();
         box.setContent(List.of(wheat().getId()));
-        OrganicBox actual = deleteFromOrganicBox(box.getId(), wheat().getId());
-        OrganicBox expected = emptyBox();
-        expected.setContent(List.of());
-        Assertions.assertEquals(expected, actual);
+        deleteFromOrganicBox(box.getId(), wheat().getId());
     }
 
-    private OrganicBox deleteFromOrganicBox(String boxId, String itemId) {
-        OrganicBox actual = webTestClient.put()
+    private void deleteFromOrganicBox(String boxId, String itemId) {
+        webTestClient.put()
                 .uri("/api/box/" + boxId + "/item/" + itemId)
                 .headers(http -> http.setBearerAuth(jwt))
                 .exchange()
-                .expectStatus().is2xxSuccessful()
-                .expectBody(OrganicBox.class)
-                .returnResult()
-                .getResponseBody();
-        return actual;
+                .expectStatus().is2xxSuccessful();
     }
 
     private OrganicBox putOrganicBox(String boxId, String itemId) {
-        OrganicBox actual = webTestClient.put()
+        return webTestClient.put()
                 .uri("/api/box/" + boxId + "/item/" + itemId)
                 .headers(http -> http.setBearerAuth(jwt))
                 .exchange()
@@ -80,6 +73,5 @@ class AddAndRemoveItemsFromToBoxTest extends CrudTestWithLogIn{
                 .expectBody(OrganicBox.class)
                 .returnResult()
                 .getResponseBody();
-        return actual;
     }
 }
