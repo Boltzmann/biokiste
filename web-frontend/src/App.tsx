@@ -18,7 +18,8 @@ function App() {
     const {subscriptions, userDetails,
         subscribeToBox, boxItems,
         getBoxItems, subscribables,
-        removeFromSubscriptionOnce, items, addNewItem} = useUserDetailsBoxesAndBoxItems()
+        removeFromSubscriptionOnce, items,
+        addNewItem, addItemToBox} = useUserDetailsBoxesAndBoxItems()
 
     return (
         <div className="App">
@@ -44,6 +45,7 @@ function App() {
                                items = {items}
                                subscriptions = {subscriptions}
                                addNewItem = {addNewItem}
+                               addItemToBox = {addItemToBox}
                            />}
                     />
                 </Route>
