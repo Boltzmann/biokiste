@@ -48,6 +48,29 @@ class AddAndRemoveItemsFromToBoxTest extends CrudTestWithLogIn{
         Assertions.assertEquals(expected, actual);
     }
 
+    @Test
+    void removeItemFromBox(){
+        itemRepository.insert(wheat());
+        OrganicBox box = emptyBox();
+        box.setContent(List.of(wheat().getId()));
+        OrganicBox actual = deleteFromOrganicBox(box.getId(), wheat().getId());
+        OrganicBox expected = emptyBox();
+        expected.setContent(List.of());
+        Assertions.assertEquals(expected, actual);
+    }
+
+    private OrganicBox deleteFromOrganicBox(String boxId, String itemId) {
+        OrganicBox actual = webTestClient.put()
+                .uri("/api/box/" + boxId + "/item/" + itemId)
+                .headers(http -> http.setBearerAuth(jwt))
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBody(OrganicBox.class)
+                .returnResult()
+                .getResponseBody();
+        return actual;
+    }
+
     private OrganicBox putOrganicBox(String boxId, String itemId) {
         OrganicBox actual = webTestClient.put()
                 .uri("/api/box/" + boxId + "/item/" + itemId)
