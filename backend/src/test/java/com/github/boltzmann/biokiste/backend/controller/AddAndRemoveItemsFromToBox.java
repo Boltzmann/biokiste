@@ -53,11 +53,12 @@ class AddAndRemoveItemsFromToBoxTest extends CrudTestWithLogIn{
         itemRepository.insert(wheat());
         OrganicBox box = emptyBox();
         box.setContent(List.of(wheat().getId()));
+        organicBoxRepository.insert(box);
         deleteFromOrganicBox(box.getId(), wheat().getId());
     }
 
     private void deleteFromOrganicBox(String boxId, String itemId) {
-        webTestClient.put()
+        webTestClient.delete()
                 .uri("/api/box/" + boxId + "/item/" + itemId)
                 .headers(http -> http.setBearerAuth(jwt))
                 .exchange()

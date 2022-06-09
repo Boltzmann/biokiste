@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import {Routes, Route} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import LoginPage from "./pages/LoginPage";
 import RequireAuth from './routing/RequireAuth';
 import '@ionic/react/css/core.css';
@@ -13,13 +13,15 @@ import BoxDetailsPage from "./pages/BoxDetailsPage";
 import useUserDetailsBoxesAndBoxItems from "./hooks/useUserDetailsBoxesAndBoxItems";
 
 
-
 function App() {
-    const {subscriptions, userDetails,
+    const {
+        subscriptions, userDetails,
         subscribeToBox, boxItems,
         getBoxItems, subscribables,
         removeFromSubscriptionOnce, items,
-        addNewItem, addItemToBox} = useUserDetailsBoxesAndBoxItems()
+        addNewItem, addItemToBox,
+        removeItemFromBox
+    } = useUserDetailsBoxesAndBoxItems()
 
     return (
         <div className="App">
@@ -45,7 +47,8 @@ function App() {
                                items = {items}
                                subscriptions = {subscriptions}
                                addNewItem = {addNewItem}
-                               addItemToBox = {addItemToBox}
+                               addItemToBox={addItemToBox}
+                               removeItemFromBox={removeItemFromBox}
                            />}
                     />
                 </Route>
