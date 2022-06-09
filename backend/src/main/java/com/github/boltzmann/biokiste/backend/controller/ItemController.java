@@ -31,11 +31,11 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
-    public Item changeItemName(@RequestBody ItemDto itemDto, @PathVariable String id) {
+    public Item putItem(@RequestBody ItemDto itemDto, @PathVariable String id) {
         Item itemToChange = Item.builder()
                 .id(id)
                 .name(itemDto.getName())
                 .build();
-        return Item.builder().id("1").name("New").build();
+        return itemDetailsService.changeItem(itemToChange);
     }
 }

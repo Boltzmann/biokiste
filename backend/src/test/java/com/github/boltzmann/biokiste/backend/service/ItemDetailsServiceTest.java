@@ -16,8 +16,17 @@ class ItemDetailsServiceTest {
     private final ItemRepository itemRepository = mock(ItemRepository.class);
     private final ItemDetailsService itemDetailsService = new ItemDetailsService(itemRepository);
 
-    Item apple(){ return Item.builder().id("1").name("apple").build();};
-    Item raspberry() { return Item.builder().id("1").name("Raspberry").build();};
+    Item apple() {
+        return Item.builder().id("1").name("apple").build();
+    }
+
+    ;
+
+    Item raspberry() {
+        return Item.builder().id("2").name("Raspberry").build();
+    }
+
+    ;
 
     @Test
     void getItemsById() {
@@ -66,5 +75,20 @@ class ItemDetailsServiceTest {
                 IllegalArgumentException.class,
                 () -> itemDetailsService.addNewItem(dto)
         );
+    }
+
+    @Test
+    void changeItem() {
+        itemRepository.insert(apple());
+        Item raspberry2update = apple();
+        raspberry2update.setId(apple().getId());
+        when(itemRepository.save(raspberry2update))
+                .thenReturn(Item.builder()
+                        .id(apple().getId())
+                        .name(raspberry().getName())
+                        .build());
+        Item actual = itemDetailsService.changeItem(raspberry2update);
+        Item expected = Item.builder().id(apple().getId()).name(raspberry().getName()).build();
+        Assertions.assertEquals(expected, actual);
     }
 }
