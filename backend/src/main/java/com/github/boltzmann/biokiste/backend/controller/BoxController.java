@@ -26,5 +26,10 @@ public class BoxController {
     @PutMapping(path="{boxId}/item/{itemId}")
     public OrganicBox putItemToBoxContent(@PathVariable String boxId, @PathVariable String itemId){
         return boxDetailsService.addItemToBox(boxId, itemId);
-        }
+    }
+
+    @DeleteMapping(path="{boxId}/item/{itemId}")
+    public void deleteItemFromBoxContent(@PathVariable String boxId, @PathVariable String itemId){
+        boxDetailsService.deleteItemFromBoxContent(boxId, itemId);
+    }
 }
