@@ -70,8 +70,31 @@ class ItemControllerTest extends CrudTestWithLogIn {
         ItemDto NewDto = ItemDto.builder()
                 .name("New")
                 .build();
-        Item actual = webTestClient.put()
-                .uri("api/item/" + one().getId())
+        Item actual = putToChangeName(one().getId(), NewDto);
+        Item expect = Item.builder()
+                .id(one().getId())
+                .name("New")
+                .build();
+        Assertions.assertEquals(expect, actual);
+    }
+
+    @Test
+    void putItemTest_whenNewNameForOtherItemIsGiven_getChangedItem() {
+        itemRepository.insert(two());
+        ItemDto NewDto = ItemDto.builder()
+                .name("Also?")
+                .build();
+        Item actual = putToChangeName(one().getId(), NewDto);
+        Item expect = Item.builder()
+                .id(one().getId())
+                .name("Also?")
+                .build();
+        Assertions.assertEquals(expect, actual);
+    }
+
+    private Item putToChangeName(String id, ItemDto NewDto) {
+        return webTestClient.put()
+                .uri("api/item/" + id)
                 .headers(http -> http.setBearerAuth(jwt))
                 .bodyValue(NewDto)
                 .exchange()
@@ -79,11 +102,6 @@ class ItemControllerTest extends CrudTestWithLogIn {
                 .expectBody(Item.class)
                 .returnResult()
                 .getResponseBody();
-        Item expect = Item.builder()
-                .id(one().getId())
-                .name("New")
-                .build();
-        Assertions.assertEquals(expect, actual);
     }
 
     private List<Item> getAllItems(String jwt) {
