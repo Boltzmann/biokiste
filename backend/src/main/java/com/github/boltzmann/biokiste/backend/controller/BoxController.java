@@ -25,6 +25,6 @@ public class BoxController {
 
     @PutMapping(path="{boxId}/item/{itemId}")
     public OrganicBox putItemToBoxContent(@PathVariable String boxId, @PathVariable String itemId){
-        return OrganicBox.builder().build();
+        return OrganicBox.builder().id("7").content(List.of("2")).customers(List.of("4711")).build();
     }
 }

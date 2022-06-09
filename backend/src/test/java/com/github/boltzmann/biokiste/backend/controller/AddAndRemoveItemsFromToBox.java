@@ -13,7 +13,7 @@ class AddAndRemoveItemsFromToBoxTest extends CrudTestWithLogIn{
     private String jwt;
 
     Item meat() { return Item.builder().id("1").name("Meat").build(); };
-    Item wheat() { return Item.builder().id("1").name("Wheat").build(); };
+    Item wheat() { return Item.builder().id("2").name("Wheat").build(); };
 
     private final OrganicBox emptyBox() {
         return OrganicBox.builder()
@@ -29,19 +29,34 @@ class AddAndRemoveItemsFromToBoxTest extends CrudTestWithLogIn{
     }
 
     @Test
-    void addItemToBox(){
+    void addOneItemToBox(){
         itemRepository.insert(wheat());
         organicBoxRepository.insert(emptyBox());
+        OrganicBox actual = putOrganicBox(emptyBox().getId(), wheat().getId());
+        OrganicBox expected = emptyBox();
+        expected.setContent(List.of(wheat().getId()));
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void addOtherItemToBox(){
+        itemRepository.insert(wheat());
+        organicBoxRepository.insert(emptyBox());
+        OrganicBox actual = putOrganicBox(emptyBox().getId(), meat().getId());
+        OrganicBox expected = emptyBox();
+        expected.setContent(List.of(meat().getId()));
+        Assertions.assertEquals(expected, actual);
+    }
+
+    private OrganicBox putOrganicBox(String boxId, String itemId) {
         OrganicBox actual = webTestClient.put()
-                .uri("/api/box/" + emptyBox().getId() + "/item/" + wheat().getId())
+                .uri("/api/box/" + boxId + "/item/" + itemId)
                 .headers(http -> http.setBearerAuth(jwt))
                 .exchange()
                 .expectStatus().is2xxSuccessful()
                 .expectBody(OrganicBox.class)
                 .returnResult()
                 .getResponseBody();
-        OrganicBox expected = emptyBox();
-        expected.setContent(List.of(wheat().getId()));
-        Assertions.assertEquals(expected, actual);
+        return actual;
     }
 }
