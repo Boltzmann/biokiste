@@ -20,7 +20,7 @@ function App() {
         getBoxItems, subscribables,
         removeFromSubscriptionOnce, items,
         addNewItem, addItemToBox,
-        removeItemFromBox
+        removeItemFromBox, changeItemName
     } = useUserDetailsBoxesAndBoxItems()
 
     return (
@@ -49,6 +49,7 @@ function App() {
                                addNewItem = {addNewItem}
                                addItemToBox={addItemToBox}
                                removeItemFromBox={removeItemFromBox}
+                               changeItemName={changeItemName}
                            />}
                     />
                 </Route>
