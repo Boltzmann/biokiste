@@ -4,6 +4,7 @@ import axios from "axios";
 import {Subscription} from "../model/Subscription";
 import {toast} from "react-toastify";
 import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
+import {ItemDto} from "../dto/ItemDto";
 
 export const getUserDetails: (token?: string) => Promise<UserDetails> = (token) => {
     return axios.get("/api/user/me", token
@@ -70,4 +71,11 @@ export const deleteItemFromBox: (boxId: string, itemId: string, token?: string) 
     axios.delete("api/box/" + boxId + "/item/" + itemId, token
         ? {headers: {"Authorization": token}}
         : {})
+}
+
+export const putChangedItem: (itemId: string, itemDto: ItemDto, token?: string) => Promise<Item> = (itemId, itemDto, token) => {
+    return axios.put("api/item/" + itemId, itemDto, token
+        ? {headers: {"Authorization": token}}
+        : {})
+        .then(response => response.data)
 }

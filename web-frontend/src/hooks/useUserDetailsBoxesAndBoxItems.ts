@@ -12,11 +12,13 @@ import {
     getBoxItemsByBoxId,
     getSubscriptions,
     getUserDetails,
+    putChangedItem,
     putItemToBox,
     removeUserSubscriptionFromBox
 } from "../service/api-service";
 import {Item} from "../model/Item";
 import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
+import {ItemDto} from "../dto/ItemDto";
 
 export default function useUserDetailsBoxesAndBoxItems(){
     const [userDetails, setUserDetails] = useState<UserDetails>()
@@ -90,11 +92,25 @@ export default function useUserDetailsBoxesAndBoxItems(){
         setBoxItems(boxItems.filter(boxItem => boxItem.id !== itemId))
     }
 
+    const changeItemName = (itemId: string, itemDto: ItemDto) => {
+        putChangedItem(itemId, itemDto, token)
+            .then(data => {
+                    setItems(
+                        [...items.filter(item => data.id !== item.id), data]
+                    )
+                    setBoxItems(
+                        [...boxItems.filter(item => data.id !== item.id), data])
+
+                }
+            )
+    }
+
     return {
         userDetails, subscriptions,
         boxItems, removeFromSubscriptionOnce,
         getBoxItems, subscribeToBox,
         subscribables, items,
-        addNewItem, addItemToBox, removeItemFromBox
+        addNewItem, addItemToBox, removeItemFromBox,
+        changeItemName
     }
 }

@@ -5,6 +5,7 @@ import {Item} from "../model/Item"
 import {Subscription} from "../model/Subscription";
 import {toast} from "react-toastify";
 import ProviderItem from "../components/ProviderItem";
+import {ItemDto} from "../dto/ItemDto";
 
 type BoxDetailsPageProps = {
     boxItems: Item[] | undefined
@@ -14,6 +15,7 @@ type BoxDetailsPageProps = {
     addNewItem: (itemName: Omit<Item, "id">) => void
     addItemToBox: (boxId: string, itemId: string) => void
     removeItemFromBox: (boxId: string, itemId: string) => void
+    changeItemName: (itemId: string, itemDto: ItemDto) => void
 }
 
 export default function BoxDetailsPage({
@@ -23,7 +25,8 @@ export default function BoxDetailsPage({
                                            subscriptions,
                                            addNewItem,
                                            addItemToBox,
-                                           removeItemFromBox
+                                           removeItemFromBox,
+                                           changeItemName
                                        }: BoxDetailsPageProps) {
 
     const {id} = useParams()
@@ -50,17 +53,32 @@ export default function BoxDetailsPage({
 
     return (
         <div className={"box-items"}>
-            <h1>{element && element.name}</h1>
-            {boxItems && boxItems.map(item => <BoxItem item={item} removeItemFromBox={removeItemFromBox} boxId={id}/>)}
-            <h1>All items of Provider</h1>
+            <h1>
+                {element && element.name}
+            </h1>
+            {boxItems && boxItems.map((item, idx) =>
+                <BoxItem key={idx}
+                         item={item}
+                         removeItemFromBox={removeItemFromBox}
+                         boxId={id}
+                />
+            )}
+            <h1>
+                All organic items
+            </h1>
             {id
-                ? items.map(item => <ProviderItem item={item} addItemToBox={addItemToBox} boxId={id}/>)
+                ? items.map((item) => <ProviderItem key={item.id}
+                                                    item={item}
+                                                    addItemToBox={addItemToBox}
+                                                    boxId={id}
+                                                    changeItemName={changeItemName}
+                />)
                 : <div>Something is wrong. Box not existent</div>}
             <form onSubmit={onSubmit}>
                 <input type={"text"}
                        value={itemName}
                        placeholder={"New item name here."}
-                       onChange={(event) => setItemName(event.target.value) }
+                       onChange={(event) => setItemName(event.target.value)}
                 />
                 <button type={"submit"} id="active">Add Item</button>
             </form>
