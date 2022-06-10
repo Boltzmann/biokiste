@@ -18,15 +18,11 @@ class ItemDetailsServiceTest {
 
     Item apple() {
         return Item.builder().id("1").name("apple").build();
-    }
-
-    ;
+    };
 
     Item raspberry() {
         return Item.builder().id("2").name("Raspberry").build();
-    }
-
-    ;
+    };
 
     @Test
     void getItemsById() {
