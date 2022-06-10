@@ -57,16 +57,39 @@ public class BoxDetailsService {
 
     public void removeSubscriptionOfUserOfBox(String userId, String boxId) {
         OrganicBox box = findAndGetOrganicBox(boxId);
-        List<String> oldBoxList = box.getCustomers();
-        if(oldBoxList != null) {
-            oldBoxList.remove(userId);
-            box.setCustomers(oldBoxList);
+        List<String> tmpBoxes = box.getCustomers();
+        if(tmpBoxes != null) {
+            tmpBoxes.remove(userId);
+            box.setCustomers(tmpBoxes);
         }
         organicBoxRepository.save(box);
+    }
+
+    public OrganicBox addItemToBox(String boxId, String itemId) {
+        OrganicBox box = findAndGetOrganicBox(boxId);
+        List<String> tmpContent = box.getContent();
+        if(tmpContent != null){
+            tmpContent.add(itemId);
+            box.setContent(tmpContent);
+        } else {
+            box.setContent(List.of(itemId));
+        }
+        organicBoxRepository.save(box);
+        return box;
     }
 
     private OrganicBox findAndGetOrganicBox(String boxId) {
         return organicBoxRepository.findById(boxId)
                 .orElseThrow(() -> new NoSuchOrganicBoxException(WARNING_NO_BOX + boxId));
+    }
+
+    public void deleteItemFromBoxContent(String boxId, String itemId) {
+        OrganicBox box = findAndGetOrganicBox(boxId);
+        List<String> tmpBoxes = box.getContent();
+        if(tmpBoxes != null) {
+            tmpBoxes.remove(itemId);
+            box.setContent(tmpBoxes);
+        }
+        organicBoxRepository.save(box);
     }
 }

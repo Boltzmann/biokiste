@@ -5,14 +5,20 @@ import {AuthContext} from "../context/AuthProvider";
 import {toast} from "react-toastify";
 import {
     addItem,
-    addUserSubscriptionToBox, findAllItems,
+    addUserSubscriptionToBox,
+    deleteItemFromBox,
+    findAllItems,
     getAllPossibleSubscriptions,
     getBoxItemsByBoxId,
     getSubscriptions,
-    getUserDetails, removeUserSubscriptionFromBox
+    getUserDetails,
+    putChangedItem,
+    putItemToBox,
+    removeUserSubscriptionFromBox
 } from "../service/api-service";
 import {Item} from "../model/Item";
 import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
+import {ItemDto} from "../dto/ItemDto";
 
 export default function useUserDetailsBoxesAndBoxItems(){
     const [userDetails, setUserDetails] = useState<UserDetails>()
@@ -75,8 +81,44 @@ export default function useUserDetailsBoxesAndBoxItems(){
             .catch(error => toast.error(error))
     }
 
-    return {userDetails, subscriptions,
+    const addItemToBox = (boxId: string, itemId: string) => {
+        putItemToBox(boxId, itemId, token)
+            .then(data => getBoxItems(data.id))
+            .catch(error => toast.error(error))
+    }
+
+    const removeItemFromBox = (boxId: string, itemId: string) => {
+        deleteItemFromBox(boxId, itemId, token)
+        setBoxItems(boxItems.filter(boxItem => boxItem.id !== itemId))
+    }
+
+    function replaceBoxItems(data: Item) {
+        const numberItems2Replace =
+            boxItems.filter(item => data.id === item.id).length
+        const upatedBoxItems = boxItems.filter(item => data.id !== item.id)
+        for (let i = 0; i < numberItems2Replace; i++) {
+            upatedBoxItems.push(data)
+        }
+        setBoxItems(upatedBoxItems)
+    }
+
+    const changeItemName = (itemId: string, itemDto: ItemDto) => {
+        putChangedItem(itemId, itemDto, token)
+            .then(data => {
+                    setItems(
+                        [...items.filter(item => data.id !== item.id), data]
+                    )
+                    replaceBoxItems(data);
+                }
+            )
+    }
+
+    return {
+        userDetails, subscriptions,
         boxItems, removeFromSubscriptionOnce,
         getBoxItems, subscribeToBox,
-        subscribables, items, addNewItem}
+        subscribables, items,
+        addNewItem, addItemToBox, removeItemFromBox,
+        changeItemName
+    }
 }

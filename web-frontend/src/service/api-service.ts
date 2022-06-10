@@ -4,6 +4,7 @@ import axios from "axios";
 import {Subscription} from "../model/Subscription";
 import {toast} from "react-toastify";
 import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
+import {ItemDto} from "../dto/ItemDto";
 
 export const getUserDetails: (token?: string) => Promise<UserDetails> = (token) => {
     return axios.get("/api/user/me", token
@@ -54,6 +55,26 @@ export const findAllItems: (token?: string) => Promise<Item[]> = (token) => {
 
 export const addItem: ( itemDto: Omit<Item, "id">, token?: string ) => Promise<Item> = ( itemDto, token) => {
     return axios.post("api/item", itemDto, token
+        ? {headers: {"Authorization": token}}
+        : {})
+        .then(response => response.data)
+}
+
+export const putItemToBox: (boxId: string, itemId: string, token?: string) => Promise<Subscription> = (boxId, itemId, token) => {
+    return axios.put("api/box/" + boxId + "/item/" + itemId, {}, token
+        ? {headers: {"Authorization": token}}
+        : {})
+        .then(response => response.data)
+}
+
+export const deleteItemFromBox: (boxId: string, itemId: string, token?: string) => void = (boxId, itemId, token) => {
+    axios.delete("api/box/" + boxId + "/item/" + itemId, token
+        ? {headers: {"Authorization": token}}
+        : {})
+}
+
+export const putChangedItem: (itemId: string, itemDto: ItemDto, token?: string) => Promise<Item> = (itemId, itemDto, token) => {
+    return axios.put("api/item/" + itemId, itemDto, token
         ? {headers: {"Authorization": token}}
         : {})
         .then(response => response.data)
