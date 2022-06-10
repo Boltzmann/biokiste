@@ -92,15 +92,23 @@ export default function useUserDetailsBoxesAndBoxItems(){
         setBoxItems(boxItems.filter(boxItem => boxItem.id !== itemId))
     }
 
+    function replaceBoxItems(data: Item) {
+        const numberItems2Replace =
+            boxItems.filter(item => data.id === item.id).length
+        const upatedBoxItems = boxItems.filter(item => data.id !== item.id)
+        for (let i = 0; i < numberItems2Replace; i++) {
+            upatedBoxItems.push(data)
+        }
+        setBoxItems(upatedBoxItems)
+    }
+
     const changeItemName = (itemId: string, itemDto: ItemDto) => {
         putChangedItem(itemId, itemDto, token)
             .then(data => {
                     setItems(
                         [...items.filter(item => data.id !== item.id), data]
                     )
-                    setBoxItems(
-                        [...boxItems.filter(item => data.id !== item.id), data])
-
+                    replaceBoxItems(data);
                 }
             )
     }
