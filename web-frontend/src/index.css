@@ -11,6 +11,8 @@ body {
 #active {
   background-color: #FA9923;
   border-radius: 10%;
+  border: 1em;
+  box-shadow: none;
 }
 
 #inactive {
