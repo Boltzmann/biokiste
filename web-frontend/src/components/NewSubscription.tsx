@@ -12,7 +12,7 @@ export default function NewSubscription({ subscribeToBox, subscribables}: NewSub
         {subscribables &&
             subscribables.map(
                 subsls =>
-                    <div>
+                    <div key={subsls.id}>
                         <button id="active" onClick={
                             () => subscribeToBox(subsls.id)
                         }><AiOutlinePlus/>
