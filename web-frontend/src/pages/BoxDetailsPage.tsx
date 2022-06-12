@@ -34,9 +34,10 @@ export default function BoxDetailsPage({
 
     useEffect(() => {
         if (id) {
+            // google useCallback or useMemo
+            // https://stackoverflow.com/questions/59597371/react-useeffect-dependency-of-usecallback-always-triggers-render
             getBoxItems(id)
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id])
 
     const onSubmit = (event:FormEvent<HTMLFormElement>) => {
@@ -57,7 +58,7 @@ export default function BoxDetailsPage({
                 {element && element.name}
             </h1>
             {boxItems && boxItems.map((item, idx) =>
-                <BoxItem key={idx}
+                <BoxItem key={item.id + "-" + idx}
                          item={item}
                          removeItemFromBox={removeItemFromBox}
                          boxId={id}
@@ -67,7 +68,7 @@ export default function BoxDetailsPage({
                 All organic items
             </h1>
             {id
-                ? items.map((item) => <ProviderItem key={item.id}
+                ? items.map((item, idx) => <ProviderItem key={item.id + "-" + idx}
                                                     item={item}
                                                     addItemToBox={addItemToBox}
                                                     boxId={id}

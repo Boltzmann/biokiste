@@ -89,7 +89,20 @@ export default function useUserDetailsBoxesAndBoxItems(){
 
     const removeItemFromBox = (boxId: string, itemId: string) => {
         deleteItemFromBox(boxId, itemId, token)
-        setBoxItems(boxItems.filter(boxItem => boxItem.id !== itemId))
+        const boxItem: Item | undefined = boxItems.find(item => item.id === itemId)
+        boxItem && removeBoxItemOnceFromItems(boxItem)
+        //setBoxItems(boxItems.filter(boxItem => boxItem.id !== itemId))
+    }
+
+    function removeBoxItemOnceFromItems(item2delete: Item){
+        toast.info("remove " + item2delete.name)
+        const numberOfSameItemsToDeleted =
+            boxItems.filter(item => item2delete.id === item.id).length
+        const updatedBoxItems = boxItems.filter(item => item2delete.id !== item.id)
+        for (let i = 0; i < numberOfSameItemsToDeleted-1; i++){
+            updatedBoxItems.push(item2delete)
+        }
+        setBoxItems(updatedBoxItems)
     }
 
     function replaceBoxItems(data: Item) {

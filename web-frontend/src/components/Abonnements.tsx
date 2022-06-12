@@ -21,13 +21,23 @@ export default function Abonnements(
         <h2>Biokisten</h2><NewSubscription
         subscribeToBox={subscribeToBox}
         subscribables={subscribables}
-        />
+    />
         <h2>Abonnements</h2>
         {subscriptions &&
-        subscriptions.map(sub =>
-            <div><div className="AboElement" id="active" onClick={() => navigate('/box/' + sub.id)}>
-                {sub.name}
-            </div><div id="active" onClick={() => removeFromSubscriptionOnce(sub.id)}><AiOutlineMinus/></div></div>
-        )}
+            subscriptions.map((sub, idx) =>
+                <div key={idx}>
+                    <button className="AboElement"
+                            id="active"
+                            onClick={() => navigate('/box/' + sub.id)}
+                    >
+                        {sub.name}
+                    </button>
+                    <button id="active"
+                            onClick={() => removeFromSubscriptionOnce(sub.id)}
+                    >
+                        <AiOutlineMinus/>
+                    </button>
+                </div>
+            )}
     </div>
 }

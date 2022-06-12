@@ -7,7 +7,7 @@ export default function AppHead(){
 
     return (
         <header>
-            <h1 className="centered" onClick={() => navigate("/")}>Biokiste</h1>
+            <button className="centered" id="active" onClick={() => navigate("/")}>Biokiste</button>
         </header>
     )
 }
