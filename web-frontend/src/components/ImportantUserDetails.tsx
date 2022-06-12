@@ -9,8 +9,8 @@ export default function ImportantUserDetails({userDetails}: UserDetailsProps) {
 
     const navigateThisTime = useNavigate();
 
-    return <div className="ImportantUserDetails" id="active" onClick={() => navigateThisTime('/user-details')}>
+    return <button className="ImportantUserDetails" id="active" onClick={() => navigateThisTime('/user-details')}>
         {userDetails && <UserDetail detail={userDetails.username}/>}
         {userDetails && <UserDetail detail={userDetails.customerId}/>}
-    </div>
+    </button>
 }
