@@ -3,6 +3,9 @@ Backend [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=bo
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=boltzmann_biokiste_backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=boltzmann_biokiste_backend) 
 
 Frontend [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=boltzmann_biokiste_frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=boltzmann_biokiste_frontend)
+
+Deployment [![Heroku](https://heroku-badge.herokuapp.com/?app=biokiste)](https://biokiste.herokuapp.com/)
+
 ## Teaser
 The Biokiste App will add the functionality that organic box subscribers miss for most organic box deliveries in Germany: Manage an get updates on the subscription.
 
