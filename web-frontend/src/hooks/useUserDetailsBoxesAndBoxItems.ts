@@ -91,7 +91,6 @@ export default function useUserDetailsBoxesAndBoxItems(){
         deleteItemFromBox(boxId, itemId, token)
         const boxItem: Item | undefined = boxItems.find(item => item.id === itemId)
         boxItem && removeBoxItemOnceFromItems(boxItem)
-        //setBoxItems(boxItems.filter(boxItem => boxItem.id !== itemId))
     }
 
     function removeBoxItemOnceFromItems(item2delete: Item){

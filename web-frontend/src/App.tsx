@@ -26,7 +26,7 @@ function App() {
     return (
         <div className="App">
             <ToastContainer/>
-            <AppHead/>
+            <AppHead userDetails={userDetails}/>
             <div className="AllButHeader">
             <Routes>
                 <Route element={<RequireAuth/>}>
@@ -35,7 +35,6 @@ function App() {
                                subscribeToBox={subscribeToBox}
                                subscriptions={subscriptions}
                                removeFromSubscriptionOnce={removeFromSubscriptionOnce}
-                               userDetails={userDetails}
                                subscribables={subscribables}
                            />}
                     />
