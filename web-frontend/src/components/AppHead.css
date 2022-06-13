@@ -2,9 +2,11 @@ header {
     height:10vh;
     vertical-align: top;
     background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-h1 {
-    font-size: 5vh;
+header button {
+    flex-basis: 0;
 }
-
