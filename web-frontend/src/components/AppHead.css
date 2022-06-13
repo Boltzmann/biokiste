@@ -3,10 +3,10 @@ header {
     vertical-align: top;
     background-color: white;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
 }
 
-header button {
-    flex-basis: 0;
+.head-element {
+    height: 75px;
+    width: 100px;
 }

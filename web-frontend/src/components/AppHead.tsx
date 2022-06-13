@@ -13,9 +13,9 @@ export default function AppHead( {userDetails}: AppHeadProps){
 
     return (
         <header>
-            <ImportantUserDetails userDetails={userDetails} />
+            <ImportantUserDetails  userDetails={userDetails} />
             <img src="/logo.svg"/>
-            <button className="centered" id="active" onClick={() => navigate("/")}>Biokiste</button>
+            <button className="head-element" id="active" onClick={() => navigate("/")}>Biokiste</button>
         </header>
     )
 }
