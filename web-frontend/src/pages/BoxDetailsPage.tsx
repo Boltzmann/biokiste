@@ -34,10 +34,9 @@ export default function BoxDetailsPage({
 
     useEffect(() => {
         if (id) {
-            // google useCallback or useMemo
-            // https://stackoverflow.com/questions/59597371/react-useeffect-dependency-of-usecallback-always-triggers-render
             getBoxItems(id)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id])
 
     const onSubmit = (event:FormEvent<HTMLFormElement>) => {
