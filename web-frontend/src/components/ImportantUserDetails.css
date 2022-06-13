@@ -2,6 +2,8 @@
     display: flex;
     justify-content: center;
     align-content: space-around;
-    flex-wrap: nowrap;
-    border-width: thick;
+    flex-wrap: wrap;
+    flex-basis: 0;
 }
+
+
