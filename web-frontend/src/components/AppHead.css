@@ -2,9 +2,11 @@ header {
     height:10vh;
     vertical-align: top;
     background-color: white;
+    display: flex;
+    justify-content: space-between;
 }
 
-h1 {
-    font-size: 5vh;
+.head-element {
+    height: 75px;
+    width: 100px;
 }
-

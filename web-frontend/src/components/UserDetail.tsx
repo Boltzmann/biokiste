@@ -5,5 +5,5 @@ type UserDetailProps = {
 }
 
 export default function UserDetail({detail}: UserDetailProps){
-    return <div className="Detail" >{detail}</div>
+    return <div className="detail" >{detail}</div>
 }
