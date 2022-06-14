@@ -9,8 +9,8 @@ type ItemProps = {
 
 export default function BoxItem({item, removeItemFromBox, boxId}: ItemProps) {
     return (
-        <div>
-            <div id="inactive">
+        <div className="item-or-box">
+            <div className="growable" id="inactive">
                 {item.name}
             </div>
             <button id="active" onClick={() => {

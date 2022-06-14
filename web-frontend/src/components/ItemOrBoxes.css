@@ -1,0 +1,9 @@
+.item-or-box {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px
+}
+
+.growable {
+    flex-grow: 2;
+}

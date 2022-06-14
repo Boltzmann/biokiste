@@ -11,13 +11,14 @@ body {
 #active {
   background-color: #FA9923;
   border-radius: 10%;
-  border: 1em;
+  border: 3em;
   box-shadow: none;
 }
 
 #inactive {
   background-color: ghostwhite;
   border-radius: 10%;
+  border: solid ghostwhite 10px;
 }
 
 code {

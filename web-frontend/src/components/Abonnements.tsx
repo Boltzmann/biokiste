@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import NewSubscription from "./NewSubscription";
 import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
 import {AiOutlineMinus} from "react-icons/ai";
+import "./ItemOrBoxes.css"
 
 type AbonnementProps = {
     subscriptions: Subscription[] | undefined
@@ -23,10 +24,12 @@ export default function Abonnements(
         subscribables={subscribables}
     />
         <h2>Abonnements</h2>
+        <div>
         {subscriptions &&
             subscriptions.map((sub, idx) =>
-                <div key={idx}>
-                    <button className="AboElement"
+                <div className="item-or-box" key={idx}>
+                    <div></div>
+                    <button className="growable"
                             id="active"
                             onClick={() => navigate('/box/' + sub.id)}
                     >
@@ -39,5 +42,6 @@ export default function Abonnements(
                     </button>
                 </div>
             )}
+        </div>
     </div>
 }
