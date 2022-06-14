@@ -2,6 +2,7 @@ import {Item} from "../model/Item";
 import {AiOutlineEdit, AiOutlinePlus, AiOutlineSend} from "react-icons/ai";
 import {ItemDto} from "../dto/ItemDto";
 import {FormEvent, useState} from "react";
+import "./ItemOrBoxes.css"
 
 type ItemProps = {
     item: Item
@@ -21,12 +22,14 @@ export default function ProviderItem({item, addItemToBox, boxId, changeItemName}
     }
 
     return (
-        <div>
+        <div className="item-or-box">
+            <button id="active" onClick={() => {
+                boxId && addItemToBox(boxId, item.id)
+            }}>
+                <AiOutlinePlus/>
+            </button>
             {isNameEditable ?
-                <div id="inactive">
-                    {item.name}
-                </div> :
-                <form onSubmit={onSubmit}>
+                <form className="growable" onSubmit={onSubmit}>
                     <input type={"text"}
                            value={newName}
                            placeholder={item.name}
@@ -35,13 +38,11 @@ export default function ProviderItem({item, addItemToBox, boxId, changeItemName}
                     <button type={"submit"} id="active">
                         <AiOutlineSend/>
                     </button>
-                </form>
+                </form> :
+                <div className="growable" id="inactive">
+                    {item.name}
+                </div>
             }
-            <button id="active" onClick={() => {
-                boxId && addItemToBox(boxId, item.id)
-            }}>
-                <AiOutlinePlus/>
-            </button>
             <button id="active" onClick={() => {
                 setIsNameEditable(!isNameEditable)
             }}>
