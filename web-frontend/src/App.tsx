@@ -24,10 +24,10 @@ function App() {
     } = useUserDetailsBoxesAndBoxItems()
 
     return (
-        <div className="App">
+        <div className="app">
             <ToastContainer/>
-            <AppHead/>
-            <div className="AllButHeader">
+            <AppHead userDetails={userDetails}/>
+            <div className="all-but-header">
             <Routes>
                 <Route element={<RequireAuth/>}>
                     <Route path='/'
@@ -35,7 +35,6 @@ function App() {
                                subscribeToBox={subscribeToBox}
                                subscriptions={subscriptions}
                                removeFromSubscriptionOnce={removeFromSubscriptionOnce}
-                               userDetails={userDetails}
                                subscribables={subscribables}
                            />}
                     />
