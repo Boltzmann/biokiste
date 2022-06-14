@@ -1,11 +1,11 @@
-.App {
+.app {
   text-align: center;
   margin-left: 20px;
   margin-right: 20px;
   margin-top: 20px;
 }
 
-.AllButHeader {
+.all-but-header {
   background-color: #306B34;
   vertical-align: bottom;
   height: 80vh;
@@ -23,12 +23,12 @@
   flex-wrap: nowrap;
 }
 
-.App-logo {
+.app-logo {
   height: 40vmin;
   pointer-events: none;
 }
 
-.App-header {
+.app-header {
   min-height: 20vh;
   display: flex;
   flex-direction: column;
@@ -38,7 +38,7 @@
   color: white;
 }
 
-.App-link {
+.app-link {
   color: #61dafb;
 }
 

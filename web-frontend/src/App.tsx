@@ -24,10 +24,10 @@ function App() {
     } = useUserDetailsBoxesAndBoxItems()
 
     return (
-        <div className="App">
+        <div className="app">
             <ToastContainer/>
             <AppHead userDetails={userDetails}/>
-            <div className="AllButHeader">
+            <div className="all-but-header">
             <Routes>
                 <Route element={<RequireAuth/>}>
                     <Route path='/'
