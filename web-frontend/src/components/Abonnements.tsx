@@ -28,7 +28,7 @@ export default function Abonnements(
         {subscriptions &&
             subscriptions.map((sub, idx) =>
                 <div className="item-or-box" key={idx}>
-                    <div id="inactive"></div>
+                    <div></div>
                     <button className="growable"
                             id="active"
                             onClick={() => navigate('/box/' + sub.id)}
