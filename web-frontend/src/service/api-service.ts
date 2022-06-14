@@ -2,7 +2,6 @@ import {UserDetails} from "../model/UserDetails";
 import {Item} from "../model/Item"
 import axios from "axios";
 import {Subscription} from "../model/Subscription";
-import {toast} from "react-toastify";
 import {SubscriptionOverviewDto} from "../dto/SubscriptionOverviewDto";
 import {ItemDto} from "../dto/ItemDto";
 
@@ -29,14 +28,14 @@ export const getBoxItemsByBoxId: (id: string, token?: string) => Promise<Item[]>
 
 export const getAllPossibleSubscriptions: () => Promise<SubscriptionOverviewDto[]> = () => {
     return axios.get("/allBoxes")
-        .then(response => {toast.info(response.data); return response.data})
+        .then(response => {return response.data})
 }
 
 export const addUserSubscriptionToBox: ( boxId: string, token?: string) => Promise<Subscription> = ( boxId, token) => {
     return axios.post("/api/user/subscribeBox", boxId, token
         ? {headers: {"Authorization": token, "Content-Type": "application/json"}}
         : {headers: {"Content-Type": "application/json"}})
-        .then(response => {toast.info("Box Id: " + boxId); return response.data})
+        .then(response => {return response.data})
 }
 
 export const removeUserSubscriptionFromBox: ( boxId: string, token?: string) => Promise<void> = ( boxId, token ) => {
