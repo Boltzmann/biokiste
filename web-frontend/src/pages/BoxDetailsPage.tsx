@@ -37,7 +37,6 @@ export default function BoxDetailsPage({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id])
 
-
     let element = subscriptions && subscriptions.find(e => e.id === id)
 
     return (
@@ -52,13 +51,13 @@ export default function BoxDetailsPage({
                          boxId={id}
                 />
             )}
-            items &&
+            {items &&
             <AllOrganicItemsOverview id={id}
                                      items={items}
                                      addItemToBox={addItemToBox}
                                      addNewItem={addNewItem}
                                      changeItemName={changeItemName}
-            />
+            />}
         </div>
     )
 }
