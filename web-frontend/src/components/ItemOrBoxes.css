@@ -1,0 +1,8 @@
+.item-or-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.growable {
+    flex-grow: 2;
+}

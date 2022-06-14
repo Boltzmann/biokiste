@@ -42,7 +42,7 @@ export default function BoxDetailsPage({
     return (
         <div className={"box-items"}>
             <h1>
-                {element && element.name}
+                {element ? element.name : "Content of Box"}
             </h1>
             {boxItems && boxItems.map((item, idx) =>
                 <BoxItem key={item.id + "-" + idx}
