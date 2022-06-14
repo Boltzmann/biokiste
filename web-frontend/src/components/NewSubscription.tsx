@@ -17,7 +17,7 @@ export default function NewSubscription({ subscribeToBox, subscribables}: NewSub
             subscribables.map(
                 subsls =>
                     <div className="item-or-box" key={subsls.id}>
-                        <div id="inactive"></div>
+                        <div></div>
                         <button className="AboElement growable"
                                 id="active"
                                 onClick={() => navigate('/box/' + subsls.id)}
