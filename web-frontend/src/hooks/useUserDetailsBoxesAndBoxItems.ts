@@ -2,7 +2,6 @@ import {useContext, useEffect, useState} from "react";
 import {UserDetails} from "../model/UserDetails";
 import {Subscription} from "../model/Subscription";
 import {AuthContext} from "../context/AuthProvider";
-import {toast} from "react-toastify";
 import {
     addItem,
     addUserSubscriptionToBox,
@@ -31,12 +30,17 @@ export default function useUserDetailsBoxesAndBoxItems(){
     useEffect(() =>{
         getUserDetails(token)
             .then(details => setUserDetails(details))
-            .catch(() => toast.error("Connection failed to get user details. Please retry."))
+            .catch(() => {
+                    const empty: UserDetails = {"id":"", "username": "", "customerId":""}
+                    setUserDetails(empty)
+                    console.error("Connection failed to get user details. Please retry.")
+                }
+            )
         getAllPossibleSubscriptions()
             .then(data => {
                 setSubscribables(data)
             })
-            .catch(error => toast.error(error))
+            .catch(error => console.error(error))
     }, [token])
 
     useEffect(() => {
@@ -48,23 +52,25 @@ export default function useUserDetailsBoxesAndBoxItems(){
     const readSubscriptions = () => {
         getSubscriptions(token)
             .then(subs => setSubscriptions(subs))
-            .catch(() => toast.error("Connection failed to get abonnements. Please retry."))
+            .catch(() => console.error("Connection failed to get abonnements. Please retry."))
     }
 
     const getBoxItems = (id: string) => {
         getBoxItemsByBoxId(id, token)
             .then(data => setBoxItems(data))
-            .catch(error => toast.error(error))
+            .catch(error => console.error(error))
     }
 
     const subscribeToBox = (boxId: string) => {
         addUserSubscriptionToBox(boxId, token)
-            .then(data => {subscriptions ? setSubscriptions([...subscriptions, data]) : setSubscriptions([data])})
-            .catch(error => toast.error(error))
+            .then(data => {subscriptions ?
+                setSubscriptions([...subscriptions, data]) :
+                setSubscriptions([data])})
+            .catch(error => console.error(error))
     }
 
     const removeFromSubscriptionOnce = (boxId: string) => {
-        toast.info("Removing " + boxId)
+        console.info("Removing " + boxId)
         removeUserSubscriptionFromBox(boxId, token)
         readSubscriptions()
     }
@@ -72,19 +78,19 @@ export default function useUserDetailsBoxesAndBoxItems(){
     const getAllItems = () => {
         findAllItems(token)
             .then(data => setItems(data))
-            .catch(error => toast.error(error))
+            .catch(error => console.error(error))
     }
 
     const addNewItem = (itemDto: Omit<Item, "id">) => {
         addItem(itemDto, token)
             .then(data => setItems([...items, data]))
-            .catch(error => toast.error(error))
+            .catch(error => console.error(error))
     }
 
     const addItemToBox = (boxId: string, itemId: string) => {
         putItemToBox(boxId, itemId, token)
             .then(data => getBoxItems(data.id))
-            .catch(error => toast.error(error))
+            .catch(error => console.error(error))
     }
 
     const removeItemFromBox = (boxId: string, itemId: string) => {
@@ -94,7 +100,7 @@ export default function useUserDetailsBoxesAndBoxItems(){
     }
 
     function removeBoxItemOnceFromItems(item2delete: Item){
-        toast.info("remove " + item2delete.name)
+        console.info("remove " + item2delete.name)
         const numberOfSameItemsToDeleted =
             boxItems.filter(item => item2delete.id === item.id).length
         const updatedBoxItems = boxItems.filter(item => item2delete.id !== item.id)
