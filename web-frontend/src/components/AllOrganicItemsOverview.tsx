@@ -3,6 +3,7 @@ import {ItemDto} from "../dto/ItemDto";
 import {FormEvent, useState} from "react";
 import {toast} from "react-toastify";
 import {Item} from "../model/Item";
+import "./AllItemsOverview.css"
 
 type AllOrganicItemsOverviewProps = {
     id: string | undefined
@@ -31,6 +32,7 @@ export default function AllOrganicItemsOverview({id, items, addNewItem, addItemT
             <h1>
                 All organic items
             </h1>
+            <div className="all-items-overview">
             {id
                 ? items.map((item, idx) => <ProviderItem key={item.id + "-" + idx}
                                                          item={item}
@@ -39,6 +41,7 @@ export default function AllOrganicItemsOverview({id, items, addNewItem, addItemT
                                                          changeItemName={changeItemName}
                 />)
                 : <div>Something is wrong. Box not existent</div>}
+            </div>
             <form onSubmit={onSubmit}>
                 <input type={"text"}
                        value={itemName}
