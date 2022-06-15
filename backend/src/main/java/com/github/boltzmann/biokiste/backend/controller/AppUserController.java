@@ -6,6 +6,8 @@ import com.github.boltzmann.biokiste.backend.security.service.AppUserLoginDetail
 import com.github.boltzmann.biokiste.backend.service.AppUserDetailsService;
 import com.github.boltzmann.biokiste.backend.service.BoxDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -21,20 +23,32 @@ public class AppUserController {
     private final AppUserDetailsService appUserDetailsService;
 
     @Autowired
+    private final JavaMailSender javaMailSender;
+
+    @Autowired
     public AppUserController(
             BoxDetailsService boxDetailsService,
             AppUserLoginDetailsService appUserLoginDetailsService,
-            AppUserDetailsService appUserDetailsService
-    ) {
+            AppUserDetailsService appUserDetailsService,
+            JavaMailSender javaMailSender) {
         this.boxDetailsService = boxDetailsService;
         this.appUserLoginDetailsService = appUserLoginDetailsService;
         this.appUserDetailsService = appUserDetailsService;
+        this.javaMailSender = javaMailSender;
     }
 
     @GetMapping("/me")
     public AppUserDetails getLoggedInUserDetails(Principal principal){
         String id = this.appUserLoginDetailsService
                 .getUserIdByName(principal.getName());
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom("earl_of_oelde@web.de");
+        msg.setTo("stefan.bollmann@rwth-aachen.de");
+
+        msg.setSubject("Testing from Spring Boot Production");
+        msg.setText("Hello World \n Spring Boot Email");
+
+        javaMailSender.send(msg);
         return appUserDetailsService.getUserDetails(id, principal.getName());
     }
 
