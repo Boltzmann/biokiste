@@ -1,14 +1,15 @@
 package com.github.boltzmann.biokiste.backend.controller;
 
 import com.github.boltzmann.biokiste.backend.repository.AppUserDetailsRepo;
-import com.github.boltzmann.biokiste.backend.repository.OrganicBoxRepository;
 import com.github.boltzmann.biokiste.backend.repository.ItemRepository;
+import com.github.boltzmann.biokiste.backend.repository.OrganicBoxRepository;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import com.github.boltzmann.biokiste.backend.security.repository.AppUserLoginRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -34,6 +35,10 @@ public class CrudTestWithLogIn {
 
     @Autowired
     AppUserDetailsRepo appUserDetailsRepo;
+
+    @Autowired
+    JavaMailSender javaMailSender;
+
 
     @BeforeEach
     public void cleanUp(){
