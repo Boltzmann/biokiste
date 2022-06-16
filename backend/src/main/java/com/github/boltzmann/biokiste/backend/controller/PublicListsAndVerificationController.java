@@ -2,10 +2,8 @@ package com.github.boltzmann.biokiste.backend.controller;
 
 import com.github.boltzmann.biokiste.backend.dto.OrganicBoxDto;
 import com.github.boltzmann.biokiste.backend.security.dto.AppUserDto;
-import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import com.github.boltzmann.biokiste.backend.service.AppUserDetailsService;
 import com.github.boltzmann.biokiste.backend.service.BoxDetailsService;
-import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +29,7 @@ public class PublicListsAndVerificationController {
 
     @PostMapping("/verification")
     public AppUserDto postEmailVerification(@RequestBody AppUserDto appUserDto){
-        ModelMapper modelMapper = new ModelMapper();
-        AppUser appUser = modelMapper.map(appUserDto, AppUser.class);
-        return appUserDetailsService.startUserEmailVerification(appUser);
+        return appUserDetailsService.startUserEmailVerification(appUserDto);
     }
 }
 

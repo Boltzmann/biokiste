@@ -5,14 +5,12 @@ import com.github.boltzmann.biokiste.backend.model.OrganicBox;
 import com.github.boltzmann.biokiste.backend.repository.AppUserDetailsRepo;
 import com.github.boltzmann.biokiste.backend.security.dto.AppUserDto;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
+import com.github.boltzmann.biokiste.backend.security.repository.AppUserLoginRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 public class AppUserDetailsService {
@@ -20,6 +18,7 @@ public class AppUserDetailsService {
     @Autowired
     private final EmailService emailService;
     private final AppUserDetailsRepo appUserDetailsRepo;
+    private final AppUserLoginRepository appUserLoginRepository;
     private final BoxDetailsService boxDetailsService;
 
 
@@ -27,10 +26,11 @@ public class AppUserDetailsService {
     public AppUserDetailsService(
             AppUserDetailsRepo appUserDetailsRepo,
             BoxDetailsService boxDetailsService,
-            EmailService emailService) {
+            EmailService emailService, AppUserLoginRepository appUserLoginRepository) {
         this.appUserDetailsRepo = appUserDetailsRepo;
         this.boxDetailsService = boxDetailsService;
         this.emailService = emailService;
+        this.appUserLoginRepository = appUserLoginRepository;
     }
 
     public List<OrganicBox> getSubscriptionsOfUser(String id){
@@ -60,9 +60,14 @@ public class AppUserDetailsService {
                 .build());
     }
 
-    public AppUserDto startUserEmailVerification(AppUser appUser) {
-
-        emailService.sendMessage(appUser);
-        return new ModelMapper().map(appUser, AppUserDto.class);
+    public AppUserDto startUserEmailVerification(AppUserDto appUserDto) {
+        ModelMapper modelMapper = new ModelMapper();
+        Optional<AppUser> optAppUser = appUserLoginRepository.findByUsername(appUserDto.getUsername());
+        if( optAppUser.isPresent() ){
+            return modelMapper.map(optAppUser.get(), AppUserDto.class);
+        }
+        appUserLoginRepository.insert(modelMapper.map(appUserDto, AppUser.class));
+        emailService.sendMessage(appUserDto);
+        return appUserDto;
     }
 }
