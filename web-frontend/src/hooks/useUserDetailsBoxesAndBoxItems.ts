@@ -27,11 +27,16 @@ export default function useUserDetailsBoxesAndBoxItems(){
     const [items, setItems] = useState<Item[]>([])
     const {token} = useContext(AuthContext)
 
-    useEffect(() =>{
+    useEffect(() => {
         getUserDetails(token)
             .then(details => setUserDetails(details))
             .catch(() => {
-                    const empty: UserDetails = {"id":"", "username": "", "customerId":""}
+                    const empty: UserDetails = {
+                        "id":"", "username": "",
+                        "customerId":"",
+                        "verificationCode":"",
+                        "email":""
+                    }
                     setUserDetails(empty)
                     console.error("Connection failed to get user details. Please retry.")
                 }
