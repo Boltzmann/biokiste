@@ -16,7 +16,7 @@ class AppUserDetailsServiceTest {
     AppUserDetailsRepo appUserDetailsRepo = mock(AppUserDetailsRepo.class);
     BoxDetailsService boxDetailsService = mock(BoxDetailsService.class);
     AppUserDetailsService appUserDetailsService =
-            new AppUserDetailsService(appUserDetailsRepo, boxDetailsService);
+            new AppUserDetailsService(appUserDetailsRepo, boxDetailsService, javaMailSender);
 
     private OrganicBox firstBox() {
         return OrganicBox.builder()

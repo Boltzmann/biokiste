@@ -3,7 +3,7 @@ package com.github.boltzmann.biokiste.backend.controller;
 import com.github.boltzmann.biokiste.backend.dto.OrganicBoxDto;
 import com.github.boltzmann.biokiste.backend.security.dto.AppUserDto;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
-import com.github.boltzmann.biokiste.backend.service.AppUserVerificationDetailsService;
+import com.github.boltzmann.biokiste.backend.service.AppUserDetailsService;
 import com.github.boltzmann.biokiste.backend.service.BoxDetailsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
@@ -13,14 +13,16 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/")
-public class PublicListsAndLoginController {
+public class PublicListsAndVerificationController {
     private final BoxDetailsService boxDetailsService;
 
-    private final AppUserVerificationDetailsService appUserVerificationDetailsService;
+    private final AppUserDetailsService appUserDetailsService;
 
-    public PublicListsAndLoginController(BoxDetailsService boxDetailsService, AppUserVerificationDetailsService appUserVerificationDetailsService) {
+    public PublicListsAndVerificationController(
+            BoxDetailsService boxDetailsService,
+            AppUserDetailsService appUserDetailsService) {
         this.boxDetailsService = boxDetailsService;
-        this.appUserVerificationDetailsService = appUserVerificationDetailsService;
+        this.appUserDetailsService = appUserDetailsService;
     }
     @GetMapping("/allBoxes")
     public List<OrganicBoxDto> getNamesAndIdsOfAllBoxes(){
@@ -31,7 +33,7 @@ public class PublicListsAndLoginController {
     public AppUserDto postEmailVerification(@RequestBody AppUserDto appUserDto){
         ModelMapper modelMapper = new ModelMapper();
         AppUser appUser = modelMapper.map(appUserDto, AppUser.class);
-        return appUserVerificationDetailsService.startUserEmailVerification(appUser);
+        return appUserDetailsService.startUserEmailVerification(appUser);
     }
 }
 

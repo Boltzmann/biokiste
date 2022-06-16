@@ -4,10 +4,8 @@ import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
 import com.github.boltzmann.biokiste.backend.model.OrganicBox;
 import com.github.boltzmann.biokiste.backend.security.service.AppUserLoginDetailsService;
 import com.github.boltzmann.biokiste.backend.service.AppUserDetailsService;
-import com.github.boltzmann.biokiste.backend.service.AppUserVerificationDetailsService;
 import com.github.boltzmann.biokiste.backend.service.BoxDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -21,13 +19,12 @@ public class AppUserController {
     private final BoxDetailsService boxDetailsService;
     private final AppUserLoginDetailsService appUserLoginDetailsService;
     private final AppUserDetailsService appUserDetailsService;
-    
+
     @Autowired
     public AppUserController(
             BoxDetailsService boxDetailsService,
             AppUserLoginDetailsService appUserLoginDetailsService,
-            AppUserDetailsService appUserDetailsService,
-            JavaMailSender javaMailSender, AppUserVerificationDetailsService appUserVerificationDetailsService) {
+            AppUserDetailsService appUserDetailsService) {
         this.boxDetailsService = boxDetailsService;
         this.appUserLoginDetailsService = appUserLoginDetailsService;
         this.appUserDetailsService = appUserDetailsService;
