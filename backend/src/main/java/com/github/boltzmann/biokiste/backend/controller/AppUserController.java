@@ -4,9 +4,9 @@ import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
 import com.github.boltzmann.biokiste.backend.model.OrganicBox;
 import com.github.boltzmann.biokiste.backend.security.service.AppUserLoginDetailsService;
 import com.github.boltzmann.biokiste.backend.service.AppUserDetailsService;
+import com.github.boltzmann.biokiste.backend.service.AppUserVerificationDetailsService;
 import com.github.boltzmann.biokiste.backend.service.BoxDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,33 +22,25 @@ public class AppUserController {
     private final AppUserLoginDetailsService appUserLoginDetailsService;
     private final AppUserDetailsService appUserDetailsService;
 
-    @Autowired
-    private final JavaMailSender javaMailSender;
+    private final AppUserVerificationDetailsService appUserVerificationDetailsService;
 
     @Autowired
     public AppUserController(
             BoxDetailsService boxDetailsService,
             AppUserLoginDetailsService appUserLoginDetailsService,
             AppUserDetailsService appUserDetailsService,
-            JavaMailSender javaMailSender) {
+            JavaMailSender javaMailSender, AppUserVerificationDetailsService appUserVerificationDetailsService) {
         this.boxDetailsService = boxDetailsService;
         this.appUserLoginDetailsService = appUserLoginDetailsService;
         this.appUserDetailsService = appUserDetailsService;
-        this.javaMailSender = javaMailSender;
+        this.appUserVerificationDetailsService = appUserVerificationDetailsService;
     }
 
     @GetMapping("/me")
     public AppUserDetails getLoggedInUserDetails(Principal principal){
         String id = this.appUserLoginDetailsService
                 .getUserIdByName(principal.getName());
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setFrom("earl_of_oelde@web.de");
-        msg.setTo("stefan.bollmann@rwth-aachen.de");
-
-        msg.setSubject("Testing from Spring Boot Production");
-        msg.setText("Hello World \n Spring Boot Email");
-
-        javaMailSender.send(msg);
+        appUserVerificationDetailsService.sendSimpleMessage();
         return appUserDetailsService.getUserDetails(id, principal.getName());
     }
 
