@@ -7,9 +7,6 @@ import com.github.boltzmann.biokiste.backend.security.dto.AppUserDto;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,21 +18,19 @@ import java.util.NoSuchElementException;
 public class AppUserDetailsService {
 
     @Autowired
-    private final JavaMailSender javaMailSender;
+    private final EmailService emailService;
     private final AppUserDetailsRepo appUserDetailsRepo;
     private final BoxDetailsService boxDetailsService;
-    @Value("${spring.mail.username}")
-    private String SENDER_EMAIL;
+
 
     @Autowired
     public AppUserDetailsService(
             AppUserDetailsRepo appUserDetailsRepo,
             BoxDetailsService boxDetailsService,
-            JavaMailSender javaMailSender
-    ) {
+            EmailService emailService) {
         this.appUserDetailsRepo = appUserDetailsRepo;
         this.boxDetailsService = boxDetailsService;
-        this.javaMailSender = javaMailSender;
+        this.emailService = emailService;
     }
 
     public List<OrganicBox> getSubscriptionsOfUser(String id){
@@ -66,14 +61,8 @@ public class AppUserDetailsService {
     }
 
     public AppUserDto startUserEmailVerification(AppUser appUser) {
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setFrom(SENDER_EMAIL);
-        msg.setTo(appUser.getEmail());
 
-        msg.setSubject(appUser.getUsername());
-        msg.setText("Hello " + appUser.getUsername() + "\n AppUserVerificationDetailService");
-
-        javaMailSender.send(msg);
+        emailService.sendMessage(appUser);
         return new ModelMapper().map(appUser, AppUserDto.class);
     }
 }
