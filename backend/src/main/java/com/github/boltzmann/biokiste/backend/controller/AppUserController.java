@@ -21,9 +21,7 @@ public class AppUserController {
     private final BoxDetailsService boxDetailsService;
     private final AppUserLoginDetailsService appUserLoginDetailsService;
     private final AppUserDetailsService appUserDetailsService;
-
-    private final AppUserVerificationDetailsService appUserVerificationDetailsService;
-
+    
     @Autowired
     public AppUserController(
             BoxDetailsService boxDetailsService,
@@ -33,14 +31,12 @@ public class AppUserController {
         this.boxDetailsService = boxDetailsService;
         this.appUserLoginDetailsService = appUserLoginDetailsService;
         this.appUserDetailsService = appUserDetailsService;
-        this.appUserVerificationDetailsService = appUserVerificationDetailsService;
-    }
+   }
 
     @GetMapping("/me")
     public AppUserDetails getLoggedInUserDetails(Principal principal){
         String id = this.appUserLoginDetailsService
                 .getUserIdByName(principal.getName());
-        appUserVerificationDetailsService.sendSimpleMessage();
         return appUserDetailsService.getUserDetails(id, principal.getName());
     }
 
