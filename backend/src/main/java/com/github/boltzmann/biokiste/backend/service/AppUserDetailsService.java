@@ -6,6 +6,7 @@ import com.github.boltzmann.biokiste.backend.repository.AppUserDetailsRepo;
 import com.github.boltzmann.biokiste.backend.security.dto.AppUserDto;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import com.github.boltzmann.biokiste.backend.security.repository.AppUserLoginRepository;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,11 +64,18 @@ public class AppUserDetailsService {
     public AppUserDto startUserEmailVerification(AppUserDto appUserDto) {
         ModelMapper modelMapper = new ModelMapper();
         Optional<AppUser> optAppUser = appUserLoginRepository.findByUsername(appUserDto.getUsername());
-        if( optAppUser.isPresent() ){
-            return modelMapper.map(optAppUser.get(), AppUserDto.class);
+        if( !optAppUser.isPresent() ){
+            appUserDto.setVerificationCode(RandomStringUtils.randomAlphanumeric(10));
+            AppUser newAppUser = modelMapper.map(appUserDto, AppUser.class);
+            appUserLoginRepository.insert(newAppUser);
+            emailService.sendMessage(newAppUser);
+            return appUserDto;
+        } else {
+            AppUser appUser = optAppUser.get();
+            if( !appUser.isVerified() ){
+                emailService.sendMessage(appUser);
+            }
+            return modelMapper.map(appUser, AppUserDto.class);
         }
-        appUserLoginRepository.insert(modelMapper.map(appUserDto, AppUser.class));
-        emailService.sendMessage(appUserDto);
-        return appUserDto;
     }
 }

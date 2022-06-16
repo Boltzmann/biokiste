@@ -17,6 +17,7 @@ public class AppUser {
     private String id;
     private String username;
     private String email;
-    private String verified;
+    private boolean verified;
+    private String verificationCode;
     private String password;
 }

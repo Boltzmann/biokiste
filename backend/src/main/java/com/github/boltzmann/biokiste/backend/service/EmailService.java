@@ -1,6 +1,6 @@
 package com.github.boltzmann.biokiste.backend.service;
 
-import com.github.boltzmann.biokiste.backend.security.dto.AppUserDto;
+import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,13 +18,15 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendMessage(AppUserDto appUserDto) {
+    public void sendMessage(AppUser appUser) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(SENDER_EMAIL);
-        msg.setTo(appUserDto.getEmail());
+        msg.setTo(appUser.getEmail());
 
-        msg.setSubject(appUserDto.getUsername());
-        msg.setText("Hello " + appUserDto.getUsername() + "\n AppUserVerificationDetailService");
+        msg.setSubject(appUser.getUsername());
+        msg.setText("Hello " +
+                appUser.getUsername() + "\n "
+                + appUser.getVerificationCode() + "<- click here to verify.");
 
         javaMailSender.send(msg);
     }
