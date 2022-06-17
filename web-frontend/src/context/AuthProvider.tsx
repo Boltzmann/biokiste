@@ -2,14 +2,18 @@ import {createContext, ReactElement, useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import { decodeJwt } from "jose";
+import {decodeJwt} from "jose";
 
 const AUTH_KEY = "AuthToken"
 
 // ts-ignore
-export const AuthContext =
-    createContext<{ token: string | undefined, login: (credentials: {username: string, password: string}) => void, logout: () => void}> (
-        {token: undefined, login: () => {toast.error("Login not initialized.")}, logout: () =>  {toast.error("Logout not initialized.")}}
+export const AuthContext = createContext<{ token: string | undefined, login: (credentials: {username: string, password: string}) => void, logout: () => void, firstLogin: (credentials: {username: string, password: string, verificationId: string}) => void }> (
+    {
+        token: undefined,
+        login: () => {toast.error("Login not initialized.")},
+        logout: () =>  {toast.error("Logout not initialized.")},
+        firstLogin: () => {toast.error("Verification not initialized.")}
+    }
 )
 
 export type AuthProviderProps = {
@@ -33,6 +37,17 @@ export default function AuthProvider({children}: AuthProviderProps){
             })
             .then(() => navigate("/"))
             .catch(() => toast.error("Login failed. Credentials invalid?"))
+    }
+
+    const firstLogin = (credentials: {username: string, password: string, verificationId: string}) => {
+        axios.post("/auth/verifiy", credentials)
+            .then(response => response.data)
+            .then((newToken) => {
+                setToken(newToken)
+                localStorage.setItem(AUTH_KEY, newToken)
+            })
+            .then(() => navigate("/"))
+            .catch(() => toast.error("Login with verification failed. Credentials invalid?"))
     }
 
     const logout = () => {
@@ -60,7 +75,7 @@ export default function AuthProvider({children}: AuthProviderProps){
     }
 
     return <div>
-        <AuthContext.Provider value={{token, login, logout}}>
+        <AuthContext.Provider value={{token, login, logout, firstLogin}}>
             {children}
         </AuthContext.Provider>
     </div>

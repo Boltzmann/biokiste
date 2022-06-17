@@ -11,6 +11,7 @@ import AllUserDetails from "./components/AllUserDetails";
 import OverviewPage from "./pages/OverviewPage";
 import BoxDetailsPage from "./pages/BoxDetailsPage";
 import useUserDetailsBoxesAndBoxItems from "./hooks/useUserDetailsBoxesAndBoxItems";
+import VerificationLoginPage from "./pages/VerificationLoginPage";
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
                     />
                 </Route>
                 <Route path='/login' element={<LoginPage />}/>
+                <Route path='/login/:verificationId' element={<VerificationLoginPage />}/>
                 </Routes>
             </div>
 

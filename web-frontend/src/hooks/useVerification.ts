@@ -5,7 +5,7 @@ import {toast} from "react-toastify";
 import {VerificationDetails} from "../model/VerificationDetails";
 
 export default function useVerification(){
-    const [setVerificationDetails] = useState<UserDetails>()
+    const [verificationDetails, setVerificationDetails] = useState<UserDetails>()
 
     const startVerificationProcess = (verificationDetailsDto: VerificationDetails) => {
         sendVerificationEmail(verificationDetailsDto)
