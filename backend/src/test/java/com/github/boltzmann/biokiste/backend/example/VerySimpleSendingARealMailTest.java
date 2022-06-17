@@ -1,6 +1,7 @@
 package com.github.boltzmann.biokiste.backend.example;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +15,7 @@ class VerySimpleSendingARealMailTest {
     private JavaMailSender javaMailSender;
 
     @Test
+    @Disabled
     void verificationTest() {
 
         SimpleMailMessage msg = new SimpleMailMessage();
