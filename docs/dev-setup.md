@@ -1,3 +1,15 @@
+# Set up MongoDB locally
+## Load and Start MongoDB
+```
+docker pull mongo
+docker run --name mongo -p 27017:27017 -d mongo:latest
+```
+## Fill DB with first data
+1. Add new database to MongoDB
+   1. Name it biokisteDB and add one collection e.g. "appusers"
+   2. import in the collection appusers.json from "/docs/test-resources/appusers.json"
+   3. Add new collections analog to steps 1 and 2 by importing the jsons from test-resources into respective collections.
+
 # iOS and Android deployment
 This documentation is a work in progress. There can be wrong ways and missing steps.
 A good help is the [ionic documentation](https://ionicframework.com/docs/react/your-first-app/deploying-mobile).

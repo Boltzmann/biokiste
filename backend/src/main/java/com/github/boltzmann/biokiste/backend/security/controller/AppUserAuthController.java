@@ -1,6 +1,7 @@
 package com.github.boltzmann.biokiste.backend.security.controller;
 
 import com.github.boltzmann.biokiste.backend.security.dto.AppUserDto;
+import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import com.github.boltzmann.biokiste.backend.security.service.JWTUtilService;
 import com.github.boltzmann.biokiste.backend.security.service.VerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,14 @@ public class AppUserAuthController {
 
     @PostMapping("/verify")
     public String verify(@RequestBody AppUserDto appUserDto){
-        return "register_success";
+        return verificationService.register(
+                AppUser.builder()
+                        .username(appUserDto.getUsername())
+                        .email(appUserDto.getEmail())
+                        .verified(appUserDto.isVerified())
+                        .password(appUserDto.getPassword())
+                        .build(),
+                ""
+        );
     }
 }
