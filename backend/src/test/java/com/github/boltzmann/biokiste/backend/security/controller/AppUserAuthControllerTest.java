@@ -30,6 +30,13 @@ class AppUserAuthControllerTest {
     @BeforeEach
     public void cleanUp(){ appUserLoginRepository.deleteAll();}
 
+    AppUser testUser() {
+        return AppUser.builder().username("Test User")
+                .password("Pass word")
+                .email("email@domain.org")
+                .build();
+    }
+
     @Test
     void login_whenValidCredentials_thenReturnValidJWT(){
         // Given
@@ -70,6 +77,37 @@ class AppUserAuthControllerTest {
                         .build())
                 .exchange()
                 .expectStatus().isEqualTo(HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    void testVerification_whenValidCredentials_thenReturnRegisterSuccess(){
+        // When
+        String actual = postVerificationData("/auth/verify", testUser());
+        // Then
+        Assertions.assertEquals("register_success", actual);
+    }
+
+    @Test
+    void testVerification_whenValidCredentials_thenCheckIfInRepo(){
+        postVerificationData("/auth/verify", testUser());
+        AppUser actual = appUserLoginRepository.findByUsername(testUser().getUsername())
+                .orElseThrow();
+        Assertions.assertEquals(testUser().getEmail(), actual.getEmail());
+        Assertions.assertFalse(actual.isVerified());
+        Assertions.assertNotNull(actual.getId());
+        Assertions.assertNotNull(actual.getVerificationCode());
+    }
+
+    private String postVerificationData(String uri, AppUser body) {
+        String actual = webTestClient.post()
+                .uri(uri)
+                .bodyValue(body)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .returnResult()
+                .getResponseBody();
+        return actual;
     }
 
 
