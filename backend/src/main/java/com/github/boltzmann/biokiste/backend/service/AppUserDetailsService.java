@@ -16,10 +16,7 @@ import java.util.*;
 @Service
 public class AppUserDetailsService {
 
-    @Autowired
-    private final EmailService emailService;
     private final AppUserDetailsRepo appUserDetailsRepo;
-    private final AppUserLoginRepository appUserLoginRepository;
     private final BoxDetailsService boxDetailsService;
 
 
@@ -30,8 +27,6 @@ public class AppUserDetailsService {
             EmailService emailService, AppUserLoginRepository appUserLoginRepository) {
         this.appUserDetailsRepo = appUserDetailsRepo;
         this.boxDetailsService = boxDetailsService;
-        this.emailService = emailService;
-        this.appUserLoginRepository = appUserLoginRepository;
     }
 
     public List<OrganicBox> getSubscriptionsOfUser(String id){
@@ -39,9 +34,8 @@ public class AppUserDetailsService {
                 = boxDetailsService.getBoxesByUser(id);
         List<OrganicBox> allSubscribedBoxes = new ArrayList<>();
         for (OrganicBox box : boxesWithSameUserSubscribedAtLeastOneOrMoreTimes){
-            Iterator<String> iter = box.getCustomers().iterator();
-            while ( iter.hasNext() ) {
-                if (id.equals(iter.next())) {
+            for (String s : box.getCustomers()) {
+                if (id.equals(s)) {
                     allSubscribedBoxes.add(box);
                 }
             }
@@ -59,23 +53,5 @@ public class AppUserDetailsService {
                 .id(id)
                 .username(username)
                 .build());
-    }
-
-    public AppUserDto startUserEmailVerification(AppUserDto appUserDto) {
-        ModelMapper modelMapper = new ModelMapper();
-        Optional<AppUser> optAppUser = appUserLoginRepository.findByUsername(appUserDto.getUsername());
-        if( !optAppUser.isPresent() ){
-            appUserDto.setVerificationCode(RandomStringUtils.randomAlphanumeric(10));
-            AppUser newAppUser = modelMapper.map(appUserDto, AppUser.class);
-            appUserLoginRepository.insert(newAppUser);
-            emailService.sendMessage(newAppUser);
-            return appUserDto;
-        } else {
-            AppUser appUser = optAppUser.get();
-            if( !appUser.isVerified() ){
-                emailService.sendMessage(appUser);
-            }
-            return modelMapper.map(appUser, AppUserDto.class);
-        }
     }
 }

@@ -12,5 +12,5 @@ public class AppUserDto {
     private String password;
     private String email;
     private boolean verified;
-    private String verificationCode;
+    private String verificationId;
 }

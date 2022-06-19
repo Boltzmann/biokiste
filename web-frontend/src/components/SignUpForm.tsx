@@ -34,7 +34,7 @@ export default function SignUpForm(){
                    placeholder={"E-Mail"}
                    onChange={(event) => setEmail(event.target.value)}
             />
-            <button type={"submit"} id="active">Login</button>
+            <button type={"submit"} id="active">Sign up</button>
         </form>
     </div>
 }

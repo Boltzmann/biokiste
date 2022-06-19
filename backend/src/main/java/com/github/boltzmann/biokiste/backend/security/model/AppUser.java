@@ -18,6 +18,6 @@ public class AppUser {
     private String username;
     private String email;
     private boolean verified;
-    private String verificationCode;
+    private String verificationId;
     private String password;
 }

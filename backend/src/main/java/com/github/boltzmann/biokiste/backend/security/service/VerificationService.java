@@ -7,6 +7,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class VerificationService {
     private final AppUserLoginRepository appUserLoginRepository;
@@ -25,12 +27,23 @@ public class VerificationService {
         String encodedPassword = passwordEncoder.encode(appUser.getPassword());
         appUser.setPassword(encodedPassword);
         String randomCode = RandomStringUtils.randomAlphanumeric(10);
-        appUser.setVerificationCode(randomCode);
+        appUser.setVerificationId(randomCode);
         appUser.setVerified(false);
 
         appUserLoginRepository.insert(appUser);
 
         emailService.sendMessage(appUser);
         return "register_success";
+    }
+
+    public boolean isVerified( AppUser maybeAppUser ) {
+        AppUser appUserFromRepo = appUserLoginRepository.findByUsername(maybeAppUser.getUsername())
+                .orElseThrow(() -> new NoSuchElementException("User " + maybeAppUser.getUsername() + " not found."));
+        if( !maybeAppUser.getVerificationId().equals(appUserFromRepo.getVerificationId())){
+            return false;
+        }
+        appUserFromRepo.setVerified(true);
+        appUserLoginRepository.save(appUserFromRepo);
+        return true;
     }
 }

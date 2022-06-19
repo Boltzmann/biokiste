@@ -2,6 +2,7 @@ package com.github.boltzmann.biokiste.backend.security.controller;
 
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import com.github.boltzmann.biokiste.backend.security.repository.AppUserLoginRepository;
+import com.github.boltzmann.biokiste.backend.service.EmailService;
 import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.reactive.server.WebTestClient;
+
+import java.time.Duration;
+
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AppUserAuthControllerTest {
@@ -27,8 +32,15 @@ class AppUserAuthControllerTest {
     @Autowired
     WebTestClient webTestClient;
 
+    EmailService emailService = mock(EmailService.class);
+
     @BeforeEach
-    public void cleanUp(){ appUserLoginRepository.deleteAll();}
+    public void cleanUp(){
+        appUserLoginRepository.deleteAll();
+        webTestClient = webTestClient.mutate()
+                .responseTimeout(Duration.ofMillis(300000))
+                .build();
+    }
 
     AppUser testUser() {
         return AppUser.builder().username("Test User")
@@ -82,32 +94,32 @@ class AppUserAuthControllerTest {
     @Test
     void testVerification_whenValidCredentials_thenReturnRegisterSuccess(){
         // When
-        String actual = postVerificationData("/auth/verify", testUser());
+        doNothing().when(emailService).sendMessage(any(AppUser.class));
+        String actual = postVerificationData(testUser());
         // Then
         Assertions.assertEquals("register_success", actual);
     }
 
     @Test
     void testVerification_whenValidCredentials_thenCheckIfInRepo(){
-        postVerificationData("/auth/verify", testUser());
+        postVerificationData(testUser());
         AppUser actual = appUserLoginRepository.findByUsername(testUser().getUsername())
                 .orElseThrow();
         Assertions.assertEquals(testUser().getEmail(), actual.getEmail());
         Assertions.assertFalse(actual.isVerified());
         Assertions.assertNotNull(actual.getId());
-        Assertions.assertNotNull(actual.getVerificationCode());
+        Assertions.assertNotNull(actual.getVerificationId());
     }
 
-    private String postVerificationData(String uri, AppUser body) {
-        String actual = webTestClient.post()
-                .uri(uri)
+    private String postVerificationData(AppUser body) {
+        return webTestClient.post()
+                .uri("/auth/sendVerificationMail")
                 .bodyValue(body)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(String.class)
                 .returnResult()
                 .getResponseBody();
-        return actual;
     }
 
 

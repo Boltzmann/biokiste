@@ -4,6 +4,7 @@ import com.github.boltzmann.biokiste.backend.security.dto.AppUserDto;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import com.github.boltzmann.biokiste.backend.security.service.JWTUtilService;
 import com.github.boltzmann.biokiste.backend.security.service.VerificationService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,8 +35,8 @@ public class AppUserAuthController {
         return jwtUtilService.createToken(name);
     }
 
-    @PostMapping("/verify")
-    public String verify(@RequestBody AppUserDto appUserDto){
+    @PostMapping("/sendVerificationMail")
+    public String verificationMail(@RequestBody AppUserDto appUserDto){
         return verificationService.register(
                 AppUser.builder()
                         .username(appUserDto.getUsername())
@@ -45,5 +46,14 @@ public class AppUserAuthController {
                         .build(),
                 ""
         );
+    }
+
+    @PostMapping("/verify")
+    public String verify(@RequestBody AppUserDto appUserDto){
+        ModelMapper mapper = new ModelMapper();
+        if (verificationService.isVerified(mapper.map(appUserDto, AppUser.class))) {
+            return login(appUserDto);
+        }
+        return "";
     }
 }

@@ -40,7 +40,7 @@ export default function AuthProvider({children}: AuthProviderProps){
     }
 
     const firstLogin = (credentials: {username: string, password: string, verificationId: string}) => {
-        axios.post("/auth/verifiy", credentials)
+        axios.post("/auth/verify", credentials)
             .then(response => response.data)
             .then((newToken) => {
                 setToken(newToken)
