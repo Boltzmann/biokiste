@@ -12,6 +12,7 @@ import java.util.HashMap;
 @Service
 public class JWTUtilService {
     @Value("${piphi.biokisteapp.jwt.secret}")
+    // ts-lint
     private String JWTSECRET;
 
     public String createToken(String username){

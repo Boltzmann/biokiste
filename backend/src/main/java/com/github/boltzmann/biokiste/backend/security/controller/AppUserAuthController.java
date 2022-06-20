@@ -43,8 +43,7 @@ public class AppUserAuthController {
                         .email(appUserDto.getEmail())
                         .verified(appUserDto.isVerified())
                         .password(appUserDto.getPassword())
-                        .build(),
-                ""
+                        .build()
         );
     }
 

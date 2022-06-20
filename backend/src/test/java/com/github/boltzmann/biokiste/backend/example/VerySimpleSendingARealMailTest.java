@@ -15,7 +15,7 @@ class VerySimpleSendingARealMailTest {
     private JavaMailSender javaMailSender;
 
     @Test
-    @Disabled
+    @Disabled("See ticket https://github.com/Boltzmann/biokiste/issues/98")
     void verificationTest() {
 
         SimpleMailMessage msg = new SimpleMailMessage();

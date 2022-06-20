@@ -23,7 +23,7 @@ public class VerificationService {
         this.emailService = emailService;
     }
 
-    public String register(AppUser appUser, String siteUrl){
+    public String register(AppUser appUser){
         String encodedPassword = passwordEncoder.encode(appUser.getPassword());
         appUser.setPassword(encodedPassword);
         String randomCode = RandomStringUtils.randomAlphanumeric(10);
