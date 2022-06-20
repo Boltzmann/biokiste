@@ -3,10 +3,10 @@ package com.github.boltzmann.biokiste.backend.security.service;
 import com.github.boltzmann.biokiste.backend.security.model.AppUser;
 import com.github.boltzmann.biokiste.backend.security.repository.AppUserLoginRepository;
 import com.github.boltzmann.biokiste.backend.service.EmailService;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.NoSuchElementException;
 
 @Service
@@ -26,7 +26,8 @@ public class VerificationService {
     public String register(AppUser appUser){
         String encodedPassword = passwordEncoder.encode(appUser.getPassword());
         appUser.setPassword(encodedPassword);
-        String randomCode = RandomStringUtils.randomAlphanumeric(10);
+        SecureRandom secureRandom = new SecureRandom();
+        String randomCode = Integer.toString(secureRandom.nextInt());
         appUser.setVerificationId(randomCode);
         appUser.setVerified(false);
 
