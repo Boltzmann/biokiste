@@ -1,11 +1,10 @@
 import {useParams} from "react-router-dom";
-import {FormEvent, useEffect, useState} from "react";
+import {useEffect} from "react";
 import BoxItem from "../components/BoxItem";
 import {Item} from "../model/Item"
 import {Subscription} from "../model/Subscription";
-import {toast} from "react-toastify";
-import ProviderItem from "../components/ProviderItem";
 import {ItemDto} from "../dto/ItemDto";
+import AllOrganicItemsOverview from "../components/AllOrganicItemsOverview";
 
 type BoxDetailsPageProps = {
     boxItems: Item[] | undefined
@@ -30,7 +29,6 @@ export default function BoxDetailsPage({
                                        }: BoxDetailsPageProps) {
 
     const {id} = useParams()
-    const [itemName, setItemName] = useState<string>("")
 
     useEffect(() => {
         if (id) {
@@ -39,22 +37,12 @@ export default function BoxDetailsPage({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id])
 
-    const onSubmit = (event:FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        if(itemName.trim() === ""){
-            toast.error("Please give a meaningful item name.")
-        } else {
-            let itemDto: Omit<Item, "id"> = {"name": itemName}
-            addNewItem(itemDto)
-        }
-    }
-
     let element = subscriptions && subscriptions.find(e => e.id === id)
 
     return (
         <div className={"box-items"}>
             <h1>
-                {element && element.name}
+                {element ? element.name : "Content of Box"}
             </h1>
             {boxItems && boxItems.map((item, idx) =>
                 <BoxItem key={item.id + "-" + idx}
@@ -63,25 +51,13 @@ export default function BoxDetailsPage({
                          boxId={id}
                 />
             )}
-            <h1>
-                All organic items
-            </h1>
-            {id
-                ? items.map((item, idx) => <ProviderItem key={item.id + "-" + idx}
-                                                    item={item}
-                                                    addItemToBox={addItemToBox}
-                                                    boxId={id}
-                                                    changeItemName={changeItemName}
-                />)
-                : <div>Something is wrong. Box not existent</div>}
-            <form onSubmit={onSubmit}>
-                <input type={"text"}
-                       value={itemName}
-                       placeholder={"New item name here."}
-                       onChange={(event) => setItemName(event.target.value)}
-                />
-                <button type={"submit"} id="active">Add Item</button>
-            </form>
+            {items &&
+            <AllOrganicItemsOverview id={id}
+                                     items={items}
+                                     addItemToBox={addItemToBox}
+                                     addNewItem={addNewItem}
+                                     changeItemName={changeItemName}
+            />}
         </div>
     )
 }
