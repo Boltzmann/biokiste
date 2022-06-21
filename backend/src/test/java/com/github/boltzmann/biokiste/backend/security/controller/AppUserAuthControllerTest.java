@@ -92,6 +92,7 @@ class AppUserAuthControllerTest {
                 .expectStatus().isEqualTo(HttpStatus.FORBIDDEN);
     }
 
+    @Disabled("See https://github.com/Boltzmann/biokiste/issues/103")
     @Test
     void testVerification_whenValidCredentials_thenReturnRegisterSuccess(){
         // When
