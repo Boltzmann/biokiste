@@ -19,4 +19,5 @@ jobs:
       env:
         EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME}}
         EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+        SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
       run: mvn -B package --file backend/pom.xml
