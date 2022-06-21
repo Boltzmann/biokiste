@@ -2,6 +2,7 @@ package com.github.boltzmann.biokiste.backend.service;
 
 import com.github.boltzmann.biokiste.backend.model.OrganicBox;
 import com.github.boltzmann.biokiste.backend.repository.AppUserDetailsRepo;
+import com.github.boltzmann.biokiste.backend.security.repository.AppUserLoginRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,8 +16,10 @@ class AppUserDetailsServiceTest {
 
     AppUserDetailsRepo appUserDetailsRepo = mock(AppUserDetailsRepo.class);
     BoxDetailsService boxDetailsService = mock(BoxDetailsService.class);
+    EmailService emailService = mock(EmailService.class);
+    AppUserLoginRepository appUserLoginRepository = mock(AppUserLoginRepository.class);
     AppUserDetailsService appUserDetailsService =
-            new AppUserDetailsService(appUserDetailsRepo, boxDetailsService);
+            new AppUserDetailsService(appUserDetailsRepo, boxDetailsService, emailService, appUserLoginRepository);
 
     private OrganicBox firstBox() {
         return OrganicBox.builder()

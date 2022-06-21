@@ -78,3 +78,8 @@ export const putChangedItem: (itemId: string, itemDto: ItemDto, token?: string) 
         : {})
         .then(response => response.data)
 }
+
+export const sendVerificationEmail: (userDetails: Omit<UserDetails, "id" | "customerId" | "verificationCode">) => Promise<string> = (userDetails) => {
+    return axios.post("/auth/sendVerificationMail", userDetails)
+        .then(response => response.data)
+}

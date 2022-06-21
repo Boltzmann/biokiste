@@ -27,10 +27,20 @@ export default function useUserDetailsBoxesAndBoxItems(){
     const [items, setItems] = useState<Item[]>([])
     const {token} = useContext(AuthContext)
 
-    useEffect(() =>{
+    useEffect(() => {
         getUserDetails(token)
             .then(details => setUserDetails(details))
-            .catch(() => console.error("Connection failed to get user details. Please retry."))
+            .catch(() => {
+                    const empty: UserDetails = {
+                        "id":"", "username": "",
+                        "customerId":"",
+                        "verificationCode":"",
+                        "email":""
+                    }
+                    setUserDetails(empty)
+                    console.error("Connection failed to get user details. Please retry.")
+                }
+            )
         getAllPossibleSubscriptions()
             .then(data => {
                 setSubscribables(data)
@@ -58,7 +68,9 @@ export default function useUserDetailsBoxesAndBoxItems(){
 
     const subscribeToBox = (boxId: string) => {
         addUserSubscriptionToBox(boxId, token)
-            .then(data => {subscriptions ? setSubscriptions([...subscriptions, data]) : setSubscriptions([data])})
+            .then(data => {subscriptions ?
+                setSubscriptions([...subscriptions, data]) :
+                setSubscriptions([data])})
             .catch(error => console.error(error))
     }
 

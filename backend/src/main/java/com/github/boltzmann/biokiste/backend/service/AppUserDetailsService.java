@@ -3,13 +3,11 @@ package com.github.boltzmann.biokiste.backend.service;
 import com.github.boltzmann.biokiste.backend.model.AppUserDetails;
 import com.github.boltzmann.biokiste.backend.model.OrganicBox;
 import com.github.boltzmann.biokiste.backend.repository.AppUserDetailsRepo;
+import com.github.boltzmann.biokiste.backend.security.repository.AppUserLoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 public class AppUserDetailsService {
@@ -17,8 +15,12 @@ public class AppUserDetailsService {
     private final AppUserDetailsRepo appUserDetailsRepo;
     private final BoxDetailsService boxDetailsService;
 
+
     @Autowired
-    public AppUserDetailsService(AppUserDetailsRepo appUserDetailsRepo, BoxDetailsService boxDetailsService) {
+    public AppUserDetailsService(
+            AppUserDetailsRepo appUserDetailsRepo,
+            BoxDetailsService boxDetailsService,
+            EmailService emailService, AppUserLoginRepository appUserLoginRepository) {
         this.appUserDetailsRepo = appUserDetailsRepo;
         this.boxDetailsService = boxDetailsService;
     }
@@ -28,9 +30,8 @@ public class AppUserDetailsService {
                 = boxDetailsService.getBoxesByUser(id);
         List<OrganicBox> allSubscribedBoxes = new ArrayList<>();
         for (OrganicBox box : boxesWithSameUserSubscribedAtLeastOneOrMoreTimes){
-            Iterator<String> iter = box.getCustomers().iterator();
-            while ( iter.hasNext() ) {
-                if (id.equals(iter.next())) {
+            for (String s : box.getCustomers()) {
+                if (id.equals(s)) {
                     allSubscribedBoxes.add(box);
                 }
             }
@@ -49,5 +50,4 @@ public class AppUserDetailsService {
                 .username(username)
                 .build());
     }
-
 }
