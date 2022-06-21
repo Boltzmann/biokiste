@@ -6,6 +6,7 @@ import com.github.boltzmann.biokiste.backend.service.EmailService;
 import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -91,6 +92,7 @@ class AppUserAuthControllerTest {
                 .expectStatus().isEqualTo(HttpStatus.FORBIDDEN);
     }
 
+    @Disabled("See https://github.com/Boltzmann/biokiste/issues/103")
     @Test
     void testVerification_whenValidCredentials_thenReturnRegisterSuccess(){
         // When
@@ -100,6 +102,7 @@ class AppUserAuthControllerTest {
         Assertions.assertEquals("register_success", actual);
     }
 
+    @Disabled("See https://github.com/Boltzmann/biokiste/issues/103")
     @Test
     void testVerification_whenValidCredentials_thenCheckIfInRepo(){
         postVerificationData(testUser());
@@ -111,6 +114,7 @@ class AppUserAuthControllerTest {
         Assertions.assertNotNull(actual.getVerificationId());
     }
 
+    @Disabled("See https://github.com/Boltzmann/biokiste/issues/103")
     private String postVerificationData(AppUser body) {
         return webTestClient.post()
                 .uri("/auth/sendVerificationMail")
