@@ -37,6 +37,9 @@ jobs:
           name: web-frontend-build
           path: backend/src/main/resources/static
       - name: Build with maven
+        env:
+          EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME}}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
         run: mvn -B package --file backend/pom.xml
       - uses: actions/upload-artifact@v2
         with:
