@@ -11,6 +11,8 @@ import AllUserDetails from "./components/AllUserDetails";
 import OverviewPage from "./pages/OverviewPage";
 import BoxDetailsPage from "./pages/BoxDetailsPage";
 import useUserDetailsBoxesAndBoxItems from "./hooks/useUserDetailsBoxesAndBoxItems";
+import VerificationLoginPage from "./pages/VerificationLoginPage";
+import PostVerificationPage from "./pages/PostVerificationPage";
 
 
 function App() {
@@ -53,6 +55,8 @@ function App() {
                     />
                 </Route>
                 <Route path='/login' element={<LoginPage />}/>
+                <Route path='/login/:verificationId' element={<VerificationLoginPage />}/>
+                <Route path='/post-verification-start' element={<PostVerificationPage />}/>
                 </Routes>
             </div>
         </div>

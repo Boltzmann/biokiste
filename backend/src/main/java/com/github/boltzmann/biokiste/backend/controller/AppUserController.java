@@ -24,12 +24,11 @@ public class AppUserController {
     public AppUserController(
             BoxDetailsService boxDetailsService,
             AppUserLoginDetailsService appUserLoginDetailsService,
-            AppUserDetailsService appUserDetailsService
-    ) {
+            AppUserDetailsService appUserDetailsService) {
         this.boxDetailsService = boxDetailsService;
         this.appUserLoginDetailsService = appUserLoginDetailsService;
         this.appUserDetailsService = appUserDetailsService;
-    }
+   }
 
     @GetMapping("/me")
     public AppUserDetails getLoggedInUserDetails(Principal principal){

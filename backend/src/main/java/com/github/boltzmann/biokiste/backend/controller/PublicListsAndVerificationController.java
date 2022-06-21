@@ -8,16 +8,18 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/allBoxes")
-public class PublicListsController {
+@RequestMapping("/")
+public class PublicListsAndVerificationController {
     private final BoxDetailsService boxDetailsService;
 
-    public PublicListsController(BoxDetailsService boxDetailsService) {
+    public PublicListsAndVerificationController(
+            BoxDetailsService boxDetailsService) {
         this.boxDetailsService = boxDetailsService;
     }
-    @GetMapping
+    @GetMapping("/allBoxes")
     public List<OrganicBoxDto> getNamesAndIdsOfAllBoxes(){
         return boxDetailsService.getAllBoxNamesAndId();
     }
+
 }
 
