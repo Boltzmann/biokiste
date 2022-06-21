@@ -33,4 +33,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME}}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=boltzmann_biokiste_backend --file backend/pom.xml
