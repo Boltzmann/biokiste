@@ -55,7 +55,6 @@ function App() {
                 <Route path='/login' element={<LoginPage />}/>
                 </Routes>
             </div>
-
         </div>
     );
 }
