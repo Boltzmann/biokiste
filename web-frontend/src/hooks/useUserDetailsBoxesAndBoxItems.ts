@@ -23,7 +23,7 @@ export default function useUserDetailsBoxesAndBoxItems(){
     const [userDetails, setUserDetails] = useState<UserDetails>()
     const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
     const [boxItems, setBoxItems] = useState<Item[]>([])
-    const [subscribables, setSubscribables] = useState<SubscriptionOverviewDto[]>()
+    const [subscribables, setSubscribables] = useState<SubscriptionOverviewDto[]>([])
     const [items, setItems] = useState<Item[]>([])
     const {token} = useContext(AuthContext)
 
@@ -63,9 +63,15 @@ export default function useUserDetailsBoxesAndBoxItems(){
     }
 
     const removeFromSubscriptionOnce = (boxId: string) => {
-        console.info("Removing " + boxId)
         removeUserSubscriptionFromBox(boxId, token)
-        readSubscriptions()
+        subscriptions && removeUserSubscriptionFromBoxFrontend(subscriptions, boxId)
+    }
+
+    function removeUserSubscriptionFromBoxFrontend(subList: Subscription[], bId: string){
+        let changedSubscription: Subscription | undefined = subscriptions.find(sub => sub.id === bId)
+        let idx: number = subscriptions.findIndex(sub => sub.id === bId)
+        changedSubscription && subList.splice(idx, 1)
+        setSubscriptions([...subList])
     }
 
     const getAllItems = () => {
@@ -125,7 +131,7 @@ export default function useUserDetailsBoxesAndBoxItems(){
     }
 
     return {
-        userDetails, subscriptions,
+        userDetails, subscriptions, getSubscriptions,
         boxItems, removeFromSubscriptionOnce,
         getBoxItems, subscribeToBox,
         subscribables, items,
