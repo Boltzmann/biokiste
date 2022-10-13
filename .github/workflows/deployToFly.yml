@@ -51,19 +51,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-backend
     environment:
-      name: production-heroku
-      url: https://biokiste.herokuapp.com/
+      name: production-fly
+      url: https://biokiste.fly.dev/
     env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      FLY_API_TOKEN: ${{ secrets.FLY_IO_API_KEY }}
     steps:
       - uses: actions/checkout@v3
+      - uses: superfly/flyctl-actions/setup-flyctl@master
       - uses: actions/download-artifact@v2
         with:
           name: app.jar
           path: backend/target
-      - name: Login to Heroku
-        run: heroku container:login
-      - name: Push Docker Container
-        run: heroku container:push web -a biokiste
-      - name: Release Docker Container
-        run: heroku container:release web -a biokiste
+      - run: flyctl deploy --remote-only
