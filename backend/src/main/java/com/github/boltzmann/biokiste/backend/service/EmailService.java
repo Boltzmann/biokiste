@@ -27,7 +27,7 @@ public class EmailService {
         msg.setSubject(appUser.getUsername());
         msg.setText("Hello " +
                 appUser.getUsername() + "\n "
-                + "https://biokiste.herokuapp.com/#/login/" + appUser.getVerificationId() + " <- click here to verify.");
+                + "https://biokiste.fly.dev/#/login/" + appUser.getVerificationId() + " <- click here to verify.");
 
         javaMailSender.send(msg);
     }
