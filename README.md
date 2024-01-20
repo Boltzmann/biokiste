@@ -14,7 +14,7 @@ The Biokiste App will add the functionality that organic box subscribers miss fo
 ## Installation
 
 ### Web
-Open the web frontend [here](https://biokiste.herokuapp.com/).
+Open the web frontend [here](https://biokiste.fly.dev).
 
 ### iOS and Android
 only by hand possible. See [iOS Deployment and Android deployment](#ios-deployment-and-android-deployment).
@@ -31,7 +31,7 @@ about software architecture, UI drawings, etc.
 ### Repository and Deployment
 - [Github Code Repository.](https://github.com/Boltzmann/biokiste)
 - [Githup Project with tickets](https://github.com/Boltzmann/biokiste/projects/1)
-- Web deployment of front- and backend at [heroku](https://dashboard.heroku.com/apps/biokiste/deploy/heroku-git).
+- Web deployment of front- and backend at fly.dev.
 - The database is deployed on [Apache Atlas](https://cloud.mongodb.com).
 - For Hybrid native support for Android and iOS [Ionic React](https://ionicframework.com/docs/react) 
 is used.
@@ -44,11 +44,17 @@ For development [node.js](https://nodejs.org/en/),
 [Java OpenJDK >= 11](https://openjdk.java.net/projects/jdk/11/), 
 and [Docker](https://www.docker.com/) are needed.
 
-To get started (with Intellij Ultimate):
+#### Getting Started (with Intellij Ultimate):
 1. Clone the project from Github.
-2. Load the Maven project in Intellij.
-3. ``npm install -g @ionic/cli``.
-4. In the frontend folder, use ``npm install``.
+2. For the Backend:
+   1. Load the Maven project in Intellij.
+   2. Set environment variables (see project files in ...)
+   3. Run tests.
+   4. Set up MongoDB in Docker.
+   5. Start Backend for local development.
+3. For the Frontend:
+   1. ``npm install -g @ionic/cli``.
+   2. In the frontend folder, use ``npm install``.
 
 Happy Hacking!
 ### Tests

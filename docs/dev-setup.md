@@ -6,11 +6,12 @@ docker run --name mongo -p 27017:27017 -d mongo:latest
 ```
 ## Fill DB with first data
 1. Add new database to MongoDB
-   1. Name it biokisteDB and add one collection e.g. "appusers"
-   2. import in the collection appusers.json from "/docs/test-resources/appusers.json"
-   3. Add new collections analog to steps 1 and 2 by importing the jsons from test-resources into respective collections.
+   1. Connect to mongo instance. `docker exec -it mongo bash` and `mongosh`.
+   2. Name it biokisteDB. `use biokisteDB` 
+   3. Add at least one collection "organicBox" by importing in the collection organicBox.json from "/docs/test-resources/organicBox.json" `db.organicBox.insertMany(<content of json>)`
+   4. You may add new collections analog to step 3 by importing the jsons from test-resources into respective collections.
 
-# iOS and Android deployment
+# iOS and Android deployment (outdated)
 This documentation is a work in progress. There can be wrong ways and missing steps.
 A good help is the [ionic documentation](https://ionicframework.com/docs/react/your-first-app/deploying-mobile).
 ## Changes
