@@ -11,14 +11,8 @@ The Biokiste App will add the functionality that organic box subscribers miss fo
 
 ## Usage
 
-## Installation
-
 ### Web
 Open the web frontend [here](https://biokiste.fly.dev).
-
-### iOS and Android
-only by hand possible. See [iOS Deployment and Android deployment](#ios-deployment-and-android-deployment).
-
 
 ## Development
 
